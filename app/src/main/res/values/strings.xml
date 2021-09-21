@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Order</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="min_8_characters">Min. 8 Characters</string>
+    <string name="name_example_etceteria_com">name@example.etceteria.com</string>
+    <string name="first_name_amp_last_name"><![CDATA[First Name & Last Name]]></string>
+    <string name="place_orders_from_the_comfort_of_your_device">Place orders from the comfort of your device</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="phone">Phone no</string>
+    <string name="name">Name</string>
+    <string name="create_an_account_to_place_orders_with_ease">Create an account to place orders with ease</string>
+    <string name="get_started">Get Started</string>
 </resources>

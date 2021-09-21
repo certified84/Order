@@ -13,4 +13,32 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Widget.Order.TextInputEditText" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/black</item>
+        <!--        <item name="android:textColorHint">?attr/colorPrimaryDark</item>-->
+    </style>
+
+    <style name="TextAppearance.Order.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textColor">@color/textColorSubtitle</item>
+    </style>
+
+    <style name="Widgets.Order.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextAppearance">@style/TextAppearance.Order.TextInputLayout.HintText</item>
+        <item name="hintTextColor">@color/colorAccent</item>
+        <item name="android:paddingBottom">@dimen/_8sdp</item>
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxBackgroundMode">outline</item>
+        <!--        <item name="android:textColorHint">?attr/colorPrimaryDark</item>-->
+    </style>
+
+    <style name="TextAppearance.Order.TitleText" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+    </style>
+
+    <style name="TextAppearance.Order.SubtitleText" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/textColorSubtitle</item>
+    </style>
 </resources>

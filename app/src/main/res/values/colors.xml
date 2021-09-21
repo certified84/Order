@@ -7,4 +7,18 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="midWhite">#F8F8F8</color>
+    <color name="red">#FF0000</color>
+
+    <color name="colorPrimary">#00A68D</color>
+    <color name="colorPrimaryDark">#006B5B</color>
+    <color name="colorAccent">@color/colorPrimary</color>
+    <color name="textColorTitle">@color/colorAccent</color>
+    <color name="textColorSubtitle">#777777</color>
+    <color name="backgroundColor">@color/midWhite</color>
+    <color name="cardBackgroundColor">@color/white</color>
+    <color name="iconTint">@color/colorAccent</color>
+    <color name="bottomNavViewBackgroundColor">@color/white</color>
+    <color name="bottomNavViewIconTint">@color/colorAccent</color>
+    <color name="customAlertDialogBackgroundColor">@color/white</color>
 </resources>

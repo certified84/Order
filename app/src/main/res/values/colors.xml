@@ -12,7 +12,7 @@
 
     <color name="colorPrimary">#00A68D</color>
     <color name="colorPrimaryDark">#006B5B</color>
-    <color name="colorAccent">@color/colorPrimary</color>
+    <color name="colorAccent">@color/black</color>
     <color name="textColorTitle">@color/colorAccent</color>
     <color name="textColorSubtitle">#777777</color>
     <color name="backgroundColor">@color/midWhite</color>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.github.captain_miao.optroundcardview.OptRoundCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_30sdp"
+        app:optRoundCardCornerRadius="@dimen/_30sdp"
+        app:optRoundCardLeftBottomCorner="false"
+        app:optRoundCardRightBottomCorner="false">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_30sdp">
+
+<!--                <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                    android:id="@+id/profile_image"-->
+<!--                    android:layout_width="@dimen/_30sdp"-->
+<!--                    android:layout_height="@dimen/_30sdp"-->
+<!--                    android:layout_marginTop="60dp"-->
+<!--                    android:layout_marginEnd="32dp"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    tools:src="@tools:sample/avatars" />-->
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/materialTextView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:text="Order Details"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_20ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/materialTextView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:text="Deliver to:"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialTextView10" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/profile_image_receiver"
+                    style="@style/ShapeAppearanceOverlay.Order"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    app:layout_constraintStart_toStartOf="@+id/materialTextView7"
+                    app:layout_constraintTop_toBottomOf="@+id/materialTextView7"
+                    tools:src="@tools:sample/avatars" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_call_receiver"
+                    style="Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:backgroundTint="@color/colorPrimary"
+                    app:cornerRadius="@dimen/_5sdp"
+                    app:icon="@drawable/ic_baseline_phone_24"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    app:iconTint="@null"
+                    app:layout_constraintBottom_toBottomOf="@+id/profile_image_receiver"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/profile_image_receiver" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_receiver_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/profile_image_receiver"
+                    app:layout_constraintStart_toEndOf="@+id/profile_image_receiver"
+                    app:layout_constraintTop_toTopOf="@+id/profile_image_receiver"
+                    tools:text="Samson Achiaga" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/materialTextView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:text="Address"
+                    android:textSize="@dimen/_14ssp"
+                    app:layout_constraintStart_toStartOf="@+id/materialTextView7"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_image_receiver" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:layout_constraintStart_toStartOf="@+id/materialTextView8"
+                    app:layout_constraintTop_toBottomOf="@+id/materialTextView8"
+                    tools:text="No 17 Owolabani street, Ajara topa, Badagry" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/materialTextView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="Items to deliver"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/materialTextView8"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_address" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_items"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_160sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/btn_call_receiver"
+                    app:layout_constraintStart_toStartOf="@+id/materialTextView9"
+                    app:layout_constraintTop_toBottomOf="@+id/materialTextView9"
+                    tools:listitem="@layout/layout_item" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </com.github.captain_miao.optroundcardview.OptRoundCardView>
+</layout>

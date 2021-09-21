@@ -116,7 +116,7 @@ class LoginFragment : Fragment() {
         alertDialogBuilder.setMessage(
             "You registered your account as a dispatcher. Someone from our team will reach out to you with more details"
         )
-        alertDialogBuilder.setPositiveButton("Later") { dialog, _ -> dialog.dismiss() }
+        alertDialogBuilder.setPositiveButton("Ok") { dialog, _ -> dialog.dismiss() }
         val alertDialog = alertDialogBuilder.create()
 //        alertDialog.setOnShowListener {
 //            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(

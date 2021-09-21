@@ -3,13 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_dark_mode_24.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/drawable/ic_baseline_location_on_24.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/drawable/ic_baseline_order_24.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/drawable/ic_baseline_payment_24.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/drawable/ic_baseline_phone_24.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/drawable/ic_baseline_photo_camera_24.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/drawable/ic_baseline_wb_sunny_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_onboarding.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_view_pager.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/layout_item.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/layout_order.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_order_details.xml" value="0.33" />
       </map>
     </option>
   </component>

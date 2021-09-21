@@ -17,4 +17,9 @@
     <string name="name">Name</string>
     <string name="create_an_account_to_place_orders_with_ease">Create an account to place orders with ease</string>
     <string name="get_started">Get Started</string>
+    <string name="night_mode">Night mode</string>
+    <string name="light_mode">Day mode</string>
+    <string name="sign_out">Sign out</string>
+    <string name="_123456789">123456789</string>
+    <string name="change_profile_image_button">change profile image button</string>
 </resources>

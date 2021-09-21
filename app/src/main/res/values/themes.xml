@@ -41,4 +41,8 @@
     <style name="TextAppearance.Order.SubtitleText" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">@color/textColorSubtitle</item>
     </style>
+    
+    <style name="ShapeAppearanceOverlay.Order" parent="">
+        <item name="cornerSize">10%</item>
+    </style>
 </resources>

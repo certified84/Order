@@ -1,5 +1,6 @@
 package com.certified.order.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,11 +12,18 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.certified.order.R
 import com.certified.order.databinding.FragmentSignupBinding
+import com.certified.order.util.Config
+import com.certified.order.util.Mailer
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class SignupFragment : Fragment() {
 
@@ -44,12 +52,13 @@ class SignupFragment : Fragment() {
             btnSignup.setOnClickListener {
 
                 val name = etName.text.toString().trim()
+                val phone = etPhone.text.toString().trim()
                 val email = etEmail.text.toString().trim()
                 val password = etPassword.text.toString().trim()
                 val accountType = spinnerAccountType.selectedItem.toString()
 
                 if (currentUser == null) {
-                    if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()) {
+                    if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && phone.isNotEmpty()) {
                         if (accountType != "Select account type") {
                             progressBar.visibility = View.VISIBLE
 
@@ -63,12 +72,12 @@ class SignupFragment : Fragment() {
                                         if (accountType != "Dispatcher")
                                             user?.sendEmailVerification()
                                         else
-                                            mailAdmin()
+                                            mailAdmin(user!!)
 
                                         val newUser =
                                             com.certified.order.model.User(
                                                 name,
-                                                "",
+                                                phone,
                                                 "",
                                             )
                                         newUser.id = user!!.uid
@@ -89,7 +98,8 @@ class SignupFragment : Fragment() {
                                                 Firebase.auth.signOut()
 
                                                 val navOptions = NavOptions.Builder()
-                                                    .setPopUpTo(R.id.onboardingFragment, true).build()
+                                                    .setPopUpTo(R.id.onboardingFragment, true)
+                                                    .build()
                                                 navController.navigate(
                                                     R.id.loginFragment,
                                                     null,
@@ -134,15 +144,35 @@ class SignupFragment : Fragment() {
                 }
             }
 
-                tvLogin.setOnClickListener {
-                    val navOptions = NavOptions.Builder()
-                        .setPopUpTo(R.id.signupFragment, true).build()
-                    navController.navigate(R.id.loginFragment, null, navOptions)
-                }
+            tvLogin.setOnClickListener {
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.signupFragment, true).build()
+                navController.navigate(R.id.loginFragment, null, navOptions)
+            }
         }
     }
 
-    private fun mailAdmin() {
-//        TODO("Not yet implemented")
+    @SuppressLint("CheckResult")
+    private fun mailAdmin(user: FirebaseUser) {
+        val email = Config.EMAIL
+        val subject = "New dispatcher registration"
+        val message = "A new account has been registered as a dispatcher. Find details below\n" +
+                "Name: ${user.displayName}\n" +
+                "Email: ${user.email}"
+
+        Mailer.sendMail(email, subject, message).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { showDialog() }
+    }
+
+    private fun showDialog() {
+        val alertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
+        alertDialogBuilder.setTitle("Application sent")
+        alertDialogBuilder.setMessage(
+            "Your application for dispatcher account has been sent. We'll get back to you as soon as possible"
+        )
+        alertDialogBuilder.setPositiveButton("Ok") { dialog, _ -> dialog.dismiss() }
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
     }
 }

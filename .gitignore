@@ -16,3 +16,4 @@ local.properties
 /app/google-services.json
 /app/src/main/java/com/certified/order/util/Config.kt
 /app/src/main/java/com/certified/order/util/Mailer.kt
+/app/src/debug/res/values/google_maps_api.xml

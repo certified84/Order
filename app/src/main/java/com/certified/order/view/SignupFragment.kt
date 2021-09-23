@@ -5,29 +5,34 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.certified.order.R
 import com.certified.order.databinding.FragmentSignupBinding
+import com.certified.order.model.Dispatcher
+import com.certified.order.model.AccountType
 import com.certified.order.util.Config
 import com.certified.order.util.Mailer
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import com.certified.order.model.User as nUser
 
-class SignupFragment : Fragment() {
+class SignupFragment : DialogFragment() {
 
-    private lateinit var navController: NavController
+//    private lateinit var navController: NavController
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentSignupBinding
 
@@ -37,6 +42,7 @@ class SignupFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentSignupBinding.inflate(layoutInflater)
+
         auth = Firebase.auth
 
         return binding.root
@@ -45,10 +51,15 @@ class SignupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        navController = Navigation.findNavController(view)
+//        navController = Navigation.findNavController(view)
         val currentUser = auth.currentUser
 
         binding.apply {
+
+            val accountTypes = arrayListOf("Select account type", "Dispatcher", "User")
+            val arrayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, accountTypes)
+            spinnerAccountType.adapter = arrayAdapter
+
             btnSignup.setOnClickListener {
 
                 val name = etName.text.toString().trim()
@@ -60,58 +71,81 @@ class SignupFragment : Fragment() {
                 if (currentUser == null) {
                     if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && phone.isNotEmpty()) {
                         if (accountType != "Select account type") {
+
                             progressBar.visibility = View.VISIBLE
 
                             auth.createUserWithEmailAndPassword(email, password)
                                 .addOnCompleteListener(requireActivity()) { task ->
                                     if (task.isSuccessful) {
-
-                                        progressBar.visibility = View.GONE
                                         val user = auth.currentUser
 
-                                        if (accountType != "Dispatcher")
-                                            user?.sendEmailVerification()
-                                        else
-                                            mailAdmin(user!!)
-
-                                        val newUser =
-                                            com.certified.order.model.User(
-                                                name,
-                                                phone,
-                                                "",
-                                            )
-                                        newUser.id = user!!.uid
-                                        newUser.email = user.email.toString()
+                                        user!!.sendEmailVerification()
 
                                         val db = Firebase.firestore
-                                        val userRef =
-                                            db.collection("users").document(user.uid)
-                                        userRef.set(newUser).addOnCompleteListener {
-                                            if (it.isSuccessful) {
-                                                val profileChangeRequest =
-                                                    UserProfileChangeRequest.Builder()
-                                                        .setDisplayName(newUser.name)
-                                                        .setPhotoUri(newUser.profileImage)
-                                                        .build()
-                                                user.updateProfile(profileChangeRequest)
+                                        val newAccountType =
+                                            db.collection("account_type")
+                                                .document(user.uid)
+                                        newAccountType.set(AccountType(accountType))
 
-                                                Firebase.auth.signOut()
+                                        if (accountType == "Dispatcher") {
 
-                                                val navOptions = NavOptions.Builder()
-                                                    .setPopUpTo(R.id.onboardingFragment, true)
-                                                    .build()
-                                                navController.navigate(
-                                                    R.id.loginFragment,
-                                                    null,
-                                                    navOptions
-                                                )
-                                            } else
-                                                Toast.makeText(
-                                                    requireContext(),
-                                                    "An error occurred: ${it.exception}",
-                                                    Toast.LENGTH_LONG
-                                                ).show()
+                                            val newDispatcher = Dispatcher(name, phone)
+                                            newDispatcher.id = user.uid
+                                            newDispatcher.email = user.email.toString()
+
+                                            val userRef =
+                                                db.collection("accounts").document("dispatchers")
+                                                    .collection(user.uid).document("details")
+                                            userRef.set(newDispatcher).addOnCompleteListener {
+                                                if (it.isSuccessful) {
+                                                    val profileChangeRequest =
+                                                        UserProfileChangeRequest.Builder()
+                                                            .setDisplayName(newDispatcher.name)
+                                                            .setPhotoUri(newDispatcher.profile_image)
+                                                            .build()
+                                                    user.updateProfile(profileChangeRequest)
+
+                                                    showDialog()
+                                                    mailAdmin()
+                                                    mailUser()
+
+                                                    Firebase.auth.signOut()
+                                                } else
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        "An error occurred: ${it.exception}",
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+                                            }
+                                        } else {
+                                            val newUser =
+                                                nUser(name, phone)
+                                            newUser.id = user.uid
+                                            newUser.email = user.email.toString()
+
+                                            val userRef =
+                                                db.collection("accounts").document("users")
+                                                    .collection(user.uid).document("details")
+                                            userRef.set(newUser).addOnCompleteListener {
+                                                if (it.isSuccessful) {
+                                                    val profileChangeRequest =
+                                                        UserProfileChangeRequest.Builder()
+                                                            .setDisplayName(newUser.name)
+                                                            .setPhotoUri(newUser.profile_image)
+                                                            .build()
+                                                    user.updateProfile(profileChangeRequest)
+
+                                                    Firebase.auth.signOut()
+                                                } else
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        "An error occurred: ${it.exception}",
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+                                            }
                                         }
+
+                                        progressBar.visibility = View.GONE
 
                                         Toast.makeText(
                                             requireContext(),
@@ -119,10 +153,12 @@ class SignupFragment : Fragment() {
                                             Toast.LENGTH_SHORT
                                         ).show()
 
+                                        Firebase.auth.signOut()
+
                                     } else {
                                         Toast.makeText(
                                             requireContext(),
-                                            "Authentication failed ${task.exception}",
+                                            "Registration failed ${task.exception}",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
@@ -144,35 +180,86 @@ class SignupFragment : Fragment() {
                 }
             }
 
+            root.setOnClickListener { super.dismiss() }
+
             tvLogin.setOnClickListener {
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.signupFragment, true).build()
-                navController.navigate(R.id.loginFragment, null, navOptions)
+                super.dismiss()
+                showLoginDialog()
             }
         }
     }
 
     @SuppressLint("CheckResult")
-    private fun mailAdmin(user: FirebaseUser) {
+    private fun mailUser() {
+        binding.apply {
+            val email = etEmail.text.toString()
+            val name = etName.text.toString().substringBefore(" ")
+            val subject = "Registration received"
+            val message = "Dear $name \n\n" +
+                    "Your registration to become a dispatcher on our ORDER app has been received.\n" +
+                    "We'll get back to you with more details shortly. \n\n" +
+                    "Regards,\n" +
+                    "Order app Team."
+
+            Mailer.sendMail(email, subject, message).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun mailAdmin() {
+        binding.apply {
         val email = Config.EMAIL
         val subject = "New dispatcher registration"
         val message = "A new account has been registered as a dispatcher. Find details below\n" +
-                "Name: ${user.displayName}\n" +
-                "Email: ${user.email}"
+                "Name: ${etName.text.toString()}\n" +
+                "Email: ${etEmail.text.toString()}\n" +
+                "Phone: ${etPhone.text.toString()}"
 
         Mailer.sendMail(email, subject, message).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { showDialog() }
+            .subscribe()
+        }
     }
 
     private fun showDialog() {
         val alertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
         alertDialogBuilder.setTitle("Application sent")
         alertDialogBuilder.setMessage(
-            "Your application for dispatcher account has been sent. We'll get back to you as soon as possible"
+            "Your application to become a dispatcher has been sent. We'll get back to you as soon as possible"
         )
-        alertDialogBuilder.setPositiveButton("Ok") { dialog, _ -> dialog.dismiss() }
+        alertDialogBuilder.setPositiveButton("Ok") { dialog, _ ->
+
+            dialog.dismiss()
+
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(R.id.onboardingFragment, true)
+                .build()
+//            navController.navigate(R.id.loginFragment, null, navOptions)
+        }
         val alertDialog = alertDialogBuilder.create()
         alertDialog.show()
+    }
+
+    private fun showLoginDialog() {
+        val isLargeLayout = resources.getBoolean(R.bool.large_layout)
+        val fragmentManager = requireActivity().supportFragmentManager
+        val loginFragment = LoginFragment()
+//        if (isLargeLayout) {
+//            // The device is using a large layout, so show the fragment as a dialog
+//            loginFragment.show(fragmentManager, "loginFragment")
+//        } else {
+            // The device is smaller, so show the fragment fullscreen
+            val transaction = fragmentManager.beginTransaction()
+            // For a little polish, specify a transition animation
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            // To make it fullscreen, use the 'content' root view as the container
+            // for the fragment, which is always the root view for the activity
+            transaction
+                .add(android.R.id.content, loginFragment)
+                .addToBackStack(null)
+                .commit()
+//        }
     }
 }

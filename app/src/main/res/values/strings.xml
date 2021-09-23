@@ -22,4 +22,20 @@
     <string name="sign_out">Sign out</string>
     <string name="_123456789">123456789</string>
     <string name="change_profile_image_button">change profile image button</string>
+    <string name="long_text">I loved the setcadfjoadfj asdofjaidsjfs dfaodjfiad aojsdijfoad asdoifajod aisodjfoaidsjfo asidfjoaid aodsjfoiajdoi asdjfoajodifj adfadjofjaidjf asodidjfoaijdfoiajsdf aosidfjoaisdfoajd faidjfoaidfnoiajd foiadjdif</string>
+    <string name="submit">Submit</string>
+    <string name="leave_a_feedback">Leave a feedback</string>
+    <string name="rate_our_service">Rate our service</string>
+    <string name="your_order_has_been_delivered_successfully">Your order has been delivered successfully</string>
+    <string name="type_your_comment_here">Type your comment here</string>
+    <string name="delivered">Delivered</string>
+    <string name="pending">Pending</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="buy_now">Buy now</string>
+    <string name="items_to_deliver">Items to deliver</string>
+    <string name="address">Address</string>
+    <string name="deliver_to">Deliver to:</string>
+    <string name="order_details">Order Details</string>
+    <string name="complete_order">Complete Order</string>
+    <string name="subtotal">Subtotal:</string>
 </resources>

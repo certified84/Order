@@ -5,10 +5,11 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FFFFFFFF</color>
+    <color name="white">#FF000000</color>
     <color name="midWhite">#F8F8F8</color>
     <color name="red">#FF0000</color>
+    <color name="tab_color">@color/midWhite</color>
 
     <color name="colorPrimary">#232D37</color>
     <color name="colorPrimaryDark">#101D24</color>
@@ -21,4 +22,5 @@
     <color name="bottomNavViewBackgroundColor">@color/colorPrimary</color>
     <color name="bottomNavViewIconTint">@color/white</color>
     <color name="customAlertDialogBackgroundColor">@color/colorPrimaryDark</color>
+    <color name="dialogBackgroundColor">#30000000</color>
 </resources>

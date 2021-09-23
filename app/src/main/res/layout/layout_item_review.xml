@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_reviewer_picture"
+                style="@style/ShapeAppearanceOverlay.Order"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_item_desc"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/rating_bar"
+                app:strokeColor="@color/colorPrimary"
+                tools:src="@tools:sample/avatars" />
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/rating_bar"
+                android:layout_width="wrap_content"
+                android:progressTint="@color/red"
+                android:clickable="false"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:numStars="5"
+                app:layout_constraintBottom_toTopOf="@+id/tv_reviewer_name"
+                app:layout_constraintStart_toStartOf="@+id/tv_reviewer_name"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:rating="3.5" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_reviewer_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tv_item_desc"
+                app:layout_constraintStart_toEndOf="@+id/iv_reviewer_picture"
+                app:layout_constraintTop_toBottomOf="@+id/rating_bar"
+                app:layout_constraintVertical_chainStyle="spread_inside"
+                tools:text="Samson Achiaga" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_item_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/tv_reviewer_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_reviewer_name"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Order was very fast. You can trust them with your items." />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

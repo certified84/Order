@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
@@ -18,9 +20,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class LoginFragment : Fragment() {
+class LoginFragment : DialogFragment() {
 
-    private lateinit var navController: NavController
+//    private lateinit var navController: NavController
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentLoginBinding
 
@@ -39,7 +41,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        navController = Navigation.findNavController(view)
+//        navController = Navigation.findNavController(view)
         val currentUser = auth.currentUser
 
         binding.apply {
@@ -84,27 +86,50 @@ class LoginFragment : Fragment() {
                 }
             }
 
+            root.setOnClickListener { super.dismiss() }
+
             tvSignup.setOnClickListener {
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.loginFragment, true).build()
-                navController.navigate(R.id.signupFragment, null, navOptions)
+                super.dismiss()
+                showSignupDialog()
             }
         }
     }
 
+    private fun showSignupDialog() {
+        val isLargeLayout = resources.getBoolean(R.bool.large_layout)
+        val fragmentManager = requireActivity().supportFragmentManager
+        val signupFragment = SignupFragment()
+//        if (isLargeLayout) {
+//            // The device is using a large layout, so show the fragment as a dialog
+//            signupFragment.show(fragmentManager, "signupFragment")
+//        } else {
+            // The device is smaller, so show the fragment fullscreen
+            val transaction = fragmentManager.beginTransaction()
+            // For a little polish, specify a transition animation
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            // To make it fullscreen, use the 'content' root view as the container
+            // for the fragment, which is always the root view for the activity
+            transaction
+                .add(android.R.id.content, signupFragment)
+                .addToBackStack(null)
+                .commit()
+//        }
+    }
+
     private fun queryDatabase(user: FirebaseUser) {
         val db = Firebase.firestore
-        val userRef = db.collection("users").document(user.uid)
+        val userRef =
+            db.collection("account_type").document(user.uid)
         userRef.get().addOnSuccessListener {
             if (it.exists()) {
                 val accountType = it.getString("account_type")
-                val approved = it.getBoolean("approved")
-                if (accountType == "Dispatcher" && !approved!!)
+                val isApproved = it.getBoolean("_approved")
+                if (accountType == "Dispatcher" && !isApproved!!)
                     showDialog()
                 else {
-                    val navOptions = NavOptions.Builder()
-                        .setPopUpTo(R.id.loginFragment, true).build()
-                    navController.navigate(R.id.homeFragment, null, navOptions)
+//                    val navOptions = NavOptions.Builder()
+//                        .setPopUpTo(R.id.loginFragment, true).build()
+//                    navController.navigate(R.id.homeFragment, null, navOptions)
                 }
             }
         }
@@ -118,20 +143,6 @@ class LoginFragment : Fragment() {
         )
         alertDialogBuilder.setPositiveButton("Ok") { dialog, _ -> dialog.dismiss() }
         val alertDialog = alertDialogBuilder.create()
-//        alertDialog.setOnShowListener {
-//            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.accent
-//                )
-//            )
-//            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.accent
-//                )
-//            )
-//        }
         alertDialog.show()
         Firebase.auth.signOut()
     }

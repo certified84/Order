@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="midWhite">#F8F8F8</color>
     <color name="red">#FF0000</color>
+    <color name="tab_color">@color/colorPrimary</color>
 
     <color name="colorPrimary">#00A68D</color>
     <color name="colorPrimaryDark">#006B5B</color>
@@ -21,4 +22,5 @@
     <color name="bottomNavViewBackgroundColor">@color/white</color>
     <color name="bottomNavViewIconTint">@color/colorAccent</color>
     <color name="customAlertDialogBackgroundColor">@color/white</color>
+    <color name="dialogBackgroundColor">#30000000</color>
 </resources>

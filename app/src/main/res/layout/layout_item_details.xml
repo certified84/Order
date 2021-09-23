@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_16sdp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.rd.PageIndicatorView
+            android:id="@+id/indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="@+id/view_pager"
+            app:layout_constraintStart_toStartOf="@+id/view_pager"
+            app:layout_constraintTop_toBottomOf="@+id/view_pager"
+            app:piv_animationType="worm"
+            app:piv_count="3"
+            app:piv_dynamicCount="true"
+            app:piv_interactiveAnimation="true"
+            app:piv_padding="@dimen/_6sdp"
+            app:piv_selectedColor="@color/red"
+            app:piv_unselectedColor="@color/black"
+            app:piv_viewPager="@id/view_pager" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/indicator"
+            tools:text="Nike Airforce 1" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_item_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
+            app:layout_constraintStart_toStartOf="@+id/tv_item_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_item_name"
+            tools:text="@string/long_text" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:textColor="@color/red"
+            android:textSize="@dimen/_10ssp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tv_item_quantity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_item_name"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="#25000" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_item_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_item_desc"
+            app:layout_constraintEnd_toEndOf="@+id/tv_item_price"
+            app:layout_constraintStart_toStartOf="@+id/tv_item_price"
+            app:layout_constraintTop_toBottomOf="@+id/tv_item_price"
+            tools:text="Qty: 2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add_to_cart"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_to_cart"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            app:cornerRadius="@dimen/_2sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_buy_now"
+            app:layout_constraintEnd_toStartOf="@+id/btn_buy_now"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/tv_item_desc"
+            app:layout_constraintTop_toTopOf="@+id/btn_buy_now"
+            app:strokeColor="@color/red"
+            app:strokeWidth="@dimen/_1sdp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_buy_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:backgroundTint="@color/red"
+            android:text="@string/buy_now"
+            android:textAllCaps="false"
+            android:textColor="@color/midWhite"
+            app:cornerRadius="@dimen/_2sdp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_item_price"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_add_to_cart"
+            app:layout_constraintTop_toBottomOf="@+id/tv_item_desc" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

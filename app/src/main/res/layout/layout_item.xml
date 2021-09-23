@@ -28,34 +28,79 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_item_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/tv_quantity"
+                app:layout_constraintBottom_toTopOf="@+id/tv_item_desc"
+                app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
                 app:layout_constraintStart_toEndOf="@+id/item_image"
-                app:layout_constraintTop_toTopOf="@+id/item_image"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Nike Airforce 1" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_quantity"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_item_desc"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/item_image"
-                app:layout_constraintStart_toStartOf="@+id/tv_item_name"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:paddingEnd="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:alpha=".7"
+                android:textSize="@dimen/_8ssp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                app:layout_constraintBottom_toTopOf="@+id/tv_item_quantity"
+                app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
+                app:layout_constraintStart_toEndOf="@+id/item_image"
                 app:layout_constraintTop_toBottomOf="@+id/tv_item_name"
-                tools:text="Qty: 2" />
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="This is a brief description about this item. It tells you a bit about it." />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_item_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textSize="@dimen/_8ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_item_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_item_desc"
+                tools:text="Qty: 2"
+                tools:visibility="visible" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_item_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_16sdp"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_quantity"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                android:textSize="@dimen/_8ssp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_item_quantity"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_item_name"
-                tools:text="# 25000" />
+                tools:text="#25000" />
+
+<!--            <com.google.android.material.chip.Chip-->
+<!--                android:id="@+id/chip_item_status"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:clickable="false"-->
+<!--                android:textColor="@color/midWhite"-->
+<!--                android:textSize="@dimen/_10ssp"-->
+<!--                android:visibility="gone"-->
+<!--                app:chipBackgroundColor="@color/red"-->
+<!--                app:chipCornerRadius="@dimen/_8sdp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/tv_item_name"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/tv_item_price"-->
+<!--                tools:text="Pending"-->
+<!--                tools:visibility="visible" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

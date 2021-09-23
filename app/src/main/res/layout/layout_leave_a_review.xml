@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView13"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:text="@string/your_order_has_been_delivered_successfully"
+            android:textAlignment="center"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/materialTextView14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:text="@string/rate_our_service"
+            app:layout_constraintBottom_toTopOf="@+id/rating_bar"
+            app:layout_constraintEnd_toEndOf="@+id/materialTextView13"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/materialTextView13"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView13" />
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:numStars="5"
+            android:progressTint="@color/red"
+            android:rating="4"
+            android:stepSize="1"
+            app:layout_constraintBottom_toTopOf="@+id/materialTextView15"
+            app:layout_constraintEnd_toEndOf="@+id/materialTextView13"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/materialTextView13"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView14"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:text="@string/leave_a_feedback"
+            app:layout_constraintBottom_toTopOf="@+id/et_review_layout"
+            app:layout_constraintEnd_toEndOf="@+id/rating_bar"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/rating_bar"
+            app:layout_constraintTop_toBottomOf="@+id/rating_bar" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/et_review_layout"
+            style="@style/Widgets.Order.TextInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_150sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            app:boxCollapsedPaddingTop="@dimen/_4sdp"
+            android:padding="0dp"
+            app:hintEnabled="false"
+            app:layout_constraintBottom_toTopOf="@+id/btn_submit_review"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView15">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_review"
+                style="@style/Widget.Order.TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:textColor="@color/black"
+                android:hint="@string/type_your_comment_here"
+                android:inputType="textMultiLine"
+                android:outlineProvider="none"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                app:textInputLayoutFocusedRectEnabled="false" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit_review"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:backgroundTint="@color/red"
+            android:text="@string/submit"
+            android:textAllCaps="false"
+            android:textColor="@color/midWhite"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/et_review_layout"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/et_review_layout"
+            app:layout_constraintTop_toBottomOf="@+id/et_review_layout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

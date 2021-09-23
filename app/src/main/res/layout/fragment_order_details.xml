@@ -6,7 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:background="@color/dialogBackgroundColor"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".view.OrderDetailsFragment">
 
         <com.github.captain_miao.optroundcardview.OptRoundCardView
             android:layout_width="match_parent"
@@ -158,24 +159,26 @@
                         tools:listitem="@layout/layout_item" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_subtotal_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_2sdp"
-                        android:layout_marginTop="@dimen/_16sdp"
-                        android:text="Subtotal:"
+                        android:text="@string/subtotal"
                         android:textSize="@dimen/_10ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_subtotal"
                         app:layout_constraintEnd_toStartOf="@+id/tv_subtotal"
-                        app:layout_constraintTop_toBottomOf="@+id/recycler_view_items" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_subtotal" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_subtotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_16sdp"
-                        android:text="#100000"
-                        android:textStyle="bold"
+                        tools:text="#100000"
                         android:textColor="@color/red"
                         android:textSize="@dimen/_10ssp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/recycler_view_items"
                         app:layout_constraintTop_toBottomOf="@+id/recycler_view_items" />
 
@@ -184,31 +187,29 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_8sdp"
-                        android:clickable="false"
                         android:textColor="@color/midWhite"
                         android:textSize="@dimen/_10ssp"
-                        android:visibility="gone"
                         android:layout_marginBottom="8sp"
                         app:chipBackgroundColor="@color/red"
+                        android:checked="false"
+                        app:checkedIconEnabled="true"
+                        app:checkedIcon="@drawable/ic_baseline_check_24"
                         app:chipCornerRadius="@dimen/_8sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/recycler_view_items"
                         app:layout_constraintTop_toBottomOf="@+id/recycler_view_items"
-                        tools:text="Pending"
-                        tools:visibility="visible" />
+                        android:text="@string/pending" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/materialButton"
+                        android:id="@+id/btn_complete_order"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_16sdp"
-                        android:text="Complete Order"
+                        android:text="@string/complete_order"
                         android:textAllCaps="false"
-                        android:visibility="gone"
                         android:textColor="@color/midWhite"
                         app:layout_constraintStart_toStartOf="@+id/recycler_view_items"
-                        app:layout_constraintTop_toBottomOf="@+id/recycler_view_items"
-                        tools:visibility="visible"/>
+                        app:layout_constraintTop_toBottomOf="@+id/recycler_view_items" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>

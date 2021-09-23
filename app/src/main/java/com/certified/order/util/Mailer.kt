@@ -36,13 +36,9 @@ object Mailer {
             try {
                 MimeMessage(session).let { mime ->
                     mime.setFrom(InternetAddress(Config.EMAIL))
-                    //Adding receiver
                     mime.addRecipient(Message.RecipientType.TO, InternetAddress(email))
-                    //Adding subject
                     mime.subject = subject
-                    //Adding message
                     mime.setText(message)
-                    //send mail
                     Transport.send(mime)
                 }
             } catch (e: MessagingException) {

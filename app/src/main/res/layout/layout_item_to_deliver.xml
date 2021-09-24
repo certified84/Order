@@ -29,8 +29,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_16sdp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textSize="@dimen/_14ssp"
@@ -53,12 +53,11 @@
                 android:maxLines="2"
                 android:paddingEnd="@dimen/_4sdp"
                 android:textSize="@dimen/_8ssp"
-                app:layout_constraintBottom_toTopOf="@+id/btn_increase_quantity"
+                app:layout_constraintBottom_toTopOf="@+id/tv_item_quantity"
                 app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/tv_item_name"
                 app:layout_constraintTop_toBottomOf="@+id/tv_item_name"
-                app:layout_constraintVertical_bias="1.0"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="This is a brief description about this item. It tells you a bit about it." />
 
@@ -76,13 +75,12 @@
                 android:id="@+id/tv_item_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_4sdp"
                 android:text="1"
                 android:textSize="@dimen/_11ssp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_increase_quantity"
-                app:layout_constraintEnd_toStartOf="@+id/btn_increase_quantity"
-                app:layout_constraintTop_toTopOf="@+id/btn_increase_quantity" />
+                app:layout_constraintBottom_toBottomOf="@+id/item_image"
+                app:layout_constraintEnd_toEndOf="@+id/tv_item_price"
+                app:layout_constraintTop_toBottomOf="@+id/tv_item_desc" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_item_price"
@@ -96,31 +94,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="#25000" />
-
-            <ImageButton
-                android:id="@+id/btn_increase_quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary"
-                android:contentDescription="Increase quantity button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/tv_item_price"
-                app:layout_constraintTop_toBottomOf="@+id/tv_item_desc"
-                app:srcCompat="@drawable/ic_baseline_add_24"
-                app:tint="@color/midWhite" />
-
-            <ImageButton
-                android:id="@+id/btn_decrease_quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_4sdp"
-                android:backgroundTint="@color/colorPrimary"
-                android:contentDescription="Decrease quantity button"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_increase_quantity"
-                app:layout_constraintEnd_toStartOf="@+id/materialTextView16"
-                app:layout_constraintTop_toTopOf="@+id/btn_increase_quantity"
-                app:srcCompat="@drawable/ic_baseline_remove_24"
-                app:tint="@color/midWhite" />
 
             <!--            <com.google.android.material.chip.Chip-->
             <!--                android:id="@+id/chip_item_status"-->

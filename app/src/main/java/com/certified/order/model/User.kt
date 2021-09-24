@@ -1,6 +1,7 @@
 package com.certified.order.model
 
 import android.net.Uri
+import com.certified.order.R
 
 data class User(
     val name: String,

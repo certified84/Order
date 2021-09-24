@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.certified.order.R
 import com.certified.order.databinding.FragmentSettingsBinding
@@ -19,6 +23,7 @@ class SettingsFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentSettingsBinding
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,9 +40,34 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val user = auth.currentUser
+        navController = Navigation.findNavController(view)
 
         if (user != null)
             loadUserDetails(user)
+        
+        binding.apply { 
+            groupMyOrders.setOnClickListener { navController.navigate(R.id.myOrdersFragment) }
+            groupMyProfile.setOnClickListener { navController.navigate(R.id.profileFragment) }
+            groupMyAddress.setOnClickListener { showMap() }
+            groupPaymentMethods.setOnClickListener { 
+                Toast.makeText(requireContext(), "", Toast.LENGTH_LONG).show()
+            }
+
+            switchDarkMode.setOnClickListener {
+//                TODO: Implement that dark mode stuff
+            }
+            
+            btnSignout.setOnClickListener { 
+                auth.signOut()
+                val navOptions = NavOptions.Builder()
+                navOptions.setPopUpTo(R.id.onboardingFragment, true)
+                navController.navigate(R.id.onboardingFragment)
+            }
+        }
+    }
+
+    private fun showMap() {
+//        TODO("Not yet implemented")
     }
 
     private fun loadUserDetails(user: FirebaseUser) {
@@ -45,19 +75,21 @@ class SettingsFragment : Fragment() {
         val userRef = db.collection("users").document(user.uid)
         userRef.get().addOnSuccessListener {
             if (it.exists()) {
-                val accountType = it.getString("account_type")
-                val phone = it.getLong("phone")
-                val profile_image_uri = it.getString("profile_image")
+                val phone = it.getString("phone")
+                val profileImageUri = user.photoUrl
 
                 binding.apply {
-                    if (profile_image_uri != null)
+                    if (profileImageUri != null)
                         Glide.with(requireContext())
-                            .load(profile_image_uri)
+                            .load(profileImageUri)
                             .into(profileImage)
+                    else {
+//                        TODO: Load default image
+                    }
 
                     tvEmail.text = user.email
                     tvName.text = user.displayName
-                    tvPhone.text = phone.toString()
+                    tvPhone.text = phone
                 }
             }
         }

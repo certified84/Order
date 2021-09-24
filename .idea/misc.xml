@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.15341880341880343" />
         <entry key="app/src/main/res/drawable/ic_baseline_dark_mode_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_location_on_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_order_24.xml" value="0.18697916666666667" />
@@ -10,26 +11,30 @@
         <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_phone_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_photo_camera_24.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/drawable/ic_baseline_remove_24.xml" value="0.15341880341880343" />
         <entry key="app/src/main/res/drawable/ic_baseline_wb_sunny_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/dialog_leave_a_review.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.14017094017094017" />
+        <entry key="app/src/main/res/layout/fragment_complete_order.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_delivered_orders.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.21273031825795644" />
         <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/layout/fragment_my_orders.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_onboarding.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/fragment_order_details.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_order_details.xml" value="0.23699421965317918" />
         <entry key="app/src/main/res/layout/fragment_orders.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_pending_orders.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_review.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_view_pager.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_item.xml" value="0.47785787847579814" />
         <entry key="app/src/main/res/layout/layout_item_details.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_item_review.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/layout_item_to_deliver.xml" value="0.5" />
         <entry key="app/src/main/res/layout/layout_leave_a_review.xml" value="0.22" />
         <entry key="app/src/main/res/layout/layout_order.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_order_details.xml" value="0.35964912280701755" />

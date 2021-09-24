@@ -1,15 +1,17 @@
 package com.certified.order.view
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import com.bumptech.glide.Glide
 import com.certified.order.R
 import com.certified.order.databinding.FragmentOrderDetailsBinding
+import com.certified.order.model.Order
 
-class OrderDetailsFragment(val accountType: String, val from: String?) : DialogFragment() {
+class OrderDetailsFragment(private val order: Order) : DialogFragment() {
 
     private lateinit var binding: FragmentOrderDetailsBinding
 
@@ -27,38 +29,41 @@ class OrderDetailsFragment(val accountType: String, val from: String?) : DialogF
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
 
-            if (accountType == "user" && from != null) {
-//                If from is not null then we are in the CartFragment
-                chipItemStatus.isClickable = false
-                btnCallReceiver.visibility = View.GONE
-                tvAddress.setOnClickListener {
+            val receiver = order.receiver
+            tvReceiverName.text = receiver.displayName
 
-                }
+            val profileImage = receiver.photoUrl
+            if (profileImage != null)
+                Glide.with(requireContext())
+                    .load(profileImage)
+                    .into(receiverProfileImage)
+            else {
+//                TODO: Load a default image
+            }
 
-            } else if (accountType == "user" && from == null){
+            if (order.isDelivered)
+                chipItemStatus.text = resources.getString(R.string.delivered)
+            else
+                chipItemStatus.text = resources.getString(R.string.pending)
+            chipItemStatus.setOnClickListener {
+                when (chipItemStatus.text.toString()) {
+                    "Pending" -> {
+                        chipItemStatus.text = resources.getString(R.string.delivered)
+                        chipItemStatus.isChecked = true
 
-                btnCompleteOrder.visibility = View.GONE
-
-            } else if (accountType == "dispatcher" && from == null) {
-
-                tvReceiverPhone.visibility = View.GONE
-                tvSubtotal.visibility = View.GONE
-                tvSubtotalTitle.visibility = View.GONE
-
-                chipItemStatus.setOnClickListener {
-                    when (chipItemStatus.text.toString()) {
-                        "Pending" -> {
-                            chipItemStatus.text = resources.getString(R.string.delivered)
-                            chipItemStatus.isChecked = true
-
-                            chipItemStatus.isClickable = false
+                        chipItemStatus.isClickable = false
 
 //                            TODO: Update the order details in firestore
-                        }
-
-                        "Delivered" -> chipItemStatus.isClickable = false
                     }
+                    "Delivered" -> chipItemStatus.isClickable = false
                 }
+            }
+
+            tvDeliveryTime.text = order.delivery_time
+            tvSubtotal.text = order.subtotal.toString()
+
+            btnCallReceiver.setOnClickListener {
+//                TODO: open the dialer with the receiver's phone
             }
         }
     }

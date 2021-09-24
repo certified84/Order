@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/onboardingFragment">
 
@@ -24,4 +25,37 @@
         android:id="@+id/profileFragment"
         android:name="com.certified.order.view.ProfileFragment"
         android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.certified.order.view.CartFragment"
+        android:label="CartFragment" />
+    <fragment
+        android:id="@+id/deliveredOrdersFragment"
+        android:name="com.certified.order.view.DeliveredOrdersFragment"
+        android:label="DeliveredOrdersFragment" />
+    <fragment
+        android:id="@+id/completeOrderFragment"
+        android:name="com.certified.order.view.CompleteOrderFragment"
+        android:label="CompleteOrderFragment" />
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.certified.order.view.DetailsFragment"
+        android:label="DetailsFragment" />
+    <fragment
+        android:id="@+id/myOrdersFragment"
+        android:name="com.certified.order.view.MyOrdersFragment"
+        android:label="MyOrdersFragment" />
+    <fragment
+        android:id="@+id/orderDetailsFragment"
+        android:name="com.certified.order.view.OrderDetailsFragment"
+        android:label="OrderDetailsFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.certified.order.view.SettingsFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/trackOrderFragment"
+        android:name="com.certified.order.view.TrackOrderFragment"
+        android:label="fragment_track_order"
+        tools:layout="@layout/fragment_track_order" />
 </navigation>

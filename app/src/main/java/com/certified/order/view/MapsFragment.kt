@@ -16,7 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapsFragment : Fragment() {
+class MapsFragment(private val defaultMarker: LatLng) : Fragment() {
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -29,7 +29,7 @@ class MapsFragment : Fragment() {
          * user has installed Google Play services and returned to the app.
          */
         val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        googleMap.addMarker(MarkerOptions().position(defaultMarker).title("Your location"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 

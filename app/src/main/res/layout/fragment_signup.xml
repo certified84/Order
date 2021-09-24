@@ -136,7 +136,7 @@
                             android:outlineProvider="none"
                             android:paddingStart="@dimen/_15sdp"
                             android:paddingEnd="@dimen/_15sdp"
-                            app:textInputLayoutFocusedRectEnabled="false" />
+                            app:textInputLayoutFocusedRectEnabled="true" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textview.MaterialTextView

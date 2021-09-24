@@ -5,6 +5,7 @@ import com.google.type.LatLng
 
 data class Order(
     val receiver: FirebaseUser,
+    val dispatcher: Dispatcher?,
     val receiver_address: LatLng,
     val receiver_phone_no: Long,
     val items: List<Item>

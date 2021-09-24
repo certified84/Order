@@ -5,8 +5,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/dialogBackgroundColor"
         android:layout_height="match_parent"
+        android:background="@color/dialogBackgroundColor"
         tools:context=".view.OrderDetailsFragment">
 
         <com.github.captain_miao.optroundcardview.OptRoundCardView
@@ -94,6 +94,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/_11ssp"
                         android:textStyle="bold"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/profile_image_receiver"
                         app:layout_constraintEnd_toEndOf="@+id/recycler_view_items"
                         app:layout_constraintTop_toTopOf="@+id/profile_image_receiver"
@@ -130,11 +131,44 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_16sdp"
-                        android:textSize="@dimen/_11ssp"
                         android:layout_marginTop="@dimen/_16sdp"
+                        android:textSize="@dimen/_11ssp"
                         app:layout_constraintStart_toStartOf="@+id/materialTextView8"
                         app:layout_constraintTop_toBottomOf="@+id/materialTextView8"
                         tools:text="No 17 Owolabani street, Ajara topa, Badagry" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/materialTextView12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:text="Time"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintStart_toStartOf="@+id/materialTextView8"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_address" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_delivery_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:text="00:00"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/tv_address"
+                        app:layout_constraintTop_toBottomOf="@+id/materialTextView12" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_AM_PM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AM"
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_delivery_time"
+                        app:layout_constraintStart_toEndOf="@+id/tv_delivery_time"
+                        app:layout_constraintTop_toTopOf="@+id/tv_delivery_time" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/materialTextView9"
@@ -145,7 +179,7 @@
                         android:textSize="@dimen/_14ssp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="@+id/materialTextView8"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_address" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_delivery_time" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view_items"
@@ -174,31 +208,31 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_16sdp"
-                        tools:text="#100000"
                         android:textColor="@color/red"
                         android:textSize="@dimen/_10ssp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/recycler_view_items"
-                        app:layout_constraintTop_toBottomOf="@+id/recycler_view_items" />
+                        app:layout_constraintTop_toBottomOf="@+id/recycler_view_items"
+                        tools:text="#100000" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_item_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginBottom="8sp"
+                        android:checked="false"
+                        android:text="@string/pending"
                         android:textColor="@color/midWhite"
                         android:textSize="@dimen/_10ssp"
-                        android:layout_marginBottom="8sp"
-                        app:chipBackgroundColor="@color/red"
-                        android:checked="false"
-                        app:checkedIconEnabled="true"
                         app:checkedIcon="@drawable/ic_baseline_check_24"
+                        app:checkedIconEnabled="true"
+                        app:chipBackgroundColor="@color/red"
                         app:chipCornerRadius="@dimen/_8sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/recycler_view_items"
-                        app:layout_constraintTop_toBottomOf="@+id/recycler_view_items"
-                        android:text="@string/pending" />
+                        app:layout_constraintTop_toBottomOf="@+id/recycler_view_items" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_complete_order"
@@ -208,6 +242,7 @@
                         android:text="@string/complete_order"
                         android:textAllCaps="false"
                         android:textColor="@color/midWhite"
+                        android:visibility="gone"
                         app:layout_constraintStart_toStartOf="@+id/recycler_view_items"
                         app:layout_constraintTop_toBottomOf="@+id/recycler_view_items" />
 

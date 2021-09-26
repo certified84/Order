@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.certified.order.OtherBurgerViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,12 +28,12 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_30sdp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/_30sdp">
+                    android:layout_height="wrap_content">
 
                     <!--                <de.hdodenhof.circleimageview.CircleImageView-->
                     <!--                    android:id="@+id/profile_image"-->
@@ -159,6 +166,7 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_160sdp"
                         android:layout_marginTop="@dimen/_8sdp"
+                        app:listData="@{viewModel.burgers}"
                         android:layout_marginEnd="@dimen/_16sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/materialTextView9"
@@ -194,12 +202,23 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_16sdp"
                         android:layout_marginBottom="@dimen/_16sdp"
-                        android:text="@string/complete_order"
+                        android:text="@string/_continue"
                         android:textAllCaps="false"
                         android:textColor="@color/midWhite"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/recycler_view_items_to_deliver"
                         app:layout_constraintTop_toBottomOf="@+id/recycler_view_items_to_deliver" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        android:visibility="gone"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>

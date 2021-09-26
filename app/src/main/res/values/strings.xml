@@ -39,4 +39,6 @@
     <string name="complete_order">Complete Order</string>
     <string name="subtotal">Subtotal:</string>
     <string name="click_here_to_set_delivery_address">Click here to set delivery address</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="_continue">Continue</string>
 </resources>

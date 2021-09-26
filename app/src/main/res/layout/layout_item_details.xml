@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_16sdp"
             android:textColor="@color/red"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/tv_item_quantity"
             app:layout_constraintEnd_toEndOf="parent"
@@ -74,16 +74,26 @@
             tools:text="#25000" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Qty: "
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_item_quantity"
+            app:layout_constraintEnd_toStartOf="@+id/tv_item_quantity"
+            app:layout_constraintTop_toTopOf="@+id/tv_item_quantity" />
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_item_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:text="1"
             android:textSize="@dimen/_11ssp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_item_desc"
-            app:layout_constraintEnd_toEndOf="@+id/tv_item_price"
-            app:layout_constraintStart_toStartOf="@+id/tv_item_price"
-            app:layout_constraintTop_toBottomOf="@+id/tv_item_price"
-            tools:text="Qty: 2" />
+            app:layout_constraintBottom_toBottomOf="@+id/btn_increase_quantity"
+            app:layout_constraintEnd_toStartOf="@+id/btn_increase_quantity"
+            app:layout_constraintTop_toTopOf="@+id/btn_increase_quantity" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_add_to_cart"
@@ -115,7 +125,32 @@
             app:layout_constraintEnd_toEndOf="@+id/tv_item_price"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/btn_add_to_cart"
-            app:layout_constraintTop_toBottomOf="@+id/tv_item_desc" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_increase_quantity" />
+
+        <ImageButton
+            android:id="@+id/btn_increase_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:contentDescription="Increase quantity button"
+            app:layout_constraintEnd_toEndOf="@+id/tv_item_price"
+            app:layout_constraintTop_toBottomOf="@+id/tv_item_desc"
+            app:srcCompat="@drawable/ic_baseline_add_24"
+            app:tint="@color/midWhite" />
+
+        <ImageButton
+            android:id="@+id/btn_decrease_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:backgroundTint="@color/colorPrimary"
+            android:contentDescription="Decrease quantity button"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_increase_quantity"
+            app:layout_constraintEnd_toStartOf="@+id/materialTextView16"
+            app:layout_constraintTop_toTopOf="@+id/btn_increase_quantity"
+            app:srcCompat="@drawable/ic_baseline_remove_24"
+            app:tint="@color/midWhite" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

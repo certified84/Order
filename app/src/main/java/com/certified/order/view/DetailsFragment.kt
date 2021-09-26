@@ -24,10 +24,8 @@ class DetailsFragment(val type: String) : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            if (type == "my orders") {
+            if (type == "my orders" || type == "cart") {
                 btnBuyNow.visibility = View.GONE
-                btnAddToCart.visibility = View.GONE
-            } else if (type == "cart") {
                 btnAddToCart.visibility = View.GONE
             } else if (type == "home") {
             }

@@ -30,7 +30,7 @@ class MapsFragment(private val defaultMarker: LatLng) : Fragment() {
          */
         val sydney = LatLng(-34.0, 151.0)
         googleMap.addMarker(MarkerOptions().position(defaultMarker).title("Your location"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultMarker, 10f))
     }
 
     private lateinit var binding: FragmentMapsBinding

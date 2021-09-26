@@ -29,21 +29,25 @@ class OrderDetailsFragment(private val order: Order) : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
 
-            val receiver = order.receiver
-            tvReceiverName.text = receiver.displayName
+            tvReceiverName.text = "Samson Achiaga"
 
-            val profileImage = receiver.photoUrl
-            if (profileImage != null)
+//            val receiver = order.receiver
+//            tvReceiverName.text = receiver.displayName
+//
+//            val profileImage = receiver.photoUrl
+//            if (profileImage != null)
+//                Glide.with(requireContext())
+//                    .load(profileImage)
+//                    .into(receiverProfileImage)
+//            else {
                 Glide.with(requireContext())
-                    .load(profileImage)
+                    .load(R.drawable.no_profile_image)
                     .into(receiverProfileImage)
-            else {
-//                TODO: Load a default image
-            }
+//            }
 
-            if (order.isDelivered)
-                chipItemStatus.text = resources.getString(R.string.delivered)
-            else
+//            if (order.isDelivered)
+//                chipItemStatus.text = resources.getString(R.string.delivered)
+//            else
                 chipItemStatus.text = resources.getString(R.string.pending)
             chipItemStatus.setOnClickListener {
                 when (chipItemStatus.text.toString()) {

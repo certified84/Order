@@ -1,11 +1,11 @@
 package com.certified.order.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
 import com.certified.order.R
 import com.certified.order.databinding.FragmentOrderDetailsBinding
@@ -40,15 +40,15 @@ class OrderDetailsFragment(private val order: Order) : DialogFragment() {
 //                    .load(profileImage)
 //                    .into(receiverProfileImage)
 //            else {
-                Glide.with(requireContext())
-                    .load(R.drawable.no_profile_image)
-                    .into(receiverProfileImage)
+            Glide.with(requireContext())
+                .load(R.drawable.no_profile_image)
+                .into(receiverProfileImage)
 //            }
 
 //            if (order.isDelivered)
 //                chipItemStatus.text = resources.getString(R.string.delivered)
 //            else
-                chipItemStatus.text = resources.getString(R.string.pending)
+            chipItemStatus.text = resources.getString(R.string.pending)
             chipItemStatus.setOnClickListener {
                 when (chipItemStatus.text.toString()) {
                     "Pending" -> {
@@ -71,4 +71,17 @@ class OrderDetailsFragment(private val order: Order) : DialogFragment() {
             }
         }
     }
+
+//    private fun loadDirections() {
+////            TODO: Load the delivery direction into the fragment
+//        val fragmentManager = requireActivity().supportFragmentManager
+//        val mapsFragment = MapsFragment()
+////        mapsFragment.show(fragmentManager, "loginFragment")
+//        val transaction = fragmentManager.beginTransaction()
+//        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//        transaction
+//            .add(R.id.fragment_location, mapsFragment)
+//            .addToBackStack(null)
+//            .commit()
+//    }
 }

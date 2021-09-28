@@ -3,9 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="review"
+            type="com.certified.order.model.Review" />
+    </data>
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -15,6 +23,7 @@
                 android:id="@+id/iv_reviewer_picture"
                 style="@style/ShapeAppearanceOverlay.Order"
                 android:layout_height="0dp"
+                android:layout_width="0dp"
                 android:layout_marginStart="@dimen/_8sdp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_item_desc"
                 app:layout_constraintDimensionRatio="1:1"
@@ -26,11 +35,12 @@
             <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/rating_bar"
                 android:layout_width="wrap_content"
-                android:progressTint="@color/red"
-                android:clickable="false"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
+                android:clickable="false"
                 android:numStars="5"
+                android:progressTint="@color/red"
+                android:rating="@{review.rating}"
                 app:layout_constraintBottom_toTopOf="@+id/tv_reviewer_name"
                 app:layout_constraintStart_toStartOf="@+id/tv_reviewer_name"
                 app:layout_constraintTop_toTopOf="parent"
@@ -41,6 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
+                android:text="@{review.reviewer}"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/tv_item_desc"
@@ -56,6 +67,7 @@
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:text="@{review.review}"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

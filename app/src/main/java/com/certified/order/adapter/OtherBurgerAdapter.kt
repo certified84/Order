@@ -11,7 +11,10 @@ import com.certified.order.R
 import com.certified.order.databinding.LayoutBurgerBinding
 import com.certified.order.model.Burger
 
-class OtherBurgerAdapter(val burgers: List<Burger>): ListAdapter<Burger, OtherBurgerAdapter.ViewHolder>(diffCallback) {
+class OtherBurgerAdapter(val burgers: List<Burger>) :
+    ListAdapter<Burger, OtherBurgerAdapter.ViewHolder>(diffCallback) {
+
+    private lateinit var listener: OnBurgerClickedListener
 
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Burger>() {
@@ -37,23 +40,42 @@ class OtherBurgerAdapter(val burgers: List<Burger>): ListAdapter<Burger, OtherBu
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(itemImage)
-            }
 //                tvItemName.text = burger.name
 //                tvItemDesc.text = burger.description
 //                tvItemPrice.text = burger.price.toString()
-//            }
+            }
+        }
+
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onBookMarkClick(getItem(position))
+                }
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = LayoutBurgerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            LayoutBurgerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = getItem(position)
-        for (burger in burgers)
-//        if (currentItem != null)
-            holder.bind(burger)
+        val currentItem = burgers[position]
+            holder.bind(currentItem)
+    }
+
+    interface OnBurgerClickedListener {
+        fun onBookMarkClick(burger: Burger)
+    }
+
+    fun setOnBurgerClickedListener(listener: OnBurgerClickedListener) {
+        this.listener = listener
+    }
+
+    fun getBookMarkAt(position: Int): Burger {
+        return getItem(position)
     }
 }

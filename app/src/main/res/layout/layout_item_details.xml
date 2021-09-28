@@ -3,154 +3,213 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="burger"
+            type="com.certified.order.model.Burger" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/dialogBackgroundColor"
+        android:clickable="true">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/view_pager"
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_16sdp"
-            app:layout_constraintDimensionRatio="1:1"
+        <com.github.captain_miao.optroundcardview.OptRoundCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_16sdp"
+            android:paddingTop="@dimen/_16sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:optRoundCardCornerRadius="@dimen/_30sdp"
+            app:optRoundCardLeftBottomCorner="false"
+            app:optRoundCardPreventCornerOverlap="false"
+            app:optRoundCardRightBottomCorner="false">
 
-        <com.rd.PageIndicatorView
-            android:id="@+id/indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:background="@android:color/transparent"
-            app:layout_constraintEnd_toEndOf="@+id/view_pager"
-            app:layout_constraintStart_toStartOf="@+id/view_pager"
-            app:layout_constraintTop_toBottomOf="@+id/view_pager"
-            app:piv_animationType="worm"
-            app:piv_count="3"
-            app:piv_dynamicCount="true"
-            app:piv_interactiveAnimation="true"
-            app:piv_padding="@dimen/_6sdp"
-            app:piv_selectedColor="@color/red"
-            app:piv_unselectedColor="@color/black"
-            app:piv_viewPager="@id/view_pager" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:paddingBottom="@dimen/_16sdp">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_item_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_16sdp"
-            android:textSize="@dimen/_14ssp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/indicator"
-            tools:text="Nike Airforce 1" />
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/view_pager"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:visibility="invisible"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_item_desc"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_marginEnd="@dimen/_16sdp"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
-            app:layout_constraintStart_toStartOf="@+id/tv_item_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_item_name"
-            tools:text="@string/long_text" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/item_image"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_item_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_16sdp"
-            android:textColor="@color/red"
-            android:textSize="@dimen/_12ssp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/tv_item_quantity"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_item_name"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="#25000" />
+                <com.rd.PageIndicatorView
+                    android:id="@+id/indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@android:color/transparent"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="@+id/view_pager"
+                    app:layout_constraintStart_toStartOf="@+id/view_pager"
+                    app:layout_constraintTop_toBottomOf="@+id/view_pager"
+                    app:piv_animationType="worm"
+                    app:piv_count="3"
+                    app:piv_dynamicCount="true"
+                    app:piv_interactiveAnimation="true"
+                    app:piv_padding="@dimen/_6sdp"
+                    app:piv_selectedColor="@color/red"
+                    app:piv_unselectedColor="@color/black"
+                    app:piv_viewPager="@id/view_pager" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView16"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Qty: "
-            android:textSize="@dimen/_11ssp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_item_quantity"
-            app:layout_constraintEnd_toStartOf="@+id/tv_item_quantity"
-            app:layout_constraintTop_toTopOf="@+id/tv_item_quantity" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_item_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold"
+                    android:text="@{burger.name}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/indicator"
+                    tools:text="Nike Airforce 1" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_item_quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_4sdp"
-            android:text="1"
-            android:textSize="@dimen/_11ssp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_increase_quantity"
-            app:layout_constraintEnd_toStartOf="@+id/btn_increase_quantity"
-            app:layout_constraintTop_toTopOf="@+id/btn_increase_quantity" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_item_desc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    android:textSize="@dimen/_12ssp"
+                    android:text="@{burger.description}"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
+                    app:layout_constraintStart_toStartOf="@+id/tv_item_name"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_item_name"
+                    tools:text="@string/long_text" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_add_to_cart"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_to_cart"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            app:cornerRadius="@dimen/_2sdp"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_buy_now"
-            app:layout_constraintEnd_toStartOf="@+id/btn_buy_now"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/tv_item_desc"
-            app:layout_constraintTop_toTopOf="@+id/btn_buy_now"
-            app:strokeColor="@color/red"
-            app:strokeWidth="@dimen/_1sdp" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_item_quantity"
+                    app:layout_constraintTop_toTopOf="@+id/tv_item_name"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="#" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_buy_now"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16sdp"
-            android:backgroundTint="@color/red"
-            android:text="@string/buy_now"
-            android:textAllCaps="false"
-            android:textColor="@color/midWhite"
-            app:cornerRadius="@dimen/_2sdp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_item_price"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btn_add_to_cart"
-            app:layout_constraintTop_toBottomOf="@+id/btn_increase_quantity" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_item_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    android:textColor="@color/red"
+                    android:text="@{String.valueOf(burger.price)}"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_item_quantity"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_item_name"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="25000" />
 
-        <ImageButton
-            android:id="@+id/btn_increase_quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimary"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:contentDescription="Increase quantity button"
-            app:layout_constraintEnd_toEndOf="@+id/tv_item_price"
-            app:layout_constraintTop_toBottomOf="@+id/tv_item_desc"
-            app:srcCompat="@drawable/ic_baseline_add_24"
-            app:tint="@color/midWhite" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/materialTextView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Qty: "
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_item_quantity"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_item_quantity"
+                    app:layout_constraintTop_toTopOf="@+id/tv_item_quantity" />
 
-        <ImageButton
-            android:id="@+id/btn_decrease_quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_4sdp"
-            android:backgroundTint="@color/colorPrimary"
-            android:contentDescription="Decrease quantity button"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_increase_quantity"
-            app:layout_constraintEnd_toStartOf="@+id/materialTextView16"
-            app:layout_constraintTop_toTopOf="@+id/btn_increase_quantity"
-            app:srcCompat="@drawable/ic_baseline_remove_24"
-            app:tint="@color/midWhite" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_item_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:text="@{burger.quantity}"
+                    android:textSize="@dimen/_11ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_increase_quantity"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_increase_quantity"
+                    app:layout_constraintTop_toTopOf="@+id/btn_increase_quantity" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_add_to_cart"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_to_cart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    app:cornerRadius="@dimen/_2sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_buy_now"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_buy_now"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@+id/tv_item_desc"
+                    app:layout_constraintTop_toTopOf="@+id/btn_buy_now"
+                    app:strokeColor="@color/red"
+                    app:strokeWidth="@dimen/_1sdp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_buy_now"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:backgroundTint="@color/red"
+                    android:text="@string/buy_now"
+                    android:textAllCaps="false"
+                    android:textColor="@color/midWhite"
+                    app:cornerRadius="@dimen/_2sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_item_price"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/btn_add_to_cart"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_increase_quantity" />
+
+                <ImageButton
+                    android:id="@+id/btn_increase_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:contentDescription="Increase quantity button"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_item_price"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_item_desc"
+                    app:srcCompat="@drawable/ic_baseline_add_24"
+                    app:tint="@color/midWhite" />
+
+                <ImageButton
+                    android:id="@+id/btn_decrease_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:contentDescription="Decrease quantity button"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_increase_quantity"
+                    app:layout_constraintEnd_toStartOf="@+id/materialTextView16"
+                    app:layout_constraintTop_toTopOf="@+id/btn_increase_quantity"
+                    app:srcCompat="@drawable/ic_baseline_remove_24"
+                    app:tint="@color/midWhite" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.github.captain_miao.optroundcardview.OptRoundCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

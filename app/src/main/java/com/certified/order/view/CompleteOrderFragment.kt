@@ -16,15 +16,12 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.certified.order.BurgerViewModel
-import com.certified.order.BurgerViewModelFactory
+import com.certified.order.OrderViewModelFactory
 import com.certified.order.OtherBurgerViewModel
 import com.certified.order.R
-import com.certified.order.adapter.BurgerAdapter
 import com.certified.order.adapter.OtherBurgerAdapter
 import com.certified.order.databinding.FragmentCompleteOrderBinding
 import com.certified.order.model.Burger
-import com.certified.order.model.Item
 import com.certified.order.model.Order
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
@@ -34,6 +31,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 class CompleteOrderFragment(private val burgers: List<Burger>) : DialogFragment() {
@@ -56,7 +56,7 @@ class CompleteOrderFragment(private val burgers: List<Burger>) : DialogFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModelFactory = BurgerViewModelFactory(null, burgers)
+        val viewModelFactory = OrderViewModelFactory(burgers)
         val viewModel: OtherBurgerViewModel by lazy {
             ViewModelProvider(this, viewModelFactory).get(OtherBurgerViewModel::class.java)
         }
@@ -186,27 +186,30 @@ class CompleteOrderFragment(private val burgers: List<Burger>) : DialogFragment(
 
     private fun getCurrentLocation(): Address? {
         var address: Address? = null
-        val locationProvider = LocationServices.getFusedLocationProviderClient(requireActivity())
-        if (ActivityCompat.checkSelfPermission(
-                requireActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            locationProvider.lastLocation.addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val location = it.result
-                    val geocoder = Geocoder(requireActivity(), Locale.getDefault())
-                    val addresses =
-                        geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                    address = addresses[0]
+        CoroutineScope(Dispatchers.IO).launch {
+            val locationProvider =
+                LocationServices.getFusedLocationProviderClient(requireActivity())
+            if (ActivityCompat.checkSelfPermission(
+                    requireActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                locationProvider.lastLocation.addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        val location = it.result
+                        val geocoder = Geocoder(requireActivity(), Locale.getDefault())
+                        val addresses =
+                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                        address = addresses[0]
+                    }
                 }
-            }
-        } else
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                101
-            )
+            } else
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    101
+                )
+        }
         return address
     }
 

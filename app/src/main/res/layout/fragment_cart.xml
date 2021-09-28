@@ -12,7 +12,7 @@
             android:id="@+id/btn_complete_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Complete Order"
+            android:text="Checkout"
             android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

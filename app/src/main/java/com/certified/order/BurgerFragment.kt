@@ -1,16 +1,18 @@
 package com.certified.order
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.certified.order.adapter.BurgerAdapter
 import com.certified.order.adapter.OtherBurgerAdapter
+import com.certified.order.adapter.OtherBurgerAdapter.OnBurgerClickedListener
 import com.certified.order.databinding.FragmentBurgersBinding
 import com.certified.order.model.Burger
+import com.certified.order.model.Review
+import com.certified.order.view.DetailsFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -44,7 +46,7 @@ class BurgerFragment : Fragment() {
             Burger(3, "Vegan Burger", "Every vegan knows their stuff")
         )
         val apiService = BurgerApi.apiService
-        val viewModelFactory = BurgerViewModelFactory(null, burgers)
+        val viewModelFactory = OrderViewModelFactory(burgers)
         val viewModel: OtherBurgerViewModel by lazy {
             ViewModelProvider(this, viewModelFactory).get(OtherBurgerViewModel::class.java)
         }
@@ -62,6 +64,18 @@ class BurgerFragment : Fragment() {
 
         val adapter = OtherBurgerAdapter(burgers)
         binding.recyclerViewBurgers.adapter = adapter
+
+        adapter.setOnBurgerClickedListener(object : OnBurgerClickedListener {
+            override fun onBookMarkClick(burger: Burger) {
+                val fragmentManager = requireActivity().supportFragmentManager
+                val completeOrderFragment = DetailsFragment("home", burger)
+                val transaction = fragmentManager.beginTransaction()
+                transaction
+                    .add(android.R.id.content, completeOrderFragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        })
     }
 
     fun load() {

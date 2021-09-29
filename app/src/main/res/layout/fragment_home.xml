@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -93,7 +93,7 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:paddingTop="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +101,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
@@ -112,11 +112,13 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.tabs.TabItem
+                        android:textSize="@dimen/_14ssp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Burgers" />
 
                     <com.google.android.material.tabs.TabItem
+                        android:textSize="@dimen/_14ssp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Reviews" />
@@ -126,7 +128,7 @@
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/view_pager_burgers"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_500sdp"
+                    android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

@@ -61,7 +61,8 @@ class HomeFragment : Fragment() {
             val adapter = requireActivity().let {
                 HomeViewPagerAdapter(
                     it.supportFragmentManager,
-                    it.lifecycle
+                    it.lifecycle,
+                    "user"
                 )
             }
 

@@ -1,6 +1,6 @@
 package com.certified.order
 
-import com.certified.order.model.Burger
+import com.certified.order.model.Item
 import com.google.gson.GsonBuilder
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -73,4 +73,4 @@ object BurgerApi {
 //    val api: BurgerApiService by lazy { BurgerApiService }
 }
 
-class BurgerApiResponse(val results: List<Burger>)
+class BurgerApiResponse(val results: List<Item>)

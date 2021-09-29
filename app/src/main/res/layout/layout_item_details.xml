@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="burger"
-            type="com.certified.order.model.Burger" />
+            type="com.certified.order.model.Item" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -81,9 +82,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_16sdp"
                     android:layout_marginTop="@dimen/_16sdp"
+                    android:text="@{burger.name}"
                     android:textSize="@dimen/_14ssp"
                     android:textStyle="bold"
-                    android:text="@{burger.name}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/indicator"
                     tools:text="Nike Airforce 1" />
@@ -94,8 +95,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_16sdp"
-                    android:textSize="@dimen/_12ssp"
                     android:text="@{burger.description}"
+                    android:textSize="@dimen/_12ssp"
                     app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
                     app:layout_constraintStart_toStartOf="@+id/tv_item_name"
                     app:layout_constraintTop_toBottomOf="@+id/tv_item_name"
@@ -104,22 +105,22 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="#"
                     android:textColor="@color/red"
-                    android:textStyle="bold"
                     android:textSize="@dimen/_12ssp"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/tv_item_quantity"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
                     app:layout_constraintTop_toTopOf="@+id/tv_item_name"
-                    app:layout_constraintVertical_chainStyle="packed"
-                    tools:text="#" />
+                    app:layout_constraintVertical_chainStyle="packed" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_item_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_16sdp"
-                    android:textColor="@color/red"
                     android:text="@{String.valueOf(burger.price)}"
+                    android:textColor="@color/red"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/tv_item_quantity"

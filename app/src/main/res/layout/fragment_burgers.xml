@@ -13,7 +13,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".BurgerFragment">
+        tools:context=".ItemFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_burgers"
@@ -24,7 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/layout_burger" />
+            tools:listitem="@layout/layout_item" />
 
         <ProgressBar
             android:id="@+id/progressBar"

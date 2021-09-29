@@ -8,31 +8,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.certified.order.R
-import com.certified.order.databinding.LayoutBurgerBinding
-import com.certified.order.model.Burger
+import com.certified.order.databinding.LayoutItemBinding
+import com.certified.order.model.Item
 
-class OtherBurgerAdapter(val burgers: List<Burger>) :
-    ListAdapter<Burger, OtherBurgerAdapter.ViewHolder>(diffCallback) {
+class ItemAdapter(val items: List<Item>) : ListAdapter<Item, ItemAdapter.ViewHolder>(diffCallback) {
 
-    private lateinit var listener: OnBurgerClickedListener
+    private lateinit var listener: OnItemClickedListener
 
     companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<Burger>() {
-            override fun areItemsTheSame(oldItem: Burger, newItem: Burger) =
+        private val diffCallback = object : DiffUtil.ItemCallback<Item>() {
+            override fun areItemsTheSame(oldItem: Item, newItem: Item) =
                 oldItem.id == newItem.id
 
             override fun areContentsTheSame(
-                oldItem: Burger,
-                newItem: Burger
+                oldItem: Item,
+                newItem: Item
             ): Boolean = oldItem == newItem
         }
     }
 
-    inner class ViewHolder(private val binding: LayoutBurgerBinding) :
+    inner class ViewHolder(private val binding: LayoutItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(burger: Burger) {
-            binding.burger = burger
+        fun bind(item: Item) {
+            binding.item = item
             binding.executePendingBindings()
             binding.apply {
                 Glide.with(itemView)
@@ -40,9 +39,6 @@ class OtherBurgerAdapter(val burgers: List<Burger>) :
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(itemImage)
-//                tvItemName.text = burger.name
-//                tvItemDesc.text = burger.description
-//                tvItemPrice.text = burger.price.toString()
             }
         }
 
@@ -50,7 +46,7 @@ class OtherBurgerAdapter(val burgers: List<Burger>) :
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.onBookMarkClick(getItem(position))
+                    listener.onItemClick(getItem(position))
                 }
             }
         }
@@ -58,24 +54,20 @@ class OtherBurgerAdapter(val burgers: List<Burger>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            LayoutBurgerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            LayoutItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = burgers[position]
-            holder.bind(currentItem)
+        val currentItem = items[position]
+        holder.bind(currentItem)
     }
 
-    interface OnBurgerClickedListener {
-        fun onBookMarkClick(burger: Burger)
+    interface OnItemClickedListener {
+        fun onItemClick(item: Item)
     }
 
-    fun setOnBurgerClickedListener(listener: OnBurgerClickedListener) {
+    fun setOnItemClickedListener(listener: OnItemClickedListener) {
         this.listener = listener
-    }
-
-    fun getBookMarkAt(position: Int): Burger {
-        return getItem(position)
     }
 }

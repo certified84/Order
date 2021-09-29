@@ -19,12 +19,15 @@ import com.bumptech.glide.Glide
 import com.certified.order.OrderViewModelFactory
 import com.certified.order.OtherBurgerViewModel
 import com.certified.order.R
-import com.certified.order.adapter.OtherBurgerAdapter
+import com.certified.order.adapter.BurgerAdapter
+import com.certified.order.adapter.ItemAdapter
 import com.certified.order.databinding.FragmentCompleteOrderBinding
-import com.certified.order.model.Burger
+import com.certified.order.model.Item
 import com.certified.order.model.Order
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.auth.FirebaseAuth
@@ -36,7 +39,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-class CompleteOrderFragment(private val burgers: List<Burger>) : DialogFragment() {
+class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
 
     private lateinit var binding: FragmentCompleteOrderBinding
     private lateinit var auth: FirebaseAuth
@@ -56,7 +59,7 @@ class CompleteOrderFragment(private val burgers: List<Burger>) : DialogFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModelFactory = OrderViewModelFactory(burgers)
+        val viewModelFactory = OrderViewModelFactory(items)
         val viewModel: OtherBurgerViewModel by lazy {
             ViewModelProvider(this, viewModelFactory).get(OtherBurgerViewModel::class.java)
         }
@@ -72,7 +75,7 @@ class CompleteOrderFragment(private val burgers: List<Burger>) : DialogFragment(
         binding.lifecycleOwner = this
         binding.recyclerViewItemsToDeliver.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = OtherBurgerAdapter(burgers)
+        val adapter = ItemAdapter(items)
         binding.recyclerViewItemsToDeliver.adapter = adapter
 
         binding.apply {
@@ -80,7 +83,7 @@ class CompleteOrderFragment(private val burgers: List<Burger>) : DialogFragment(
 //            val currentUser = auth.currentUser!!
             val db = Firebase.firestore
 
-//            val adapter = OtherBurgerAdapter(burgers)
+//            val adapter = BurgerAdapter(burgers)
 //            recyclerViewItemsToDeliver.adapter = adapter
 //            recyclerViewItemsToDeliver.layoutManager = LinearLayoutManager(requireContext())
 
@@ -103,7 +106,7 @@ class CompleteOrderFragment(private val burgers: List<Burger>) : DialogFragment(
 
             val deliveryFee = 1000.00
             var subtotal = deliveryFee
-            for (burger in burgers) {
+            for (burger in items) {
 //                subtotal += item.price
                 subtotal += burger.total_price
             }
@@ -112,9 +115,9 @@ class CompleteOrderFragment(private val burgers: List<Burger>) : DialogFragment(
 //            tvReceiverName.text = currentUser.displayName
 
 //            if (profileImage == null)
-                Glide.with(requireContext())
-                    .load(R.drawable.no_profile_image)
-                    .into(receiverProfileImage)
+            Glide.with(requireContext())
+                .load(R.drawable.no_profile_image)
+                .into(receiverProfileImage)
 //            else
 //                Glide.with(requireContext())
 //                    .load(profileImage)
@@ -139,7 +142,7 @@ class CompleteOrderFragment(private val burgers: List<Burger>) : DialogFragment(
                             deliveryAddress,
                             "08136108482",
                             subtotal,
-                            burgers
+                            items
                         )
                         newOrder.delivery_time = tvDeliveryTime.text.toString()
 
@@ -185,6 +188,7 @@ class CompleteOrderFragment(private val burgers: List<Burger>) : DialogFragment(
     }
 
     private fun getCurrentLocation(): Address? {
+
         var address: Address? = null
         CoroutineScope(Dispatchers.IO).launch {
             val locationProvider =
@@ -194,15 +198,38 @@ class CompleteOrderFragment(private val burgers: List<Burger>) : DialogFragment(
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                locationProvider.lastLocation.addOnCompleteListener {
+                locationProvider.getCurrentLocation(100, object : CancellationToken() {
+                    override fun isCancellationRequested(): Boolean {
+                        return false
+                    }
+
+                    override fun onCanceledRequested(p0: OnTokenCanceledListener): CancellationToken {
+                        TODO("Not yet implemented")
+                    }
+                }).addOnCompleteListener {
                     if (it.isSuccessful) {
                         val location = it.result
                         val geocoder = Geocoder(requireActivity(), Locale.getDefault())
-                        val addresses =
+                        val addresses: List<Address>? = try {
                             geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                        address = addresses[0]
+                        } catch (e: Exception) {
+                            null
+                        }
+                        address = addresses?.get(0)
                     }
                 }
+//                locationProvider.lastLocation.addOnCompleteListener {
+//                    if (it.isSuccessful) {
+//                        val location = it.result
+//                        val geocoder = Geocoder(requireActivity(), Locale.getDefault())
+//                        val addresses: List<Address>? = try {
+//                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
+//                        } catch (e: Exception) {
+//                            null
+//                        }
+//                        address = addresses?.get(0)
+//                    }
+//                }
             } else
                 ActivityCompat.requestPermissions(
                     requireActivity(),
@@ -212,6 +239,22 @@ class CompleteOrderFragment(private val burgers: List<Burger>) : DialogFragment(
         }
         return address
     }
+
+//    private fun getOtherLocation() {
+//        val locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//        if (ActivityCompat.checkSelfPermission(
+//                requireActivity(),
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) == PackageManager.PERMISSION_GRANTED
+//        ) {
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 102, 5f, requireActivity())
+//        } else
+//            ActivityCompat.requestPermissions(
+//                requireActivity(),
+//                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+//                101
+//            )
+//    }
 
     private fun openMap(defaultAddress: LatLng?) {
         val fragmentManager = requireActivity().supportFragmentManager

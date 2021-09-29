@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
-import com.certified.order.adapter.OrdersViewPagerAdapter
+import com.certified.order.adapter.MyOrdersViewPagerAdapter
 import com.certified.order.databinding.FragmentMyOrdersBinding
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
@@ -29,7 +29,7 @@ class MyOrdersFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = requireActivity().let {
-            OrdersViewPagerAdapter(
+            MyOrdersViewPagerAdapter(
                 it.supportFragmentManager,
                 it.lifecycle
             )

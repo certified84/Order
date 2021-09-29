@@ -27,7 +27,7 @@
         android:label="ProfileFragment" />
     <fragment
         android:id="@+id/cartFragment"
-        android:name="com.certified.order.view.CartFragment"
+        android:name="com.certified.order.view.cart.CartFragment"
         android:label="CartFragment" />
     <fragment
         android:id="@+id/deliveredOrdersFragment"

@@ -8,9 +8,9 @@ import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.certified.order.R
 import com.certified.order.databinding.LayoutItemDetailsBinding
-import com.certified.order.model.Burger
+import com.certified.order.model.Item
 
-class DetailsFragment(val type: String, val burger: Burger) : DialogFragment() {
+class DetailsFragment(val type: String, val burger: Item) : DialogFragment() {
 
     private lateinit var binding: LayoutItemDetailsBinding
 

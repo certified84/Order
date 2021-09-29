@@ -7,14 +7,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.certified.order.R
-import com.certified.order.model.Burger
+import com.certified.order.model.Item
+import com.certified.order.model.Order
 import com.certified.order.model.Review
 
-@BindingAdapter("listBurgers")
-fun bindBurgerRecyclerView(recyclerView: RecyclerView, data: List<Burger>?) {
-    val adapter = recyclerView.adapter as OtherBurgerAdapter
+@BindingAdapter("listNewOrders")
+fun bindNewOrdersRecyclerView(recyclerView: RecyclerView, data: List<Order>?) {
+    val adapter = recyclerView.adapter as NewOrdersAdapter
     adapter.submitList(data)
 }
+
+@BindingAdapter("listBurgers")
+fun bindBurgerRecyclerView(recyclerView: RecyclerView, data: List<Item>?) {
+    val adapter = recyclerView.adapter as ItemAdapter
+    adapter.submitList(data)
+}
+
+@BindingAdapter("listItems")
+fun bindCartRecyclerView(recyclerView: RecyclerView, data: List<Item>?) {
+    val adapter = recyclerView.adapter as CartAdapter
+    adapter.submitList(data)
+}
+
 @BindingAdapter("listReviews")
 fun bindReviewRecyclerView(recyclerView: RecyclerView, data: List<Review>?) {
     val adapter = recyclerView.adapter as ReviewAdapter

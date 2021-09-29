@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="order"
+            type="com.certified.order.model.Order" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:text="Order ID: "
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:text="Date: "
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/materialTextView18"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView18" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:text="Deliver to: "
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/materialTextView19"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView19" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:text="Subtotal: "
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/materialTextView20"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView20" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_order_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/materialTextView18"
+            app:layout_constraintEnd_toEndOf="@+id/chip_order_status"
+            app:layout_constraintStart_toEndOf="@+id/materialTextView18"
+            app:layout_constraintTop_toTopOf="@+id/materialTextView18"
+            tools:text="AIzaSyDoY1IQPVzw7SwbH2dCq_ovY-NbmOFTTl8" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_order_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/materialTextView19"
+            app:layout_constraintStart_toEndOf="@+id/materialTextView19"
+            app:layout_constraintTop_toTopOf="@+id/materialTextView19"
+            tools:text="25th February, 2021" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_order_receiver_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:text="@{order.receiver.displayName}"
+            android:maxLines="1"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/materialTextView20"
+            app:layout_constraintStart_toEndOf="@+id/materialTextView20"
+            app:layout_constraintTop_toTopOf="@+id/materialTextView20"
+            tools:text="Samson Achiaga" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="#"
+            android:textColor="@color/red"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/materialTextView21"
+            app:layout_constraintStart_toEndOf="@+id/materialTextView21"
+            app:layout_constraintTop_toTopOf="@+id/materialTextView21" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_order_subtotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:text="@{String.valueOf(order.subtotal)}"
+            android:maxLines="1"
+            android:textColor="@color/red"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/materialTextView21"
+            app:layout_constraintStart_toEndOf="@+id/materialTextView22"
+            app:layout_constraintTop_toTopOf="@+id/materialTextView21"
+            tools:text="2500" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_order_status"
+            android:layout_width="wrap_content"
+            app:chipSurfaceColor="@color/red"
+            android:textColor="@color/midWhite"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:clickable="false"
+            android:text="@{order.status}"
+            app:layout_constraintBottom_toBottomOf="@+id/materialTextView21"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/pending" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="item"
+            type="com.certified.order.model.Item" />
+    </data>
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,13 +24,13 @@
                 style="@style/ShapeAppearanceOverlay.Order"
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_60sdp"
-                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_8sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:strokeColor="@color/colorPrimary"
-                tools:src="@tools:sample/avatars" />
+                tools:src="@drawable/burger_image_3" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_item_name"
@@ -34,6 +41,7 @@
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text="@{item.name}"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/tv_item_desc"
@@ -42,7 +50,7 @@
                 app:layout_constraintStart_toEndOf="@+id/item_image"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
-                tools:text="Nike Airforce 1" />
+                tools:text="Krabby patty" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_item_desc"
@@ -53,7 +61,8 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:paddingEnd="@dimen/_4sdp"
-                android:textSize="@dimen/_8ssp"
+                android:text="@{item.description}"
+                android:textSize="@dimen/_10ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -61,20 +70,32 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_item_name"
                 app:layout_constraintVertical_bias="1.0"
                 app:layout_constraintVertical_chainStyle="packed"
-                tools:text="This is a brief description about this item. It tells you a bit about it." />
+                tools:text="The only people who don't like a Krabby Patty have never tasted one." />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#"
+                android:textColor="@color/red"
+                android:textSize="@dimen/_8ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_item_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_16sdp"
+                android:text="@{String.valueOf(item.price)}"
                 android:textColor="@color/red"
                 android:textSize="@dimen/_8ssp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="#25000" />
+                tools:text="450" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

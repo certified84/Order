@@ -4,21 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.certified.order.model.Burger
-import com.google.gson.GsonBuilder
-import kotlinx.coroutines.CoroutineScope
+import com.certified.order.model.Item
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import java.io.IOException
 
 class BurgerViewModel(private val apiService: BurgerApiService) : ViewModel() {
 
-    private val _burgers = MutableLiveData<List<Burger>>()
-    val burgers: LiveData<List<Burger>>
+    private val _burgers = MutableLiveData<List<Item>>()
+    val burgers: LiveData<List<Item>>
         get() = _burgers
 
     private var _showProgressBar = MutableLiveData<Boolean>()

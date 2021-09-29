@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.certified.order.view.newOrders.NewOrdersViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView23"
+            android:layout_width="0dp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:paddingTop="@dimen/_16sdp"
+            android:padding="@dimen/_8sdp"
+            android:layout_height="wrap_content"
+            android:text="Click an order to view more details"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+<!--        TODO: List the orders from the viewmodel-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_new_orders"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:listNewOrders="@{}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView23"
+            tools:context=".view.newOrders.NewOrdersFragment"
+            tools:listitem="@layout/layout_order" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

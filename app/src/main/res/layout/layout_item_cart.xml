@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+<!--    TODO: Change the type to item -->
+    <data>
+        <variable
+            name="item"
+            type="com.certified.order.model.Item" />
+    </data>
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,6 +34,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_item_name"
                 android:layout_width="0dp"
+                android:text="@{item.name}"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
                 android:layout_marginTop="@dimen/_8sdp"
@@ -49,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:alpha=".7"
+                android:text="@{item.description}"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:paddingEnd="@dimen/_4sdp"
@@ -77,7 +86,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_4sdp"
-                android:text="1"
+                tools:text="1"
+                android:text="@{item.quantity}"
                 android:textSize="@dimen/_11ssp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_increase_quantity"
@@ -90,12 +100,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:textColor="@color/red"
+                android:text="@{String.valueOf(item.price)}"
                 android:textSize="@dimen/_8ssp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="#25000" />
+                tools:text="25000" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                android:text="#"
+                android:textSize="@dimen/_8ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/btn_increase_quantity"
@@ -121,22 +143,6 @@
                 app:layout_constraintTop_toTopOf="@+id/btn_increase_quantity"
                 app:srcCompat="@drawable/ic_baseline_remove_24"
                 app:tint="@color/midWhite" />
-
-            <!--            <com.google.android.material.chip.Chip-->
-            <!--                android:id="@+id/chip_item_status"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:clickable="false"-->
-            <!--                android:textColor="@color/midWhite"-->
-            <!--                android:textSize="@dimen/_10ssp"-->
-            <!--                android:visibility="gone"-->
-            <!--                app:chipBackgroundColor="@color/red"-->
-            <!--                app:chipCornerRadius="@dimen/_8sdp"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toEndOf="@+id/tv_item_name"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/tv_item_price"-->
-            <!--                tools:text="Pending"-->
-            <!--                tools:visibility="visible" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

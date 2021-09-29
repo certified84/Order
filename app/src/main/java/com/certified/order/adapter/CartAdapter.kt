@@ -8,13 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.certified.order.R
-import com.certified.order.databinding.LayoutItemBinding
+import com.certified.order.databinding.LayoutItemCartBinding
 import com.certified.order.model.Item
 
-class BurgerAdapter(val burgers: List<Item>) :
-    ListAdapter<Item, BurgerAdapter.ViewHolder>(diffCallback) {
-
-    private lateinit var listener: OnBurgerClickedListener
+//        TODO: Replace the burgers with items
+class CartAdapter(private val burgers: List<Item>) :
+    ListAdapter<Item, CartAdapter.ViewHolder>(diffCallback) {
 
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Item>() {
@@ -28,11 +27,14 @@ class BurgerAdapter(val burgers: List<Item>) :
         }
     }
 
-    inner class ViewHolder(private val binding: LayoutItemBinding) :
+    inner class ViewHolder(private val binding: LayoutItemCartBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        //        TODO: Replace the burger with an item
         fun bind(burger: Item) {
             binding.item = burger
+            var quantity = burger.quantity.toInt()
+            checkQuantity(quantity)
             binding.executePendingBindings()
             binding.apply {
                 Glide.with(itemView)
@@ -40,17 +42,26 @@ class BurgerAdapter(val burgers: List<Item>) :
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(itemImage)
-//                tvItemName.text = burger.name
-//                tvItemDesc.text = burger.description
-//                tvItemPrice.text = burger.price.toString()
+                btnIncreaseQuantity.setOnClickListener {
+                    quantity++
+                    checkQuantity(quantity)
+                }
+                btnDecreaseQuantity.setOnClickListener {
+                    quantity--
+                    checkQuantity(quantity)
+                }
             }
         }
 
-        init {
-            itemView.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onBookMarkClick(getItem(position))
+        private fun checkQuantity(quantity: Int) {
+            binding.apply {
+                tvItemQuantity.text = "$quantity"
+                if (quantity <= 1) {
+                    binding.btnDecreaseQuantity.alpha = 0.4f
+                    binding.btnDecreaseQuantity.isClickable = false
+                } else {
+                    binding.btnDecreaseQuantity.alpha = 1f
+                    binding.btnDecreaseQuantity.isClickable = true
                 }
             }
         }
@@ -58,24 +69,12 @@ class BurgerAdapter(val burgers: List<Item>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            LayoutItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            LayoutItemCartBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = burgers[position]
-            holder.bind(currentItem)
-    }
-
-    interface OnBurgerClickedListener {
-        fun onBookMarkClick(burger: Item)
-    }
-
-    fun setOnBurgerClickedListener(listener: OnBurgerClickedListener) {
-        this.listener = listener
-    }
-
-    fun getBookMarkAt(position: Int): Item {
-        return getItem(position)
+        holder.bind(currentItem)
     }
 }

@@ -15,6 +15,8 @@ import com.certified.order.databinding.ActivityMainBinding
 import com.certified.order.util.PreferenceKeys
 import com.google.android.gms.location.LocationServices
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

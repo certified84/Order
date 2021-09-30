@@ -16,10 +16,9 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.certified.order.OrderViewModelFactory
-import com.certified.order.OtherBurgerViewModel
+import com.certified.order.ItemViewModelFactory
+import com.certified.order.ItemViewModel
 import com.certified.order.R
-import com.certified.order.adapter.BurgerAdapter
 import com.certified.order.adapter.ItemAdapter
 import com.certified.order.databinding.FragmentCompleteOrderBinding
 import com.certified.order.model.Item
@@ -59,9 +58,9 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModelFactory = OrderViewModelFactory(items)
-        val viewModel: OtherBurgerViewModel by lazy {
-            ViewModelProvider(this, viewModelFactory).get(OtherBurgerViewModel::class.java)
+        val viewModelFactory = ItemViewModelFactory(items)
+        val viewModel: ItemViewModel by lazy {
+            ViewModelProvider(this, viewModelFactory).get(ItemViewModel::class.java)
         }
 
         viewModel.showProgressBar.observe(viewLifecycleOwner) {

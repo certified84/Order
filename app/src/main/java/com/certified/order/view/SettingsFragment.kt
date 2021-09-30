@@ -1,12 +1,12 @@
 package com.certified.order.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
@@ -14,7 +14,6 @@ import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.certified.order.R
 import com.certified.order.databinding.FragmentSettingsBinding
-import com.certified.order.databinding.FragmentSignupBinding
 import com.certified.order.util.PreferenceKeys
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -27,6 +26,7 @@ class SettingsFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentSettingsBinding
     private lateinit var navController: NavController
+    private var accountType: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,39 +45,35 @@ class SettingsFragment : Fragment() {
         val user = auth.currentUser
         navController = Navigation.findNavController(view)
 
-//        if (user != null)
+        if (user != null) {
             loadUserDetails(user)
-        
-        binding.apply { 
-            groupMyOrders.setOnClickListener { navController.navigate(R.id.myOrdersFragment) }
+            checkAccountType(user)
+        }
+
+        binding.apply {
             groupMyProfile.setOnClickListener { navController.navigate(R.id.profileFragment) }
             groupMyAddress.setOnClickListener { showMap() }
-            groupPaymentMethods.setOnClickListener { 
+            groupPaymentMethods.setOnClickListener {
                 Toast.makeText(requireContext(), "", Toast.LENGTH_LONG).show()
             }
 
             val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-//                TODO: Implement that dark mode stuff
+            val nightMode = preferences.getInt(PreferenceKeys.DARK_MODE, 0)
             val editor = preferences.edit()
-            when (preferences.getInt(PreferenceKeys.DARK_MODE, 0)) {
-                0 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                1 -> switchDarkMode.isChecked = true
-                2 -> switchDarkMode.isChecked = false
-            }
 
+            switchDarkMode.isChecked = nightMode == 1
             switchDarkMode.setOnClickListener {
                 if (switchDarkMode.isChecked) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                     editor.putInt(PreferenceKeys.DARK_MODE, 1)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     editor.putInt(PreferenceKeys.DARK_MODE, 2)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 }
+                editor.apply()
             }
 
-            editor.apply()
-            
-            btnSignout.setOnClickListener { 
+            btnSignout.setOnClickListener {
                 auth.signOut()
                 val navOptions = NavOptions.Builder()
                 navOptions.setPopUpTo(R.id.onboardingFragment, true)
@@ -87,37 +83,56 @@ class SettingsFragment : Fragment() {
     }
 
     private fun showMap() {
-//        TODO("Not yet implemented")
+        TODO("Not yet implemented")
     }
 
     private fun loadUserDetails(user: FirebaseUser?) {
-//        val db = Firebase.firestore
-//        val userRef = db.collection("users").document(user.uid)
-//        userRef.get().addOnSuccessListener {
-//            if (it.exists()) {
-//                val phone = it.getString("phone")
-//                val profileImageUri = user.photoUrl
+        val db = Firebase.firestore
+        val userRef =
+            db.collection("accounts").document("users")
+                .collection(user!!.uid).document("details")
+        userRef.get().addOnSuccessListener {
+            if (it.exists()) {
+                val phone = it.getString("phone")
+                val profileImageUri = user.photoUrl
 
                 binding.apply {
-//                    if (profileImageUri != null)
-//                        Glide.with(requireContext())
-//                            .load(profileImageUri)
-//                            .into(profileImage)
-//                    else
-                    Glide.with(requireContext())
-                        .load(R.drawable.no_profile_image)
-                        .into(profileImage)
+                    if (profileImageUri != null)
+                        Glide.with(requireContext())
+                            .load(profileImageUri)
+                            .into(profileImage)
+                    else
+                        Glide.with(requireContext())
+                            .load(R.drawable.no_profile_image)
+                            .into(profileImage)
 
-
-//                    tvEmail.text = user.email
-//                    tvName.text = user.displayName
-//                    tvPhone.text = phone
-
-                    tvEmail.text = "achiagasamson5@gmail.com"
-                    tvName.text = "Samson Achiaga"
-                    tvPhone.text = "08136108482"
+                    tvName.text = user.displayName
+                    tvEmail.text = user.email
+                    tvPhone.text = phone
                 }
-//            }
-//        }
+            }
+        }
+    }
+
+    private fun checkAccountType(user: FirebaseUser) {
+        val db = Firebase.firestore
+        val userRef =
+            db.collection("account_type").document(user.uid)
+        userRef.get().addOnSuccessListener {
+            if (it.exists()) {
+                accountType = it.getString("account_type")
+                binding.apply {
+                    if (accountType == "dispatcher") {
+                        groupMyAddress.visibility = View.GONE
+                        groupPaymentMethods.visibility = View.GONE
+                        groupMyOrders.setOnClickListener {
+//                            TODO: Show the dispatchers completed orders
+                            TODO( "Not yet implemented")
+                        }
+                    } else
+                        groupMyOrders.setOnClickListener { navController.navigate(R.id.myOrdersFragment) }
+                }
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.certified.order.OtherBurgerViewModel" />
+            type="com.certified.order.ItemViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -166,7 +166,7 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_160sdp"
                         android:layout_marginTop="@dimen/_8sdp"
-                        app:listBurgers="@{viewModel.burgers}"
+                        app:listItems="@{viewModel.items}"
                         android:layout_marginEnd="@dimen/_16sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/materialTextView9"

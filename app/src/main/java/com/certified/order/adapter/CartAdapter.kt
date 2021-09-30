@@ -12,7 +12,7 @@ import com.certified.order.databinding.LayoutItemCartBinding
 import com.certified.order.model.Item
 
 //        TODO: Replace the burgers with items
-class CartAdapter(private val burgers: List<Item>) :
+class CartAdapter(private val items: List<Item>) :
     ListAdapter<Item, CartAdapter.ViewHolder>(diffCallback) {
 
     companion object {
@@ -74,7 +74,7 @@ class CartAdapter(private val burgers: List<Item>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = burgers[position]
+        val currentItem = items[position]
         holder.bind(currentItem)
     }
 }

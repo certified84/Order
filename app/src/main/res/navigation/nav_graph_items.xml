@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_items"
+    app:startDestination="@id/burgerFragment">
+
+    <fragment
+        android:id="@+id/burgerFragment"
+        android:name="com.certified.order.view.BurgerFragment"
+        android:label="BurgerFragment" />
+    <fragment
+        android:id="@+id/chickenAndChipsFragment"
+        android:name="com.certified.order.view.ChickenAndChipsFragment"
+        android:label="ChickenAndChipsFragment" />
+    <fragment
+        android:id="@+id/pizzaFragment"
+        android:name="com.certified.order.view.PizzaFragment"
+        android:label="PizzaFragment" />
+    <fragment
+        android:id="@+id/shawarmaFragment"
+        android:name="com.certified.order.view.ShawarmaFragment"
+        android:label="ShawarmaFragment" />
+</navigation>

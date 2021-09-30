@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.certified.order.BurgerApi
-import com.certified.order.OrderViewModelFactory
 import com.certified.order.ReviewViewModel
 import com.certified.order.ReviewViewModelFactory
 import com.certified.order.adapter.ReviewAdapter
@@ -38,7 +36,6 @@ class ReviewFragment : Fragment() {
             Review(3, "Fuck off", "I said what I said. What you gon do?", 2f),
             Review(4, "Mr. Nobody", "Nigga y'all dumb asf", 1f)
         )
-        val apiService = BurgerApi.apiService
         val viewModelFactory = ReviewViewModelFactory(reviews)
         val viewModel: ReviewViewModel by lazy {
             ViewModelProvider(this, viewModelFactory).get(ReviewViewModel::class.java)

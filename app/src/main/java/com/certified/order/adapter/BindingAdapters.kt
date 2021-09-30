@@ -17,13 +17,13 @@ fun bindNewOrdersRecyclerView(recyclerView: RecyclerView, data: List<Order>?) {
     adapter.submitList(data)
 }
 
-@BindingAdapter("listBurgers")
-fun bindBurgerRecyclerView(recyclerView: RecyclerView, data: List<Item>?) {
+@BindingAdapter("listItems")
+fun bindItemRecyclerView(recyclerView: RecyclerView, data: List<Item>?) {
     val adapter = recyclerView.adapter as ItemAdapter
     adapter.submitList(data)
 }
 
-@BindingAdapter("listItems")
+@BindingAdapter("listCartItems")
 fun bindCartRecyclerView(recyclerView: RecyclerView, data: List<Item>?) {
     val adapter = recyclerView.adapter as CartAdapter
     adapter.submitList(data)

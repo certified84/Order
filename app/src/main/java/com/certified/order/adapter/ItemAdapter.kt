@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.certified.order.R
 import com.certified.order.databinding.LayoutItemBinding
 import com.certified.order.model.Item
 
-class ItemAdapter(val items: List<Item>) : ListAdapter<Item, ItemAdapter.ViewHolder>(diffCallback) {
+class ItemAdapter(val items: List<Item>) :
+    ListAdapter<Item, ItemAdapter.ViewHolder>(diffCallback) {
 
     private lateinit var listener: OnItemClickedListener
 
@@ -33,13 +33,11 @@ class ItemAdapter(val items: List<Item>) : ListAdapter<Item, ItemAdapter.ViewHol
         fun bind(item: Item) {
             binding.item = item
             binding.executePendingBindings()
-            binding.apply {
-                Glide.with(itemView)
-                    .load(R.drawable.burger_image_3)
-                    .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(itemImage)
-            }
+            Glide.with(itemView)
+                .load(item.picture)
+                .centerCrop()
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(binding.itemImage)
         }
 
         init {

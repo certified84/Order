@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="burger"
+            name="item"
             type="com.certified.order.model.Item" />
     </data>
 
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_16sdp"
                     android:layout_marginTop="@dimen/_16sdp"
-                    android:text="@{burger.name}"
+                    android:text="@{item.name}"
                     android:textSize="@dimen/_14ssp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_16sdp"
-                    android:text="@{burger.description}"
+                    android:text="@{item.description}"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
                     app:layout_constraintStart_toStartOf="@+id/tv_item_name"
@@ -119,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_16sdp"
-                    android:text="@{String.valueOf(burger.price)}"
+                    android:text="@{String.valueOf(item.price)}"
                     android:textColor="@color/red"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
@@ -144,7 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_4sdp"
-                    android:text="@{burger.quantity}"
+                    android:text="@{item.quantity}"
                     android:textSize="@dimen/_11ssp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/btn_increase_quantity"

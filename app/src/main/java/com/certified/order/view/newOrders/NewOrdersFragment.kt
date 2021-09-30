@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.certified.order.R
 import com.certified.order.adapter.NewOrdersAdapter
 import com.certified.order.databinding.FragmentNewOrdersBinding
 import com.certified.order.model.Item
@@ -35,14 +36,14 @@ class NewOrdersFragment(private val orders: List<Order>) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val burgers = listOf(
-            Item(0, "Krabby Patty", "Those who don't like Krabby patties haven't tasted it"),
-            Item(1, "Awesome Item", "The taste is just awesome"),
-            Item(2, "King Item", "Are you a king? Then this is for you"),
-            Item(3, "Vegan Item", "Every vegan knows their stuff")
+            Item(0, "Krabby Patty", "Those who don't like Krabby patties haven't tasted it", R.drawable.burger_image_3),
+            Item(1, "Awesome Item", "The taste is just awesome", R.drawable.burger_image_3),
+            Item(2, "King Item", "Are you a king? Then this is for you", R.drawable.burger_image_3),
+            Item(3, "Vegan Item", "Every vegan knows their stuff", R.drawable.burger_image_3)
         )
-//        val viewModelFactory = OrderViewModelFactory(burgers)
-//        val viewModel: OtherBurgerViewModel by lazy {
-//            ViewModelProvider(this, viewModelFactory).get(OtherBurgerViewModel::class.java)
+//        val viewModelFactory = ItemViewModelFactory(burgers)
+//        val viewModel: ItemViewModel by lazy {
+//            ViewModelProvider(this, viewModelFactory).get(ItemViewModel::class.java)
 //        }
 //
 //        viewModel.showProgressBar.observe(viewLifecycleOwner) {

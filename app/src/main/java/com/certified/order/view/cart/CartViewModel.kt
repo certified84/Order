@@ -1,4 +1,6 @@
 package com.certified.order.view.cart
 
-class CartViewModel {
+import androidx.lifecycle.ViewModel
+
+class CartViewModel: ViewModel() {
 }

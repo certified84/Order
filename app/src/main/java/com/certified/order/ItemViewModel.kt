@@ -1,11 +1,12 @@
 package com.certified.order
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.certified.order.model.Item
 
-// TODO: Change the burger to item
 class ItemViewModel(private val itemList: List<Item>) : ViewModel() {
 
     private val _items = MutableLiveData<List<Item>>()
@@ -17,18 +18,13 @@ class ItemViewModel(private val itemList: List<Item>) : ViewModel() {
         get() = _showProgressBar
 
     init {
-        getItems()
+        getBurgers()
     }
 
-    private fun getItems() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            try {
-                _items.value = itemList
-                _showProgressBar.value = false
-//            } catch (e: Exception) {
-////                TODO: Show Shimmering or something like that design
-//        e.message
-//            }
-//        }
+    private fun getBurgers() {
+        Handler(Looper.myLooper()!!).postDelayed({
+            _items.value = itemList
+            _showProgressBar.value = false
+        }, 3000)
     }
 }

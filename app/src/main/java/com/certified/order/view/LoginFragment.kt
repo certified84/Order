@@ -22,7 +22,7 @@ import com.google.firebase.ktx.Firebase
 
 class LoginFragment : DialogFragment() {
 
-//    private lateinit var navController: NavController
+    private lateinit var navController: NavController
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentLoginBinding
 
@@ -41,7 +41,7 @@ class LoginFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        navController = Navigation.findNavController(view)
+        navController = Navigation.findNavController(requireActivity().findViewById(R.id.fragment))
         val currentUser = auth.currentUser
 
         binding.apply {
@@ -100,15 +100,10 @@ class LoginFragment : DialogFragment() {
         val fragmentManager = requireActivity().supportFragmentManager
         val signupFragment = SignupFragment()
 //        if (isLargeLayout) {
-//            // The device is using a large layout, so show the fragment as a dialog
 //            signupFragment.show(fragmentManager, "signupFragment")
 //        } else {
-            // The device is smaller, so show the fragment fullscreen
             val transaction = fragmentManager.beginTransaction()
-            // For a little polish, specify a transition animation
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            // To make it fullscreen, use the 'content' root view as the container
-            // for the fragment, which is always the root view for the activity
             transaction
                 .add(android.R.id.content, signupFragment)
                 .addToBackStack(null)
@@ -127,9 +122,10 @@ class LoginFragment : DialogFragment() {
                 if (accountType == "Dispatcher" && !isApproved!!)
                     showDialog()
                 else {
-//                    val navOptions = NavOptions.Builder()
-//                        .setPopUpTo(R.id.loginFragment, true).build()
-//                    navController.navigate(R.id.homeFragment, null, navOptions)
+                    dismiss()
+                    val navOptions = NavOptions.Builder()
+                        .setPopUpTo(R.id.onboardingFragment, true).build()
+                    navController.navigate(R.id.homeFragment, null, navOptions)
                 }
             }
         }

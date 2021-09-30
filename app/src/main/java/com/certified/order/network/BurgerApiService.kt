@@ -17,12 +17,12 @@ import retrofit2.http.GET
 import java.io.IOException
 
 
-private const val BASE_URL = "https://rickandmortyapi.com/"
+//private const val BASE_URL = "https://rickandmortyapi.com/"
 
 interface BurgerApiService {
 
-    @GET("api/character")
-    suspend fun getBurgers(): BurgerApiResponse
+//    @GET("api/character")
+//    suspend fun getBurgers(): BurgerApiResponse
 
     suspend fun load(): BurgerApiResponse = load()
 }
@@ -40,9 +40,9 @@ private fun load(): BurgerApiResponse? {
             .addHeader("x-rapidapi-key", "34b9be6a3emshe7e3e482b50a80fp19ecadjsn77367a819a5b")
             .build()
 
-        val response = client.newCall(request).execute()
+//        val response = client.newCall(request).execute()
         val gson = GsonBuilder().create()
-        val okhttpResponse = client.newCall(request).enqueue(object : Callback {
+        client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
                 TODO("Not yet implemented")
             }
@@ -51,26 +51,24 @@ private fun load(): BurgerApiResponse? {
                 burgerApiResponse =
                     gson.fromJson(response.body().toString(), BurgerApiResponse::class.java)
             }
-
         })
     }
     return burgerApiResponse
 }
 
-private val moshi
-    get() = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
+//private val moshi
+//    get() = Moshi.Builder()
+//        .add(KotlinJsonAdapterFactory())
+//        .build()
+//
+//private val retrofit: Retrofit
+//    get() = Retrofit.Builder()
+//        .addConverterFactory(MoshiConverterFactory.create(moshi))
+//        .baseUrl(BASE_URL)
+//        .build()
 
-private val retrofit: Retrofit
-    get() = Retrofit.Builder()
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .baseUrl(BASE_URL)
-        .build()
-
-object BurgerApi {
-    val apiService: BurgerApiService by lazy { retrofit.create(BurgerApiService::class.java) }
-//    val api: BurgerApiService by lazy { BurgerApiService }
-}
+//object BurgerApi {
+//    val apiService: BurgerApiService by lazy { retrofit.create(BurgerApiService::class.java) }
+//}
 
 class BurgerApiResponse(val results: List<Item>)

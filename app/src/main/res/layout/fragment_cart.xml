@@ -18,7 +18,7 @@
             android:id="@+id/recycler_view_items"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:listItems="@{viewModel.items}"
+            app:listCartItems="@{viewModel.items}"
             android:layout_marginTop="@dimen/_16sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

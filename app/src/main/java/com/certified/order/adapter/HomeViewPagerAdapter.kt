@@ -4,7 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.certified.order.ItemFragment
+import com.certified.order.view.CompletedOrdersFragment
+import com.certified.order.view.BurgerFragment
+import com.certified.order.view.ItemFragment
 import com.certified.order.view.ReviewFragment
 
 class HomeViewPagerAdapter(
@@ -18,15 +20,15 @@ class HomeViewPagerAdapter(
     }
 
     override fun createFragment(position: Int): Fragment {
-        if (accountType == "user")
-            return when (position) {
+        return if (accountType == "user")
+            when (position) {
                 1 -> ReviewFragment()
                 else -> ItemFragment()
             }
         else
-            return when (position) {
+            when (position) {
                 1 -> ReviewFragment()
-                else -> ItemFragment()
+                else -> CompletedOrdersFragment()
             }
     }
 }

@@ -229,33 +229,20 @@ class SignupFragment : DialogFragment() {
         alertDialogBuilder.setMessage(
             "Your application to become a dispatcher has been sent. We'll get back to you as soon as possible"
         )
-        alertDialogBuilder.setPositiveButton("Ok") { dialog, _ ->
-
-            dialog.dismiss()
-
-            val navOptions = NavOptions.Builder()
-                .setPopUpTo(R.id.onboardingFragment, true)
-                .build()
-//            navController.navigate(R.id.loginFragment, null, navOptions)
-        }
+        alertDialogBuilder.setPositiveButton("Ok") { dialog, _ -> dialog.dismiss() }
         val alertDialog = alertDialogBuilder.create()
         alertDialog.show()
     }
 
     private fun showLoginDialog() {
-        val isLargeLayout = resources.getBoolean(R.bool.large_layout)
+//        val isLargeLayout = resources.getBoolean(R.bool.large_layout)
         val fragmentManager = requireActivity().supportFragmentManager
         val loginFragment = LoginFragment()
 //        if (isLargeLayout) {
-//            // The device is using a large layout, so show the fragment as a dialog
 //            loginFragment.show(fragmentManager, "loginFragment")
 //        } else {
-            // The device is smaller, so show the fragment fullscreen
             val transaction = fragmentManager.beginTransaction()
-            // For a little polish, specify a transition animation
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            // To make it fullscreen, use the 'content' root view as the container
-            // for the fragment, which is always the root view for the activity
             transaction
                 .add(android.R.id.content, loginFragment)
                 .addToBackStack(null)

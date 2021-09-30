@@ -10,7 +10,7 @@ import com.certified.order.R
 import com.certified.order.databinding.LayoutItemDetailsBinding
 import com.certified.order.model.Item
 
-class DetailsFragment(val type: String, val burger: Item) : DialogFragment() {
+class DetailsFragment(val type: String, val item: Item) : DialogFragment() {
 
     private lateinit var binding: LayoutItemDetailsBinding
 
@@ -27,9 +27,9 @@ class DetailsFragment(val type: String, val burger: Item) : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.burger = burger
+        binding.item = item
 
-        var quantity = burger.quantity.toInt()
+        var quantity = item.quantity.toInt()
         checkQuantity(quantity)
 //            TODO: Save the quantity in a viewholder to prevent loss on configuration change
 

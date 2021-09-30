@@ -58,4 +58,8 @@
         android:name="com.certified.order.view.TrackOrderFragment"
         android:label="fragment_track_order"
         tools:layout="@layout/fragment_track_order" />
+    <fragment
+        android:id="@+id/newOrdersFragment"
+        android:name="com.certified.order.view.newOrders.NewOrdersFragment"
+        android:label="NewOrdersFragment" />
 </navigation>

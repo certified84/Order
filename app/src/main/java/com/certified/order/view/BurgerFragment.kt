@@ -1,35 +1,34 @@
-package com.certified.order.view.cart
+package com.certified.order.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.certified.order.ItemViewModel
 import com.certified.order.ItemViewModelFactory
 import com.certified.order.R
-import com.certified.order.adapter.CartAdapter
-import com.certified.order.databinding.FragmentCartBinding
+import com.certified.order.adapter.ItemAdapter
+import com.certified.order.adapter.ItemAdapter.OnItemClickedListener
+import com.certified.order.databinding.FragmentItemsBinding
 import com.certified.order.model.Item
-import com.certified.order.view.CompleteOrderFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class CartFragment : Fragment() {
+class BurgerFragment : Fragment() {
 
+    private lateinit var binding: FragmentItemsBinding
     private lateinit var auth: FirebaseAuth
-    private lateinit var binding: FragmentCartBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentCartBinding.inflate(layoutInflater)
+        binding = FragmentItemsBinding.inflate(layoutInflater)
 
         auth = Firebase.auth
 
@@ -39,14 +38,18 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        TODO: Get the cart items from firebase
-        val items = listOf(
-            Item(0, "Krabby Patty", "Those who don't like Krabby patties haven't tasted it", R.drawable.burger_image_3),
+        val burgers = listOf(
+            Item(
+                0,
+                "Krabby Patty",
+                "Those who don't like Krabby patties haven't tasted it",
+                R.drawable.burger_image_3
+            ),
             Item(1, "Awesome Item", "The taste is just awesome", R.drawable.burger_image_3),
             Item(2, "King Item", "Are you a king? Then this is for you", R.drawable.burger_image_3),
             Item(3, "Vegan Item", "Every vegan knows their stuff", R.drawable.burger_image_3)
         )
-        val viewModelFactory = ItemViewModelFactory(items)
+        val viewModelFactory = ItemViewModelFactory(burgers)
         val viewModel: ItemViewModel by lazy {
             ViewModelProvider(this, viewModelFactory).get(ItemViewModel::class.java)
         }
@@ -62,24 +65,19 @@ class CartFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.recyclerViewItems.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = CartAdapter(items)
+        val adapter = ItemAdapter(burgers)
         binding.recyclerViewItems.adapter = adapter
 
-        binding.apply {
-            btnCompleteOrder.setOnClickListener {
-                showCompleteOrderDialog(items)
+        adapter.setOnItemClickedListener(object : OnItemClickedListener {
+            override fun onItemClick(item: Item) {
+                val fragmentManager = requireActivity().supportFragmentManager
+                val completeOrderFragment = DetailsFragment("home", item)
+                val transaction = fragmentManager.beginTransaction()
+                transaction
+                    .add(android.R.id.content, completeOrderFragment)
+                    .addToBackStack(null)
+                    .commit()
             }
-        }
-    }
-
-    private fun showCompleteOrderDialog(items: List<Item>) {
-        val fragmentManager = requireActivity().supportFragmentManager
-        val completeOrderFragment = CompleteOrderFragment(items)
-        val transaction = fragmentManager.beginTransaction()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        transaction
-            .add(android.R.id.content, completeOrderFragment)
-            .addToBackStack(null)
-            .commit()
+        })
     }
 }

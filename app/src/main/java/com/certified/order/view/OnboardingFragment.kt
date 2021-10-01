@@ -36,7 +36,7 @@ class OnboardingFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentOnboardingBinding.inflate(layoutInflater)
 
-        auth = Firebase.auth
+//        auth = Firebase.auth
 
         return binding.root
     }
@@ -45,13 +45,13 @@ class OnboardingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         navController = Navigation.findNavController(view)
-        val currentUser = auth.currentUser
+//        val currentUser = auth.currentUser
 
-//        setUpSliderItem()
+//        if (currentUser != null)
+//            queryDatabase(currentUser)
+
+        setUpSliderItem()
         setUpViewPager()
-
-        if (currentUser != null)
-            queryDatabase(currentUser)
 
         binding.btnGetStarted.setOnClickListener { showSignupDialog() }
     }
@@ -67,50 +67,31 @@ class OnboardingFragment : Fragment() {
             .commit()
     }
 
-    private fun queryDatabase(user: FirebaseUser) {
-        val db = Firebase.firestore
-        val userRef =
-            db.collection("account_type").document(user.uid)
-        userRef.get().addOnSuccessListener {
-            if (it.exists()) {
-                val accountType = it.getString("account_type")
-                val isApproved = it.getBoolean("_approved")
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.onboardingFragment, true).build()
-
-                if (accountType == "user" || (accountType == "dispatcher" && isApproved!!))
-                    navController.navigate(R.id.homeFragment, null, navOptions)
-            }
-        }
-    }
-
     private fun setUpSliderItem() {
-        TODO("Not yet implemented")
-//        TODO: Download animations from lottie files and edit the title and subtitle of each sliderItem
         sliderItem = arrayListOf(
-//            SliderItem(
-//                R.raw.animation_note, getString(R.string.view_pager_title_notes),
-//                getString(R.string.view_pager_description_notes)
-//            ),
-//            SliderItem(
-//                R.raw.animation_course, getString(R.string.view_pager_title_course),
-//                getString(R.string.view_pager_description_courses)
-//            ),
-//            SliderItem(
-//                R.raw.animation_todo, getString(R.string.view_pager_title_todo),
-//                getString(R.string.view_pager_description_todos)
-//            ),
-//            SliderItem(
-//                R.raw.animation_report, getString(R.string.view_pager_title_report),
-//                getString(R.string.view_pager_description_report)
-//            )
+            SliderItem(
+                R.raw.order_food, "Order your favourites",
+                "Pizzas, Burgers, Shawarmas and Chicken & Chips. All your favourites are here"
+            ),
+            SliderItem(
+                R.raw.order_tracking, "Track your order",
+                "Realtime tracking will keep you posted about your order progress"
+            ),
+            SliderItem(
+                R.raw.payment, "Easy payment",
+                "Pick a payment method that is convenient works best for you"
+            ),
+            SliderItem(
+                R.raw.order_delivery, "Flexible delivery time",
+                "When placing an order, you can pick a particular time you'd like your order to be delivered"
+            )
         )
     }
 
     private fun setUpViewPager() {
         binding.apply {
-//            viewPagerAdapter = ViewPagerAdapter(sliderItem)
-//            viewPager.adapter = viewPagerAdapter
+            viewPagerAdapter = ViewPagerAdapter(sliderItem)
+            viewPager.adapter = viewPagerAdapter
             viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)

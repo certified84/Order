@@ -41,4 +41,10 @@
     <string name="click_here_to_set_delivery_address">Click here to set delivery address</string>
     <string name="welcome_back">Welcome Back!</string>
     <string name="_continue">Continue</string>
+    <string name="my_orders">My Orders</string>
+    <string name="my_address">My Address</string>
+    <string name="my_profile">My Profile</string>
+    <string name="payment_methods">Payment methods</string>
+    <string name="contact_us">Contact us</string>
+    <string name="about_us">About us</string>
 </resources>

@@ -8,12 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.navigation.NavController
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
-import com.certified.order.R
 import com.certified.order.databinding.FragmentSignupBinding
 import com.certified.order.model.Dispatcher
 import com.certified.order.model.AccountType
@@ -21,7 +16,6 @@ import com.certified.order.util.Config
 import com.certified.order.util.Mailer
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -210,7 +204,7 @@ class SignupFragment : DialogFragment() {
     @SuppressLint("CheckResult")
     private fun mailAdmin() {
         binding.apply {
-        val email = Config.EMAIL
+        val email = Config.ADMIN_EMAIL
         val subject = "New dispatcher registration"
         val message = "A new account has been registered as a dispatcher. Find details below\n" +
                 "Name: ${etName.text.toString()}\n" +

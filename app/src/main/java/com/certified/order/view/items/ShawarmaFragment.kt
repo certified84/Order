@@ -1,4 +1,4 @@
-package com.certified.order.view
+package com.certified.order.view.items
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +14,7 @@ import com.certified.order.adapter.ItemAdapter
 import com.certified.order.adapter.ItemAdapter.OnItemClickedListener
 import com.certified.order.databinding.FragmentItemsBinding
 import com.certified.order.model.Item
+import com.certified.order.view.DetailsFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

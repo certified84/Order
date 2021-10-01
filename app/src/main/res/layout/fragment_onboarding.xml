@@ -6,7 +6,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
         tools:context=".view.OnboardingFragment">
 
         <androidx.viewpager2.widget.ViewPager2
@@ -46,7 +45,7 @@
             app:layout_constraintEnd_toEndOf="@+id/btn_get_started"
             app:layout_constraintStart_toStartOf="@+id/btn_get_started"
             app:piv_animationType="worm"
-            app:piv_count="3"
+            app:piv_count="4"
             app:piv_dynamicCount="true"
             app:piv_interactiveAnimation="true"
             app:piv_padding="@dimen/_6sdp"

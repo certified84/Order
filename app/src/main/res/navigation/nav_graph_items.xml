@@ -6,18 +6,18 @@
 
     <fragment
         android:id="@+id/burgerFragment"
-        android:name="com.certified.order.view.BurgerFragment"
+        android:name="com.certified.order.view.items.BurgerFragment"
         android:label="BurgerFragment" />
     <fragment
         android:id="@+id/chickenAndChipsFragment"
-        android:name="com.certified.order.view.ChickenAndChipsFragment"
+        android:name="com.certified.order.view.items.ChickenAndChipsFragment"
         android:label="ChickenAndChipsFragment" />
     <fragment
         android:id="@+id/pizzaFragment"
-        android:name="com.certified.order.view.PizzaFragment"
+        android:name="com.certified.order.view.items.PizzaFragment"
         android:label="PizzaFragment" />
     <fragment
         android:id="@+id/shawarmaFragment"
-        android:name="com.certified.order.view.ShawarmaFragment"
+        android:name="com.certified.order.view.items.ShawarmaFragment"
         android:label="ShawarmaFragment" />
 </navigation>

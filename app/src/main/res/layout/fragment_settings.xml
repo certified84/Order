@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -168,13 +168,13 @@
                             app:layout_constraintBottom_toTopOf="@+id/appCompatImageView2"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_chainStyle="spread_inside" />
+                            app:layout_constraintVertical_chainStyle="packed" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/appCompatImageView2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
                             android:src="@drawable/ic_baseline_person_24"
                             app:layout_constraintBottom_toTopOf="@+id/appCompatImageView3"
                             app:layout_constraintStart_toStartOf="@+id/appCompatImageView"
@@ -184,7 +184,7 @@
                             android:id="@+id/appCompatImageView3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
                             android:src="@drawable/ic_baseline_location_on_24"
                             app:layout_constraintBottom_toTopOf="@+id/appCompatImageView4"
                             app:layout_constraintStart_toStartOf="@+id/appCompatImageView2"
@@ -194,19 +194,39 @@
                             android:id="@+id/appCompatImageView4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16sdp"
-                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
                             android:src="@drawable/ic_baseline_payment_24"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintBottom_toTopOf="@+id/appCompatImageView5"
                             app:layout_constraintStart_toStartOf="@+id/appCompatImageView3"
                             app:layout_constraintTop_toBottomOf="@+id/appCompatImageView3" />
 
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/appCompatImageView5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:src="@drawable/ic_baseline_contact_support_24"
+                            app:layout_constraintBottom_toTopOf="@+id/appCompatImageView6"
+                            app:layout_constraintStart_toStartOf="@+id/appCompatImageView3"
+                            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView4" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/appCompatImageView6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:src="@drawable/ic_baseline_info_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/appCompatImageView3"
+                            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView5" />
+
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/materialTextView4"
+                            android:id="@+id/tv_my_orders"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_8sdp"
-                            android:text="Completed Orders"
+                            android:text="@string/my_orders"
                             android:textSize="@dimen/_10ssp"
                             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
                             app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
@@ -216,7 +236,7 @@
                             android:id="@+id/materialTextView5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="My Address"
+                            android:text="@string/my_address"
                             android:textSize="@dimen/_10ssp"
                             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
                             app:layout_constraintStart_toStartOf="@+id/materialTextView6"
@@ -226,27 +246,47 @@
                             android:id="@+id/materialTextView6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="My Profile"
+                            android:text="@string/my_profile"
                             android:textSize="@dimen/_10ssp"
                             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
-                            app:layout_constraintStart_toStartOf="@+id/materialTextView4"
+                            app:layout_constraintStart_toStartOf="@+id/tv_my_orders"
                             app:layout_constraintTop_toTopOf="@+id/appCompatImageView2" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/materialTextView11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Payment methods"
+                            android:text="@string/payment_methods"
                             android:textSize="@dimen/_10ssp"
                             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView4"
                             app:layout_constraintStart_toStartOf="@+id/materialTextView5"
                             app:layout_constraintTop_toTopOf="@+id/appCompatImageView4" />
 
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/materialTextView12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/contact_us"
+                            android:textSize="@dimen/_10ssp"
+                            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView5"
+                            app:layout_constraintStart_toStartOf="@+id/materialTextView11"
+                            app:layout_constraintTop_toTopOf="@+id/appCompatImageView5" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/materialTextView13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/about_us"
+                            android:textSize="@dimen/_10ssp"
+                            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView6"
+                            app:layout_constraintStart_toStartOf="@+id/materialTextView12"
+                            app:layout_constraintTop_toTopOf="@+id/appCompatImageView6" />
+
                         <androidx.constraintlayout.widget.Group
                             android:id="@+id/group_my_orders"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            app:constraint_referenced_ids="materialTextView4,appCompatImageView"
+                            app:constraint_referenced_ids="tv_my_orders,appCompatImageView"
                             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -282,9 +322,28 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/appCompatImageView4" />
 
-                        <!--                TODO: Add help center and about us-->
+                        <androidx.constraintlayout.widget.Group
+                            android:id="@+id/group_contact_us"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:constraint_referenced_ids="materialTextView12,appCompatImageView5"
+                            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/appCompatImageView5" />
+
+                        <androidx.constraintlayout.widget.Group
+                            android:id="@+id/group_about_us"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:constraint_referenced_ids="materialTextView13,appCompatImageView6"
+                            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView6"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/appCompatImageView6" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.button.MaterialButton
@@ -297,8 +356,8 @@
                     android:textAllCaps="false"
                     android:textColor="@color/midWhite"
                     app:cornerRadius="@dimen/_6sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/materialCardView"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/materialCardView"
                     app:layout_constraintStart_toStartOf="@+id/materialCardView"
                     app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 

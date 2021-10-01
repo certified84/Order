@@ -101,39 +101,39 @@ class HomeFragment : Fragment() {
         }
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        binding.apply {
+    override fun onResume() {
+        super.onResume()
+        binding.apply {
 //            val itemFragment: FragmentContainerView =
 //                viewPagerItems.findViewById(R.id.fragment_items)
-//            val controller = itemFragment.findNavController()
-//            val itemTab: Tab? = tabLayout.getTabAt(0)
-//            chipBurger.setOnClickListener {
-//                controller.navigate(R.id.burgerFragment)
-//                chipBurger.isChecked = true
-//                itemTab?.text = "Burgers"
-//                tabLayout.selectTab(itemTab)
-//            }
-//            chipChickenAndChips.setOnClickListener {
-//                controller.navigate(R.id.chickenAndChipsFragment)
-//                chipChickenAndChips.isChecked = true
-//                itemTab?.text = "Chicken and Chips"
-//                tabLayout.selectTab(itemTab)
-//            }
-//            chipPizza.setOnClickListener {
-//                controller.navigate(R.id.pizzaFragment)
-//                chipPizza.isChecked = true
-//                itemTab?.text = "Pizzas"
-//                tabLayout.selectTab(itemTab)
-//            }
-//            chipShawarma.setOnClickListener {
-//                controller.navigate(R.id.shawarmaFragment)
-//                chipShawarma.isChecked = true
-//                itemTab?.text = "Shawarmas"
-//                tabLayout.selectTab(itemTab)
-//            }
-//        }
-//    }
+            val controller = Navigation.findNavController(requireActivity(), R.id.fragment_items)
+            val itemTab: Tab? = tabLayout.getTabAt(0)
+            chipBurger.setOnClickListener {
+                controller.navigate(R.id.burgerFragment)
+                chipBurger.isChecked = true
+                itemTab?.text = "Burgers"
+                tabLayout.selectTab(itemTab)
+            }
+            chipChickenAndChips.setOnClickListener {
+                controller.navigate(R.id.chickenAndChipsFragment)
+                chipChickenAndChips.isChecked = true
+                itemTab?.text = "Chicken and Chips"
+                tabLayout.selectTab(itemTab)
+            }
+            chipPizza.setOnClickListener {
+                controller.navigate(R.id.pizzaFragment)
+                chipPizza.isChecked = true
+                itemTab?.text = "Pizzas"
+                tabLayout.selectTab(itemTab)
+            }
+            chipShawarma.setOnClickListener {
+                controller.navigate(R.id.shawarmaFragment)
+                chipShawarma.isChecked = true
+                itemTab?.text = "Shawarmas"
+                tabLayout.selectTab(itemTab)
+            }
+        }
+    }
 
     private fun checkAccountType(user: FirebaseUser) {
         val db = Firebase.firestore

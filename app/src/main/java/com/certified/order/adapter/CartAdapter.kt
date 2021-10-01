@@ -11,7 +11,6 @@ import com.certified.order.R
 import com.certified.order.databinding.LayoutItemCartBinding
 import com.certified.order.model.Item
 
-//        TODO: Replace the burgers with items
 class CartAdapter(private val items: List<Item>) :
     ListAdapter<Item, CartAdapter.ViewHolder>(diffCallback) {
 

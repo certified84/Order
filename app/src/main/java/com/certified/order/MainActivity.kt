@@ -10,10 +10,18 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
 import com.certified.order.databinding.ActivityMainBinding
 import com.certified.order.util.PreferenceKeys
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -26,16 +34,41 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var navController: NavController
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        println(load())
-
         val binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
+        auth = Firebase.auth
+        navController = Navigation.findNavController(this, R.id.fragment)
+        val currentUser = auth.currentUser
+        if (currentUser != null)
+            queryDatabase(currentUser)
+
+//        println(load())
         isDarkModeEnabled()
+    }
+
+    private fun queryDatabase(user: FirebaseUser) {
+        val db = Firebase.firestore
+        val userRef =
+            db.collection("account_type").document(user.uid)
+        userRef.get().addOnSuccessListener {
+            if (it.exists()) {
+                val accountType = it.getString("account_type")
+                val isApproved = it.getBoolean("_approved")
+                println("Query: AccountType = $accountType \n isApproved = $isApproved")
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.onboardingFragment, true).build()
+
+                if (accountType == "User" || (accountType == "dispatcher" && isApproved!!))
+                    navController.navigate(R.id.homeFragment, null, navOptions)
+            }
+        }
     }
 
     private fun isDarkModeEnabled() {

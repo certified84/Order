@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -63,19 +62,23 @@ class LoginFragment : DialogFragment() {
                                     val user = auth.currentUser
 
                                     if (user?.isEmailVerified!!)
-                                        queryDatabase(user)
+                                        checkAccountType(user)
                                     else
                                         Toast.makeText(
                                             requireContext(),
                                             "Check your email for verification link",
                                             Toast.LENGTH_LONG
                                         ).show()
-                                } else
+                                } else {
+
+                                    progressBar.visibility = View.GONE
+
                                     Toast.makeText(
                                         requireContext(),
                                         "Authentication failed. ${task.exception}",
                                         Toast.LENGTH_SHORT
                                     ).show()
+                                }
                             }
                     } else
                         Toast.makeText(
@@ -111,7 +114,7 @@ class LoginFragment : DialogFragment() {
 //        }
     }
 
-    private fun queryDatabase(user: FirebaseUser) {
+    private fun checkAccountType(user: FirebaseUser) {
         val db = Firebase.firestore
         val userRef =
             db.collection("account_type").document(user.uid)

@@ -64,7 +64,7 @@ class BurgerAdapter(val burgers: List<Item>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = burgers[position]
-            holder.bind(currentItem)
+        holder.bind(currentItem)
     }
 
     interface OnBurgerClickedListener {

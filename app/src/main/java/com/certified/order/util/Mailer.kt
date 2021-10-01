@@ -1,6 +1,5 @@
 package com.certified.order.util
 
-import android.annotation.SuppressLint
 import io.reactivex.Completable
 import java.util.*
 import javax.mail.*
@@ -29,13 +28,13 @@ object Mailer {
 
             val session = Session.getDefaultInstance(props, object : Authenticator() {
                 override fun getPasswordAuthentication(): PasswordAuthentication {
-                    return PasswordAuthentication(Config.EMAIL, Config.PASSWORD)
+                    return PasswordAuthentication(Config.ADMIN_EMAIL, Config.ADMIN_PASSWORD)
                 }
             })
 
             try {
                 MimeMessage(session).let { mime ->
-                    mime.setFrom(InternetAddress(Config.EMAIL))
+                    mime.setFrom(InternetAddress(Config.ADMIN_EMAIL))
                     mime.addRecipient(Message.RecipientType.TO, InternetAddress(email))
                     mime.subject = subject
                     mime.setText(message)

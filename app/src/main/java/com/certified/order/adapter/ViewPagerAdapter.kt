@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.RenderMode
@@ -17,9 +18,7 @@ import kotlinx.coroutines.launch
 class ViewPagerAdapter(private val sliderItem: List<SliderItem>) :
     RecyclerView.Adapter<ViewPagerAdapter.ViewPagerViewHolder>() {
 
-    private lateinit var binding: ItemViewPagerBinding
-
-    inner class ViewPagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewPagerViewHolder(val binding: ItemViewPagerBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun setItems(sliderItem: SliderItem) {
             binding.apply {
@@ -35,10 +34,9 @@ class ViewPagerAdapter(private val sliderItem: List<SliderItem>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewPagerViewHolder {
-        binding = ItemViewPagerBinding.inflate(LayoutInflater.from(parent.context))
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_view_pager, parent, false)
-        return ViewPagerViewHolder(binding.root)
+        val binding =
+            ItemViewPagerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewPagerViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewPagerViewHolder, position: Int) {

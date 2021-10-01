@@ -1,4 +1,4 @@
-package com.certified.order.view
+package com.certified.order.view.items
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,11 +14,12 @@ import com.certified.order.adapter.ItemAdapter
 import com.certified.order.adapter.ItemAdapter.OnItemClickedListener
 import com.certified.order.databinding.FragmentItemsBinding
 import com.certified.order.model.Item
+import com.certified.order.view.DetailsFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class PizzaFragment : Fragment() {
+class BurgerFragment : Fragment() {
 
     private lateinit var binding: FragmentItemsBinding
     private lateinit var auth: FirebaseAuth
@@ -38,30 +39,18 @@ class PizzaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        TODO: change the burger picture to pizza
-        val pizzas = listOf(
+        val burgers = listOf(
             Item(
                 0,
                 "Krabby Patty",
                 "Those who don't like Krabby patties haven't tasted it",
                 R.drawable.burger_image_3
             ),
-            Item(1, "Awesome Pizza", "The taste is just awesome", R.drawable.burger_image_3),
-            Item(
-                2,
-                "King Pizza",
-                "Are you a king? Then this is for you",
-                R.drawable.burger_image_3
-            ),
-            Item(3, "Vegan Pizza", "Every vegan knows their stuff", R.drawable.burger_image_3),
-            Item(
-                4,
-                "Chicken Pizza",
-                "I bet you love eating chicken. If you do, then this is for you",
-                R.drawable.burger_image_3
-            )
+            Item(1, "Awesome Item", "The taste is just awesome", R.drawable.burger_image_3),
+            Item(2, "King Item", "Are you a king? Then this is for you", R.drawable.burger_image_3),
+            Item(3, "Vegan Item", "Every vegan knows their stuff", R.drawable.burger_image_3)
         )
-        val viewModelFactory = ItemViewModelFactory(pizzas)
+        val viewModelFactory = ItemViewModelFactory(burgers)
         val viewModel: ItemViewModel by lazy {
             ViewModelProvider(this, viewModelFactory).get(ItemViewModel::class.java)
         }
@@ -77,7 +66,7 @@ class PizzaFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.recyclerViewItems.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = ItemAdapter(pizzas)
+        val adapter = ItemAdapter(burgers)
         binding.recyclerViewItems.adapter = adapter
 
         adapter.setOnItemClickedListener(object : OnItemClickedListener {

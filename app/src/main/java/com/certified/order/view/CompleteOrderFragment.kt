@@ -136,14 +136,13 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
                         progressBar.visibility = View.VISIBLE
 
                         val newOrder = Order(
+                            "Samson Achiaga",
                             null,
-                            null,
-                            deliveryAddress,
                             "08136108482",
                             subtotal,
                             items
                         )
-                        newOrder.delivery_time = tvDeliveryTime.text.toString()
+                        newOrder.deliveryTime = tvDeliveryTime.text.toString()
 
 //                        TODO: Process the order with either Gpay or Flutterwave. Only make use of one for now
 //                        TODO: If the oder was completed successfully, replace the if

@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.certified.order.view.CompletedOrdersFragment
-import com.certified.order.view.BurgerFragment
 import com.certified.order.view.ItemFragment
 import com.certified.order.view.ReviewFragment
 

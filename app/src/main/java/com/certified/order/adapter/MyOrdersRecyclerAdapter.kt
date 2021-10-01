@@ -1,47 +1,39 @@
 package com.certified.order.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.certified.order.R
+import com.certified.order.databinding.LayoutOrderBinding
 import com.certified.order.model.Order
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class MyOrdersRecyclerAdapter :
     FirestoreRecyclerAdapter<Order, MyOrdersRecyclerAdapter.ViewHolder>(
-    options
-) {
+        options
+    ) {
 
     companion object {
         private val options: FirestoreRecyclerOptions<Order> =
-            FirestoreRecyclerOptions.Builder<Order>().build()
+            FirestoreRecyclerOptions.Builder<Order>()
+                .setQuery(Firebase.firestore.collection("orders"), Order::class.java).build()
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-//        val noteContent: TextView = itemView.findViewById(R.id.tv_note_content)
-//        val noteTitle: TextView = itemView.findViewById(R.id.tv_note_title)
-//        val ivBookMark: ImageView = itemView.findViewById(R.id.iv_bookmark)
-
-//        init {
-//            itemView.setOnClickListener {
-//                val position = absoluteAdapterPosition
-//                if (position != RecyclerView.NO_POSITION) {
-//                    listener.onBookMarkClick(getItem(position))
-//                }
-//            }
-//        }
+    inner class ViewHolder(val binding: LayoutOrderBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(order: Order) {
+            binding.order = order
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        TODO("Not yet implemented")
+        val binding = LayoutOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: Order) {
-
+        holder.bind(model)
     }
 }

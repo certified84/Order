@@ -353,6 +353,7 @@
                     android:layout_marginTop="@dimen/_16sdp"
                     android:backgroundTint="@color/colorPrimary"
                     android:text="@string/sign_out"
+                    android:textSize="@dimen/_12ssp"
                     android:textAllCaps="false"
                     android:textColor="@color/midWhite"
                     app:cornerRadius="@dimen/_6sdp"

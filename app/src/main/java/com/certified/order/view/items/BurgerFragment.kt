@@ -72,7 +72,7 @@ class BurgerFragment : Fragment() {
         adapter.setOnItemClickedListener(object : OnItemClickedListener {
             override fun onItemClick(item: Item) {
                 val fragmentManager = requireActivity().supportFragmentManager
-                val completeOrderFragment = DetailsFragment("home", item)
+                val completeOrderFragment = DetailsFragment("home", item, auth.currentUser!!.uid)
                 val transaction = fragmentManager.beginTransaction()
                 transaction
                     .add(android.R.id.content, completeOrderFragment)

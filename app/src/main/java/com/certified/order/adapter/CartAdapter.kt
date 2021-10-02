@@ -29,7 +29,6 @@ class CartAdapter(private val items: List<Item>) :
     inner class ViewHolder(private val binding: LayoutItemCartBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        //        TODO: Replace the burger with an item
         fun bind(burger: Item) {
             binding.item = burger
             var quantity = burger.quantity.toInt()

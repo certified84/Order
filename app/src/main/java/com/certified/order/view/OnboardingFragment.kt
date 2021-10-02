@@ -1,9 +1,8 @@
 package com.certified.order.view
 
+import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
@@ -20,12 +19,14 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.rd.PageIndicatorView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class OnboardingFragment : Fragment() {
 
     private lateinit var binding: FragmentOnboardingBinding
     private lateinit var navController: NavController
-    private lateinit var auth: FirebaseAuth
     private lateinit var viewPagerAdapter: ViewPagerAdapter
     private lateinit var sliderItem: ArrayList<SliderItem>
 
@@ -36,8 +37,6 @@ class OnboardingFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentOnboardingBinding.inflate(layoutInflater)
 
-//        auth = Firebase.auth
-
         return binding.root
     }
 
@@ -45,15 +44,19 @@ class OnboardingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         navController = Navigation.findNavController(view)
-//        val currentUser = auth.currentUser
 
-//        if (currentUser != null)
-//            queryDatabase(currentUser)
+        val w: Window = requireActivity().window
+        w.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        w.statusBarColor = Color.BLACK
 
         setUpSliderItem()
         setUpViewPager()
 
-        binding.btnGetStarted.setOnClickListener { showSignupDialog() }
+        binding.btnGetStarted.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                showSignupDialog()
+            }
+        }
     }
 
     private fun showSignupDialog() {

@@ -16,13 +16,16 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.certified.order.ItemViewModelFactory
 import com.certified.order.ItemViewModel
+import com.certified.order.ItemViewModelFactory
 import com.certified.order.R
 import com.certified.order.adapter.ItemAdapter
 import com.certified.order.databinding.FragmentCompleteOrderBinding
 import com.certified.order.model.Item
 import com.certified.order.model.Order
+import com.certified.order.util.Config
+import com.certified.order.util.Mailer
+import com.flutterwave.raveandroid.RavePayManager
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.CancellationToken
@@ -33,9 +36,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
@@ -77,61 +79,62 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
         val adapter = ItemAdapter(items)
         binding.recyclerViewItemsToDeliver.adapter = adapter
 
+        adapter.setOnItemClickedListener(object : ItemAdapter.OnItemClickedListener {
+            override fun onItemClick(item: Item) {
+
+            }
+        })
+
         binding.apply {
 
-//            val currentUser = auth.currentUser!!
+            val currentUser = auth.currentUser!!
             val db = Firebase.firestore
 
-//            val adapter = BurgerAdapter(burgers)
-//            recyclerViewItemsToDeliver.adapter = adapter
-//            recyclerViewItemsToDeliver.layoutManager = LinearLayoutManager(requireContext())
-
 //            TODO: Obtain the current device location
-            val deliveryAddress = getCurrentLocation()
-//            val profileImage = currentUser.photoUrl
-            tvAddress.text = "Click here to set delivery address"
-            tvReceiverPhone.text = "08136108482"
+//            val deliveryAddress = getCurrentLocation()
+            val profileImage = currentUser.photoUrl
             tvReceiverName.text = "Samson Achiaga"
 
-//            val userRef =
-//                db.collection("accounts").document("users")
-//                    .collection(currentUser.uid).document("details")
-//            userRef.get().addOnSuccessListener {
-//                if (it.exists()) {
-//                    tvReceiverPhone.text = it.getString("phone")!!
-//                    tvAddress.text = it.getString("default_address_line")
-//                }
-//            }
+            val userRef =
+                db.collection("accounts").document("users")
+                    .collection(currentUser.uid).document("details")
+            userRef.get().addOnSuccessListener {
+                if (it.exists()) {
+                    tvReceiverPhone.text = it.getString("phone")!!
+                    tvAddress.text = it.getString("default_address_line")
+                }
+            }
 
             val deliveryFee = 1000.00
             var subtotal = deliveryFee
-            for (burger in items) {
+            for (item in items) {
 //                subtotal += item.price
-                subtotal += burger.total_price
+                subtotal += item.total_price
             }
 
-            tvSubtotal.text = "#$subtotal"
-//            tvReceiverName.text = currentUser.displayName
+            tvSubtotal.text = subtotal.toString()
+            tvReceiverName.text = currentUser.displayName
 
-//            if (profileImage == null)
-            Glide.with(requireContext())
-                .load(R.drawable.no_profile_image)
-                .into(receiverProfileImage)
-//            else
-//                Glide.with(requireContext())
-//                    .load(profileImage)
-//                    .into(receiverProfileImage)
+            if (profileImage == null)
+                Glide.with(requireContext())
+                    .load(R.drawable.no_profile_image)
+                    .into(receiverProfileImage)
+            else
+                Glide.with(requireContext())
+                    .load(profileImage)
+                    .into(receiverProfileImage)
 
-            tvAddress.setOnClickListener {
-                val latitude = getCurrentLocation()?.latitude
-                val longitude = getCurrentLocation()?.longitude
-                val position = latitude?.let { it1 -> longitude?.let { it2 -> LatLng(it1, it2) } }
-                openMap(position)
-            }
+//            tvAddress.setOnClickListener {
+//                val latitude = getCurrentLocation()?.latitude
+//                val longitude = getCurrentLocation()?.longitude
+//                val position = latitude?.let { it1 -> longitude?.let { it2 -> LatLng(it1, it2) } }
+//                getCurrentLocation()?.let { it1 -> openMap(it1) }
+//            }
             tvDeliveryTime.setOnClickListener { openTimePicker() }
+
             btnCompleteOrder.setOnClickListener {
                 if (tvDeliveryTime.text != "00:00 AM") {
-                    if (tvAddress.text != resources.getString(R.string.click_here_to_set_delivery_address)) {
+                    if (tvAddress.text == resources.getString(R.string.click_here_to_set_delivery_address)) {
 
                         progressBar.visibility = View.VISIBLE
 
@@ -147,17 +150,18 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
 //                        TODO: Process the order with either Gpay or Flutterwave. Only make use of one for now
 //                        TODO: If the oder was completed successfully, replace the if
 //                        if (true) {
-//                            val ordersRef = db.document("orders")
-//                            ordersRef.set(newOrder).addOnCompleteListener {
-//                                if (it.isSuccessful) {
-//                                    val cartRef = db.collection("cart").document(currentUser.uid)
-//                                    cartRef.get().addOnSuccessListener {
+                        val ordersRef = db.collection("orders").document(currentUser.uid)
+                        ordersRef.set(newOrder).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                progressBar.visibility = View.GONE
+                                val cartRef = db.collection("cart").document(currentUser.uid)
+                                cartRef.get().addOnSuccessListener {
 ////                                TODO: Delete all items in the users cart
 //                        TODO: progressBar.Visibility = View.Gone
-//                                    }
-//                                    super.dismiss()
-//                                }
-//                            }
+                                }
+                                super.dismiss()
+                            }
+                        }
 //                        }
                     } else
                         Toast.makeText(
@@ -172,89 +176,112 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
                         Toast.LENGTH_LONG
                     ).show()
             }
+
+            val raveUiManager = RavePayManager(requireActivity()).setAmount(subtotal)
+                .setCurrency("NGN")
+                .setfName(currentUser.displayName?.substringBefore(" "))
+                .setlName(currentUser.displayName?.substringAfter(" "))
+                .setEmail(currentUser.email)
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 101)
-            getCurrentLocation()
+    private fun mailAdmin() {
+        binding.apply {
+            val email = Config.ADMIN_EMAIL
+            val subject = "New Order received"
+            val message =
+                "A new order has been placed. \nCheck out more information in Firebase console.\n"
+
+            Mailer.sendMail(email, subject, message).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        }
     }
 
-    private fun getCurrentLocation(): Address? {
+    private fun mailUser() {
+        binding.apply {
+            val email = auth.currentUser!!.email!!
+            val name = auth.currentUser!!.displayName?.substringAfter(" ")
+            val subject = "Order Received"
+            val message = "Dear $name \n\n" +
+                    "Your has been placed successfully.\n" +
+                    "A dispatcher will deliver the items to you at your requested time. \n\n" +
+                    "Regards,\n" +
+                    "Order app Team."
 
-        var address: Address? = null
-        CoroutineScope(Dispatchers.IO).launch {
-            val locationProvider =
-                LocationServices.getFusedLocationProviderClient(requireActivity())
-            if (ActivityCompat.checkSelfPermission(
-                    requireActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                locationProvider.getCurrentLocation(100, object : CancellationToken() {
-                    override fun isCancellationRequested(): Boolean {
-                        return false
-                    }
+            Mailer.sendMail(email, subject, message).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        }
+    }
 
-                    override fun onCanceledRequested(p0: OnTokenCanceledListener): CancellationToken {
-                        TODO("Not yet implemented")
-                    }
-                }).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        val location = it.result
-                        val geocoder = Geocoder(requireActivity(), Locale.getDefault())
-                        val addresses: List<Address>? = try {
-                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                        } catch (e: Exception) {
-                            null
-                        }
-                        address = addresses?.get(0)
-                    }
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == 101)
+//            getCurrentLocation()
+//    }
+
+    private fun getCurrentLocation(): LatLng? {
+
+        var address: LatLng? = null
+//        CoroutineScope(Dispatchers.IO).launch {
+        val locationProvider =
+            LocationServices.getFusedLocationProviderClient(requireActivity())
+        if (ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            locationProvider.getCurrentLocation(100, object : CancellationToken() {
+                override fun isCancellationRequested(): Boolean {
+                    return false
                 }
-//                locationProvider.lastLocation.addOnCompleteListener {
-//                    if (it.isSuccessful) {
-//                        val location = it.result
-//                        val geocoder = Geocoder(requireActivity(), Locale.getDefault())
-//                        val addresses: List<Address>? = try {
-//                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
-//                        } catch (e: Exception) {
-//                            null
-//                        }
+
+                override fun onCanceledRequested(p0: OnTokenCanceledListener): CancellationToken {
+                    TODO("Not yet implemented")
+                }
+
+            }).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    val location = it.result
+                    val geocoder = Geocoder(requireActivity(), Locale.getDefault())
+                    val addresses: List<Address>? = try {
+                        geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                    } catch (e: Exception) {
+                        null
+                    }
+                    address = LatLng(location.latitude, location.longitude)
 //                        address = addresses?.get(0)
-//                    }
-//                }
-            } else
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    101
-                )
-        }
+                }
+            }
+            locationProvider.lastLocation.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    val location = it.result
+                    val geocoder = Geocoder(requireActivity(), Locale.getDefault())
+                    val addresses: List<Address>? = try {
+                        geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                    } catch (e: Exception) {
+                        null
+                    }
+                    address = LatLng(location.latitude, location.longitude)
+//                        address = addresses?.get(0)
+                }
+            }
+        } else
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                101
+            )
+//        }
         return address
     }
 
-//    private fun getOtherLocation() {
-//        val locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//        if (ActivityCompat.checkSelfPermission(
-//                requireActivity(),
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            ) == PackageManager.PERMISSION_GRANTED
-//        ) {
-//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 102, 5f, requireActivity())
-//        } else
-//            ActivityCompat.requestPermissions(
-//                requireActivity(),
-//                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-//                101
-//            )
-//    }
-
-    private fun openMap(defaultAddress: LatLng?) {
+    private fun openMap(defaultAddress: LatLng) {
         val fragmentManager = requireActivity().supportFragmentManager
         val mapsFragment =
             if (defaultAddress != null) MapsFragment(defaultAddress) else MapsFragment(
@@ -273,7 +300,7 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
         val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
 
         val picker = MaterialTimePicker.Builder()
-            .setTimeFormat(clockFormat)
+            .setTimeFormat(TimeFormat.CLOCK_12H)
             .setHour(12)
             .setMinute(0)
             .setTitleText("Schedule delivery")

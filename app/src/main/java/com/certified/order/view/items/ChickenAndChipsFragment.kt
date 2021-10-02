@@ -41,11 +41,11 @@ class ChickenAndChipsFragment : Fragment() {
 
 //        TODO: change the burger picture to chicken and chips
         val shawarmas = listOf(
-            Item(0, "Krabby Patty", "Those who don't like Krabby patties haven't tasted it", R.drawable.burger_image_3),
-            Item(1, "Awesome Pizza", "The taste is just awesome", R.drawable.burger_image_3),
-            Item(2, "King Pizza", "Are you a king? Then this is for you", R.drawable.burger_image_3),
-            Item(3, "Vegan Pizza", "Every vegan knows their stuff", R.drawable.burger_image_3),
-            Item(4, "Chicken Pizza", "I bet you love eating chicken. If you do, then this is for you", R.drawable.burger_image_3)
+            Item(0, "Krabby Patty", "Those who don't like Krabby patties haven't tasted it", R.drawable.chicken_and_chips_image),
+            Item(1, "Awesome Pizza", "The taste is just awesome", R.drawable.chicken_and_chips_image),
+            Item(2, "King Pizza", "Are you a king? Then this is for you", R.drawable.chicken_and_chips_image),
+            Item(3, "Vegan Pizza", "Every vegan knows their stuff", R.drawable.chicken_and_chips_image),
+            Item(4, "Chicken Pizza", "I bet you love eating chicken. If you do, then this is for you", R.drawable.chicken_and_chips_image)
         )
         val viewModelFactory = ItemViewModelFactory(shawarmas)
         val viewModel: ItemViewModel by lazy {
@@ -69,7 +69,7 @@ class ChickenAndChipsFragment : Fragment() {
         adapter.setOnItemClickedListener(object : OnItemClickedListener {
             override fun onItemClick(item: Item) {
                 val fragmentManager = requireActivity().supportFragmentManager
-                val completeOrderFragment = DetailsFragment("home", item)
+                val completeOrderFragment = DetailsFragment("home", item, auth.currentUser!!.uid)
                 val transaction = fragmentManager.beginTransaction()
                 transaction
                     .add(android.R.id.content, completeOrderFragment)

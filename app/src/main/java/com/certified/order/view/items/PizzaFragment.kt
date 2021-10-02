@@ -45,21 +45,21 @@ class PizzaFragment : Fragment() {
                 0,
                 "Krabby Patty",
                 "Those who don't like Krabby patties haven't tasted it",
-                R.drawable.burger_image_3
+                R.drawable.pizza_image
             ),
-            Item(1, "Awesome Pizza", "The taste is just awesome", R.drawable.burger_image_3),
+            Item(1, "Awesome Pizza", "The taste is just awesome", R.drawable.pizza_image),
             Item(
                 2,
                 "King Pizza",
                 "Are you a king? Then this is for you",
-                R.drawable.burger_image_3
+                R.drawable.pizza_image
             ),
-            Item(3, "Vegan Pizza", "Every vegan knows their stuff", R.drawable.burger_image_3),
+            Item(3, "Vegan Pizza", "Every vegan knows their stuff", R.drawable.pizza_image),
             Item(
                 4,
                 "Chicken Pizza",
                 "I bet you love eating chicken. If you do, then this is for you",
-                R.drawable.burger_image_3
+                R.drawable.pizza_image
             )
         )
         val viewModelFactory = ItemViewModelFactory(pizzas)
@@ -84,7 +84,7 @@ class PizzaFragment : Fragment() {
         adapter.setOnItemClickedListener(object : OnItemClickedListener {
             override fun onItemClick(item: Item) {
                 val fragmentManager = requireActivity().supportFragmentManager
-                val completeOrderFragment = DetailsFragment("home", item)
+                val completeOrderFragment = DetailsFragment("home", item, auth.currentUser!!.uid)
                 val transaction = fragmentManager.beginTransaction()
                 transaction
                     .add(android.R.id.content, completeOrderFragment)

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/onboardingFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/onboardingFragment"
@@ -62,4 +62,12 @@
         android:id="@+id/newOrdersFragment"
         android:name="com.certified.order.view.newOrders.NewOrdersFragment"
         android:label="NewOrdersFragment" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.certified.order.view.SplashFragment"
+        android:label="SplashFragment" />
+    <fragment
+        android:id="@+id/completedOrdersFragment"
+        android:name="com.certified.order.view.CompletedOrdersFragment"
+        android:label="CompletedOrdersFragment" />
 </navigation>

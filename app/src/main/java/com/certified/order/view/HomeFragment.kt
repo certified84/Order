@@ -1,26 +1,23 @@
 package com.certified.order.view
 
+import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.certified.order.R
 import com.certified.order.adapter.HomeViewPagerAdapter
 import com.certified.order.databinding.FragmentHomeBinding
+import com.certified.order.util.PreferenceKeys
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class HomeFragment : Fragment() {
@@ -28,6 +25,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var navController: NavController
+    private lateinit var preferences: SharedPreferences
     private var accountType: String? = null
 
     override fun onCreateView(
@@ -45,17 +43,21 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val w: Window = requireActivity().window
+        w.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        w.statusBarColor = Color.BLACK
+
         navController = Navigation.findNavController(view)
+        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         val currentUser = auth.currentUser!!
-        val name = currentUser.displayName?.substringBefore("")
+        val name = preferences.getString(PreferenceKeys.USER_NAME, "")?.substringBefore(" ")
         val profilePicture = currentUser.photoUrl
 
-        checkAccountType(currentUser)
+        checkAccountType()
 
         binding.apply {
-            cart.setOnClickListener { navController.navigate(R.id.cartFragment) }
-            tvHiName.text = "Hi $name"
+            tvHiName.text = name
             if (profilePicture == null)
                 Glide.with(requireContext())
                     .load(R.drawable.no_profile_image)
@@ -66,12 +68,11 @@ class HomeFragment : Fragment() {
                     .into(profileImage)
             profileImage.setOnClickListener { navController.navigate(R.id.settingsFragment) }
 
-
             val adapter = requireActivity().let {
                 HomeViewPagerAdapter(
                     it.supportFragmentManager,
                     it.lifecycle,
-                    "user"
+                    accountType!!
                 )
             }
 
@@ -98,63 +99,58 @@ class HomeFragment : Fragment() {
                     tabLayout.selectTab(tabLayout.getTabAt(position))
                 }
             })
+
+            if (accountType == "User")
+                cart.setOnClickListener { navController.navigate(R.id.cartFragment) }
+            else
+//                TODO: navigate to the dispatchers completed orders
+                cart.setOnClickListener { navController.navigate(R.id.completedOrdersFragment) }
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+//    override fun onResume() {
+//        super.onResume()
+//        binding.apply {
+////            val itemFragment: FragmentContainerView =
+////                viewPagerItems.findViewById(R.id.fragment_items)
+//            val controller = Navigation.findNavController(requireActivity(), R.id.fragment_items)
+//            val itemTab: Tab? = tabLayout.getTabAt(0)
+//            chipBurger.setOnClickListener {
+//                controller.navigate(R.id.burgerFragment)
+//                chipBurger.isChecked = true
+//                itemTab?.text = "Burgers"
+//                tabLayout.selectTab(itemTab)
+//            }
+//            chipChickenAndChips.setOnClickListener {
+//                controller.navigate(R.id.chickenAndChipsFragment)
+//                chipChickenAndChips.isChecked = true
+//                itemTab?.text = "Chicken and Chips"
+//                tabLayout.selectTab(itemTab)
+//            }
+//            chipPizza.setOnClickListener {
+//                controller.navigate(R.id.pizzaFragment)
+//                chipPizza.isChecked = true
+//                itemTab?.text = "Pizzas"
+//                tabLayout.selectTab(itemTab)
+//            }
+//            chipShawarma.setOnClickListener {
+//                controller.navigate(R.id.shawarmaFragment)
+//                chipShawarma.isChecked = true
+//                itemTab?.text = "Shawarmas"
+//                tabLayout.selectTab(itemTab)
+//            }
+//        }
+//    }
+
+    private fun checkAccountType() {
+        accountType = preferences.getString(PreferenceKeys.ACCOUNT_TYPE, "")
         binding.apply {
-//            val itemFragment: FragmentContainerView =
-//                viewPagerItems.findViewById(R.id.fragment_items)
-            val controller = Navigation.findNavController(requireActivity(), R.id.fragment_items)
-            val itemTab: Tab? = tabLayout.getTabAt(0)
-            chipBurger.setOnClickListener {
-                controller.navigate(R.id.burgerFragment)
-                chipBurger.isChecked = true
-                itemTab?.text = "Burgers"
-                tabLayout.selectTab(itemTab)
-            }
-            chipChickenAndChips.setOnClickListener {
-                controller.navigate(R.id.chickenAndChipsFragment)
-                chipChickenAndChips.isChecked = true
-                itemTab?.text = "Chicken and Chips"
-                tabLayout.selectTab(itemTab)
-            }
-            chipPizza.setOnClickListener {
-                controller.navigate(R.id.pizzaFragment)
-                chipPizza.isChecked = true
-                itemTab?.text = "Pizzas"
-                tabLayout.selectTab(itemTab)
-            }
-            chipShawarma.setOnClickListener {
-                controller.navigate(R.id.shawarmaFragment)
-                chipShawarma.isChecked = true
-                itemTab?.text = "Shawarmas"
-                tabLayout.selectTab(itemTab)
-            }
-        }
-    }
-
-    private fun checkAccountType(user: FirebaseUser) {
-        val db = Firebase.firestore
-        val userRef =
-            db.collection("account_type").document(user.uid)
-        userRef.get().addOnSuccessListener {
-            if (it.exists()) {
-                accountType = it.getString("account_type")
-                binding.apply {
-                    if (accountType == "dispatcher") {
-//                    TODO: change the cart icon to assignment
-                        Glide.with(requireContext())
-                            .load(R.drawable.ic_baseline_assignment_24)
-                            .into(cart)
-//                        TODO: hide the chip group
-                        chipGroup.visibility = View.GONE
-                        cart.setOnClickListener { navController.navigate(R.id.newOrdersFragment) }
-                    } else
-                        cart.setOnClickListener { navController.navigate(R.id.cartFragment) }
-                }
-            }
+            if (accountType == "Dispatcher") {
+                cart.setImageResource(R.drawable.ic_baseline_assignment_24)
+                chipGroup.visibility = View.GONE
+                cart.setOnClickListener { navController.navigate(R.id.newOrdersFragment) }
+            } else
+                cart.setOnClickListener { navController.navigate(R.id.cartFragment) }
         }
     }
 }

@@ -2,8 +2,8 @@ package com.certified.order
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.*
 import android.location.Address
-import android.location.Geocoder
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
@@ -34,41 +34,15 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var navController: NavController
-    private lateinit var auth: FirebaseAuth
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        auth = Firebase.auth
-        navController = Navigation.findNavController(this, R.id.fragment)
-        val currentUser = auth.currentUser
-        if (currentUser != null)
-            queryDatabase(currentUser)
+        setContentView(binding.root)
 
 //        println(load())
         isDarkModeEnabled()
-    }
-
-    private fun queryDatabase(user: FirebaseUser) {
-        val db = Firebase.firestore
-        val userRef =
-            db.collection("account_type").document(user.uid)
-        userRef.get().addOnSuccessListener {
-            if (it.exists()) {
-                val accountType = it.getString("account_type")
-                val isApproved = it.getBoolean("_approved")
-                println("Query: AccountType = $accountType \n isApproved = $isApproved")
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.onboardingFragment, true).build()
-
-                if (accountType == "User" || (accountType == "dispatcher" && isApproved!!))
-                    navController.navigate(R.id.homeFragment, null, navOptions)
-            }
-        }
     }
 
     private fun isDarkModeEnabled() {
@@ -81,9 +55,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getCurrentLocation(): Address? {
+        val locationManager = applicationContext.getSystemService(LOCATION_SERVICE) as LocationManager
         var address: Address? = null
         val locationProvider = LocationServices.getFusedLocationProviderClient(this@MainActivity)
         if (ActivityCompat.checkSelfPermission(this@MainActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5F) {
+//                TODO("Not yet implemented")
+            }
+
             locationProvider.lastLocation.addOnCompleteListener {
                 if (it.isSuccessful) {
                     val location = it.result

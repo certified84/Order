@@ -22,6 +22,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import com.certified.order.model.User as nUser
 
 class SignupFragment : DialogFragment() {
@@ -62,7 +65,7 @@ class SignupFragment : DialogFragment() {
                 val password = etPassword.text.toString().trim()
                 val accountType = spinnerAccountType.selectedItem.toString()
 
-                if (currentUser == null) {
+//                if (currentUser == null) {
                     if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && phone.isNotEmpty()) {
                         if (accountType != "Select account type") {
 
@@ -171,14 +174,16 @@ class SignupFragment : DialogFragment() {
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                }
+//                }
             }
 
             root.setOnClickListener { super.dismiss() }
 
             tvLogin.setOnClickListener {
                 super.dismiss()
-                showLoginDialog()
+                CoroutineScope(Dispatchers.IO).launch {
+                    showLoginDialog()
+                }
             }
         }
     }

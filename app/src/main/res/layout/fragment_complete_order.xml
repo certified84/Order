@@ -18,7 +18,7 @@
 
         <com.github.captain_miao.optroundcardview.OptRoundCardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:paddingTop="@dimen/_30sdp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -117,14 +117,17 @@
                                              from the dispatcher's location to the receiver's location
                                              Or when the dispatcher clicks on this view, a map with direction
                                              to the receiver's location is shown as a dialog-->
+
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_address"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/click_here_to_set_delivery_address"
                         android:layout_marginStart="@dimen/_16sdp"
                         android:layout_marginTop="@dimen/_16sdp"
+                        android:clickable="true"
+                        android:text="@string/click_here_to_set_delivery_address"
                         android:textSize="@dimen/_11ssp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/materialTextView8"
                         app:layout_constraintTop_toBottomOf="@+id/materialTextView8"
                         tools:text="No 17 Owolabani street, Ajara topa, Badagry" />
@@ -222,6 +225,8 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
+
         </com.github.captain_miao.optroundcardview.OptRoundCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

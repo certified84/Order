@@ -9,8 +9,10 @@ import com.bumptech.glide.Glide
 import com.certified.order.R
 import com.certified.order.databinding.LayoutItemDetailsBinding
 import com.certified.order.model.Item
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
-class DetailsFragment(val type: String, val item: Item) : DialogFragment() {
+class DetailsFragment(val type: String, val item: Item, val uid: String) : DialogFragment() {
 
     private lateinit var binding: LayoutItemDetailsBinding
 
@@ -52,6 +54,20 @@ class DetailsFragment(val type: String, val item: Item) : DialogFragment() {
                 Glide.with(requireContext())
                     .load(R.drawable.burger_image_3)
                     .into(itemImage)
+            }
+
+            btnAddToCart.setOnClickListener {
+                progressBar2.visibility = View.VISIBLE
+                val newItem = item
+                newItem!!.quantity = binding.tvItemQuantity.text.toString()
+                newItem.total_price = newItem.quantity.toInt() * newItem.price
+                val db = Firebase.firestore
+                val ordersRef =
+                    db.collection("cart").document(uid).collection("my_cart_items").document()
+                ordersRef.set(newItem).addOnCompleteListener {
+                    progressBar2.visibility = View.GONE
+                    dismiss()
+                }
             }
         }
     }

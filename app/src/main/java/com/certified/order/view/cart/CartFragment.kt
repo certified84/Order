@@ -42,9 +42,9 @@ class CartFragment : Fragment() {
 //        TODO: Get the cart items from firebase
         val items = listOf(
             Item(0, "Krabby Patty", "Those who don't like Krabby patties haven't tasted it", R.drawable.burger_image_3),
-            Item(1, "Awesome Item", "The taste is just awesome", R.drawable.burger_image_3),
-            Item(2, "King Item", "Are you a king? Then this is for you", R.drawable.burger_image_3),
-            Item(3, "Vegan Item", "Every vegan knows their stuff", R.drawable.burger_image_3)
+            Item(1, "Awesome Chicken and chips", "The taste is just awesome", R.drawable.chicken_and_chips_image),
+            Item(2, "King Pizza", "Are you a king? Then this is for you", R.drawable.pizza_image),
+            Item(3, "Vegan Shawarma", "Every vegan knows their stuff", R.drawable.shawarma_image)
         )
         val viewModelFactory = ItemViewModelFactory(items)
         val viewModel: ItemViewModel by lazy {

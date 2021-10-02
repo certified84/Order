@@ -19,7 +19,7 @@ class HomeViewPagerAdapter(
     }
 
     override fun createFragment(position: Int): Fragment {
-        return if (accountType == "user")
+        return if (accountType == "User")
             when (position) {
                 1 -> ReviewFragment()
                 else -> ItemFragment()

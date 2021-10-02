@@ -9,18 +9,30 @@
         tools:context=".view.HomeFragment">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_hi_name"
+            android:id="@+id/materialTextView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Hi, "
             android:layout_marginStart="@dimen/_16sdp"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textSize="@dimen/_20ssp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/materialTextView17"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_hi_name"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_hi_name" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_hi_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/materialTextView17"
+            app:layout_constraintStart_toEndOf="@+id/materialTextView4"
             app:layout_constraintTop_toTopOf="@+id/profile_image"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Hi, Samson" />
+            tools:text="Samson" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/materialTextView17"
@@ -30,7 +42,7 @@
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/profile_image"
-            app:layout_constraintStart_toStartOf="@+id/tv_hi_name"
+            app:layout_constraintStart_toStartOf="@+id/materialTextView4"
             app:layout_constraintTop_toBottomOf="@+id/tv_hi_name" />
 
         <de.hdodenhof.circleimageview.CircleImageView

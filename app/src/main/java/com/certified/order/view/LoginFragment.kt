@@ -1,5 +1,6 @@
 package com.certified.order.view
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,20 +11,27 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
+import androidx.preference.PreferenceManager
 import com.certified.order.R
 import com.certified.order.databinding.FragmentLoginBinding
+import com.certified.order.util.PreferenceKeys
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginFragment : DialogFragment() {
 
     private lateinit var navController: NavController
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentLoginBinding
+    private lateinit var preferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +49,7 @@ class LoginFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         navController = Navigation.findNavController(requireActivity().findViewById(R.id.fragment))
-        val currentUser = auth.currentUser
+        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         binding.apply {
             btnLogin.setOnClickListener {
@@ -49,51 +57,51 @@ class LoginFragment : DialogFragment() {
                 val email = etEmail.text.toString().trim()
                 val password = etPassword.text.toString().trim()
 
-                if (currentUser == null) {
-                    if (email.isNotEmpty() && password.isNotEmpty()) {
-                        progressBar.visibility = View.VISIBLE
+                if (email.isNotEmpty() && password.isNotEmpty()) {
+                    progressBar.visibility = View.VISIBLE
 
-                        auth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(requireActivity()) { task ->
-                                if (task.isSuccessful) {
+                    auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(requireActivity()) { task ->
+                            if (task.isSuccessful) {
 
-                                    progressBar.visibility = View.GONE
+                                progressBar.visibility = View.GONE
 
-                                    val user = auth.currentUser
+                                val user = auth.currentUser
 
-                                    if (user?.isEmailVerified!!)
-                                        checkAccountType(user)
-                                    else
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Check your email for verification link",
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                } else {
-
-                                    progressBar.visibility = View.GONE
-
+                                if (user?.isEmailVerified!!)
+                                    checkAccountType(user)
+                                else
                                     Toast.makeText(
                                         requireContext(),
-                                        "Authentication failed. ${task.exception}",
-                                        Toast.LENGTH_SHORT
+                                        "Check your email for verification link",
+                                        Toast.LENGTH_LONG
                                     ).show()
-                                }
+                            } else {
+
+                                progressBar.visibility = View.GONE
+
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Authentication failed. ${task.exception}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-                    } else
-                        Toast.makeText(
-                            requireContext(),
-                            "All fields are required",
-                            Toast.LENGTH_LONG
-                        ).show()
-                }
+                        }
+                } else
+                    Toast.makeText(
+                        requireContext(),
+                        "All fields are required",
+                        Toast.LENGTH_LONG
+                    ).show()
             }
 
             root.setOnClickListener { super.dismiss() }
 
             tvSignup.setOnClickListener {
                 super.dismiss()
-                showSignupDialog()
+                CoroutineScope(Dispatchers.IO).launch {
+                    showSignupDialog()
+                }
             }
         }
     }
@@ -105,12 +113,12 @@ class LoginFragment : DialogFragment() {
 //        if (isLargeLayout) {
 //            signupFragment.show(fragmentManager, "signupFragment")
 //        } else {
-            val transaction = fragmentManager.beginTransaction()
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            transaction
-                .add(android.R.id.content, signupFragment)
-                .addToBackStack(null)
-                .commit()
+        val transaction = fragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        transaction
+            .add(android.R.id.content, signupFragment)
+            .addToBackStack(null)
+            .commit()
 //        }
     }
 
@@ -125,6 +133,7 @@ class LoginFragment : DialogFragment() {
                 if (accountType == "Dispatcher" && !isApproved!!)
                     showDialog()
                 else {
+                    saveDetails(db, accountType, isApproved)
                     dismiss()
                     val navOptions = NavOptions.Builder()
                         .setPopUpTo(R.id.onboardingFragment, true).build()
@@ -132,6 +141,29 @@ class LoginFragment : DialogFragment() {
                 }
             }
         }
+    }
+
+    private fun saveDetails(db: FirebaseFirestore, accountType: String?, isApproved: Boolean?) {
+        val editor = preferences.edit()
+        editor.putString(PreferenceKeys.ACCOUNT_TYPE, accountType)
+        editor.putBoolean(PreferenceKeys.IS_APPROVED, isApproved!!)
+        editor.putBoolean(PreferenceKeys.IS_FIRST_LOGIN, false)
+        editor.putString(PreferenceKeys.USER_NAME, auth.currentUser?.displayName)
+        editor.putString(PreferenceKeys.USER_EMAIL, auth.currentUser?.email)
+
+        val userRef = if (accountType == "Dispatcher")
+            db.collection("accounts").document("dispatchers")
+                .collection(auth.currentUser!!.uid).document("details")
+        else
+            db.collection("accounts").document("users")
+                .collection(auth.currentUser!!.uid).document("details")
+        userRef.get().addOnSuccessListener {
+            if (it.exists()) {
+                val phone = it.getString("phone")
+                editor.putString(PreferenceKeys.USER_PHONE, phone)
+            }
+        }
+        editor.apply()
     }
 
     private fun showDialog() {

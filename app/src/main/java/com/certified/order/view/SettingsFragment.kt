@@ -1,5 +1,8 @@
 package com.certified.order.view
 
+import android.content.Intent
+import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,16 +19,18 @@ import com.certified.order.R
 import com.certified.order.databinding.FragmentSettingsBinding
 import com.certified.order.util.PreferenceKeys
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SettingsFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentSettingsBinding
     private lateinit var navController: NavController
+    private lateinit var preferences: SharedPreferences
     private var accountType: String? = null
 
     override fun onCreateView(
@@ -42,13 +47,11 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val user = auth.currentUser
         navController = Navigation.findNavController(view)
+        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        if (user != null) {
-            loadUserDetails(user)
-            checkAccountType(user)
-        }
+        loadUserDetails()
+        checkAccountType()
 
         binding.apply {
             groupMyProfile.setOnClickListener { navController.navigate(R.id.profileFragment) }
@@ -57,7 +60,6 @@ class SettingsFragment : Fragment() {
                 Toast.makeText(requireContext(), "", Toast.LENGTH_LONG).show()
             }
 
-            val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
             val nightMode = preferences.getInt(PreferenceKeys.DARK_MODE, 0)
             val editor = preferences.edit()
 
@@ -73,8 +75,22 @@ class SettingsFragment : Fragment() {
                 editor.apply()
             }
 
+            groupAboutUs.setOnClickListener {
+//                TODO: lytical technology about us page
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.lyticaltechnology.com/")
+                )
+            }
+            groupContactUs.setOnClickListener {
+//                TODO: Open mail app to .....
+                Intent(Intent.ACTION_SEND)
+            }
+
             btnSignout.setOnClickListener {
                 auth.signOut()
+                editor.putString(PreferenceKeys.ACCOUNT_TYPE, "")
+                editor.apply()
                 val navOptions = NavOptions.Builder()
                 navOptions.setPopUpTo(R.id.onboardingFragment, true)
                 navController.navigate(R.id.onboardingFragment)
@@ -86,53 +102,43 @@ class SettingsFragment : Fragment() {
         TODO("Not yet implemented")
     }
 
-    private fun loadUserDetails(user: FirebaseUser?) {
-        val db = Firebase.firestore
-        val userRef =
-            db.collection("accounts").document("users")
-                .collection(user!!.uid).document("details")
-        userRef.get().addOnSuccessListener {
-            if (it.exists()) {
-                val phone = it.getString("phone")
-                val profileImageUri = user.photoUrl
+    private fun loadUserDetails() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val name = preferences.getString(PreferenceKeys.USER_NAME, "")
+            val email = preferences.getString(PreferenceKeys.USER_EMAIL, "")
+            val phone = preferences.getString(PreferenceKeys.USER_PHONE, "")
+            val profileImageUri = auth.currentUser!!.photoUrl
+            accountType = preferences.getString("account_type", "")
 
-                binding.apply {
-                    if (profileImageUri != null)
-                        Glide.with(requireContext())
-                            .load(profileImageUri)
-                            .into(profileImage)
-                    else
-                        Glide.with(requireContext())
-                            .load(R.drawable.no_profile_image)
-                            .into(profileImage)
+            binding.apply {
+                if (profileImageUri != null)
+                    Glide.with(requireContext())
+                        .load(profileImageUri)
+                        .into(profileImage)
+                else
+                    Glide.with(requireContext())
+                        .load(R.drawable.no_profile_image)
+                        .into(profileImage)
 
-                    tvName.text = user.displayName
-                    tvEmail.text = user.email
-                    tvPhone.text = phone
-                }
+                tvName.text = name
+                tvEmail.text = email
+                tvPhone.text = phone
             }
         }
     }
 
-    private fun checkAccountType(user: FirebaseUser) {
-        val db = Firebase.firestore
-        val userRef =
-            db.collection("account_type").document(user.uid)
-        userRef.get().addOnSuccessListener {
-            if (it.exists()) {
-                accountType = it.getString("account_type")
-                binding.apply {
-                    if (accountType == "dispatcher") {
-                        groupMyAddress.visibility = View.GONE
-                        groupPaymentMethods.visibility = View.GONE
-                        groupMyOrders.setOnClickListener {
+    private fun checkAccountType() {
+        binding.apply {
+            if (accountType == "Dispatcher") {
+                tvMyOrders.text = getString(R.string.completed_orders)
+                groupMyAddress.visibility = View.GONE
+                groupPaymentMethods.visibility = View.GONE
+                groupMyOrders.setOnClickListener {
 //                            TODO: Show the dispatchers completed orders
-                            TODO( "Not yet implemented")
-                        }
-                    } else
-                        groupMyOrders.setOnClickListener { navController.navigate(R.id.myOrdersFragment) }
+                    TODO("Not yet implemented")
                 }
-            }
+            } else
+                groupMyOrders.setOnClickListener { navController.navigate(R.id.myOrdersFragment) }
         }
     }
 }

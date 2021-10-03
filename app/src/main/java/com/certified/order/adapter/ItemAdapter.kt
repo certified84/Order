@@ -1,6 +1,7 @@
 package com.certified.order.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,7 +11,7 @@ import com.certified.order.R
 import com.certified.order.databinding.LayoutItemBinding
 import com.certified.order.model.Item
 
-class ItemAdapter(val items: List<Item>) :
+class ItemAdapter(val items: List<Item>, val from: String? = null) :
     ListAdapter<Item, ItemAdapter.ViewHolder>(diffCallback) {
 
     private lateinit var listener: OnItemClickedListener
@@ -34,6 +35,8 @@ class ItemAdapter(val items: List<Item>) :
             binding.item = item
             binding.executePendingBindings()
             binding.apply {
+                if (from != null)
+                    groupQuantity.visibility = View.GONE
                 when (item.type) {
                     "burger" -> Glide.with(itemView)
                         .load(R.drawable.burger_image_3)

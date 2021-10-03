@@ -12,8 +12,8 @@
             android:id="@+id/materialTextView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hi, "
             android:layout_marginStart="@dimen/_16sdp"
+            android:text="Hi, "
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textSize="@dimen/_20ssp"
             android:textStyle="bold"
@@ -72,36 +72,52 @@
             android:layout_marginTop="@dimen/_16sdp"
             android:orientation="horizontal"
             app:chipSpacingHorizontal="@dimen/_8sdp"
-            app:selectionRequired="true"
-            app:singleSelection="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_image">
+            app:layout_constraintTop_toBottomOf="@+id/profile_image"
+            app:selectionRequired="true"
+            app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_burger"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Burger" />
+                android:text="Burger"
+                android:textColor="@color/midWhite"
+                app:checkedIconTint="@color/midWhite"
+                app:chipBackgroundColor="@color/colorPrimary" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_chicken_and_chips"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chicken and chips" />
+                android:text="Chicken and chips"
+                android:textColor="@color/midWhite"
+                app:checkedIconTint="@color/midWhite"
+                app:chipBackgroundColor="@color/colorPrimary" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_pizza"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pizza" />
+                android:text="Pizza"
+                android:textColor="@color/midWhite"
+                app:checkedIconTint="@color/midWhite"
+                app:chipBackgroundColor="@color/colorPrimary" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_shawarma"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Shawarma" />
+                android:text="Shawarma"
+                android:textColor="@color/midWhite"
+                app:checkedIconTint="@color/midWhite"
+                app:chipBackgroundColor="@color/colorPrimary" />
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -127,16 +143,16 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.tabs.TabItem
-                        android:textSize="@dimen/_14ssp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Burgers" />
+                        android:text="Burgers"
+                        android:textSize="@dimen/_14ssp" />
 
                     <com.google.android.material.tabs.TabItem
-                        android:textSize="@dimen/_14ssp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Reviews" />
+                        android:text="Reviews"
+                        android:textSize="@dimen/_14ssp" />
 
                 </com.google.android.material.tabs.TabLayout>
 

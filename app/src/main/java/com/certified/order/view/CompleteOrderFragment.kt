@@ -104,14 +104,6 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
                 }
             }
 
-            val deliveryFee = 1000.00
-            var subtotal = deliveryFee
-            for (item in items) {
-//                subtotal += item.price
-                subtotal += item.total_price
-            }
-
-            tvSubtotal.text = subtotal.toString()
             tvReceiverName.text = currentUser.displayName
 
             if (profileImage == null)
@@ -141,7 +133,7 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
                             currentUser.displayName!!,
                             currentUser.photoUrl,
                             tvReceiverPhone.text.toString(),
-                            subtotal,
+                            tvSubtotal.text.toString().toDouble(),
                             items
                         )
                         newOrder.deliveryTime = tvDeliveryTime.text.toString()
@@ -179,11 +171,12 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
                     ).show()
             }
 
-            val raveUiManager = RavePayManager(requireActivity()).setAmount(subtotal)
-                .setCurrency("NGN")
-                .setfName(currentUser.displayName?.substringBefore(" "))
-                .setlName(currentUser.displayName?.substringAfter(" "))
-                .setEmail(currentUser.email)
+//            val raveUiManager =
+//                RavePayManager(requireActivity()).setAmount(tvSubtotal.text.toString().toDouble())
+//                    .setCurrency("NGN")
+//                    .setfName(currentUser.displayName?.substringBefore(" "))
+//                    .setlName(currentUser.displayName?.substringAfter(" "))
+//                    .setEmail(currentUser.email)
         }
     }
 

@@ -88,16 +88,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/iv_edit_profile"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/_8sdp"
-                            android:layout_marginTop="@dimen/_8sdp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_baseline_edit_24" />
-
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/profile_image"
                             android:layout_width="@dimen/_50sdp"
@@ -185,9 +175,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_8sdp"
+                            android:layout_marginStart="@dimen/_16sdp"
                             android:src="@drawable/ic_baseline_person_24"
                             app:layout_constraintBottom_toTopOf="@+id/appCompatImageView3"
-                            app:layout_constraintStart_toStartOf="@+id/appCompatImageView"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
 
                         <androidx.appcompat.widget.AppCompatImageView
@@ -256,10 +247,11 @@
                             android:id="@+id/materialTextView6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
                             android:text="@string/my_profile"
                             android:textSize="@dimen/_10ssp"
                             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
-                            app:layout_constraintStart_toStartOf="@+id/tv_my_orders"
+                            app:layout_constraintStart_toEndOf="@+id/appCompatImageView2"
                             app:layout_constraintTop_toTopOf="@+id/appCompatImageView2" />
 
                         <com.google.android.material.textview.MaterialTextView

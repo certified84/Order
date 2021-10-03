@@ -179,8 +179,20 @@
                         android:text="@string/subtotal"
                         android:textSize="@dimen/_10ssp"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_subtotal"
-                        app:layout_constraintEnd_toStartOf="@+id/tv_subtotal"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_ngn_sign"
                         app:layout_constraintTop_toTopOf="@+id/tv_subtotal" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_ngn_sign"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="#"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="bold"
+                        app:layout_constraintTop_toTopOf="@+id/tv_subtotal"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_subtotal"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_subtotal"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_subtotal"
@@ -189,6 +201,7 @@
                         android:textColor="@color/red"
                         android:textSize="@dimen/_10ssp"
                         android:textStyle="bold"
+                        android:text="@{String.valueOf(viewModel.subtotal)}"
                         app:layout_constraintBottom_toBottomOf="@+id/btn_complete_order"
                         app:layout_constraintEnd_toEndOf="@+id/recycler_view_items_to_deliver"
                         app:layout_constraintTop_toTopOf="@+id/btn_complete_order"
@@ -209,14 +222,14 @@
 
                     <ProgressBar
                         android:id="@+id/progressBar"
-                        android:visibility="gone"
                         style="?android:attr/progressBarStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="@+id/recycler_view_items_to_deliver"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="@+id/recycler_view_items_to_deliver" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>

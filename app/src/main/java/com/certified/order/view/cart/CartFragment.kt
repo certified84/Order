@@ -1,6 +1,5 @@
 package com.certified.order.view.cart
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.certified.order.ItemViewModel
 import com.certified.order.ItemViewModelFactory
-import com.certified.order.adapter.OtherCartAdapter
+import com.certified.order.adapter.CartAdapter
 import com.certified.order.databinding.FragmentCartBinding
 import com.certified.order.model.Item
 import com.certified.order.view.CompleteOrderFragment
@@ -19,13 +18,14 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
 
 class CartFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentCartBinding
-    private lateinit var adapter: OtherCartAdapter
+    private lateinit var adapter: CartAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +51,7 @@ class CartFragment : Fragment() {
             ),
             Item(
                 "Awesome Chicken and chips",
-                "The taste is just awesome","chicken and chips"
+                "The taste is just awesome", "chicken and chips"
             ),
             Item(
                 "King Pizza",
@@ -79,17 +79,36 @@ class CartFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        val cartItems =
-            Firebase.firestore.collection("cart").document(Firebase.auth.currentUser!!.uid).collection("my_cart_items")
-        val query = cartItems.orderBy("id")
-        val options = FirestoreRecyclerOptions.Builder<Item>().setQuery(query, Item::class.java).build()
-        adapter = OtherCartAdapter(options)
+        val query =
+            Firebase.firestore.collection("cart").document(Firebase.auth.currentUser!!.uid)
+                .collection("my_cart_items").orderBy("id")
+        val options =
+            FirestoreRecyclerOptions.Builder<Item>().setQuery(query, Item::class.java).build()
+        adapter = CartAdapter(options)
         binding.recyclerViewItems.adapter = adapter
         binding.recyclerViewItems.layoutManager = LinearLayoutManager(requireContext())
 
+        val itemss = ArrayList<Item>()
+        query.get().addOnSuccessListener {
+            for (querySnapshot in it) {
+                val id: String = querySnapshot.id
+                val name: String? = querySnapshot.getString("name")
+                val description: String? = querySnapshot.getString("description")
+                val price: Int? = querySnapshot.getField("price")
+                val quantity: String? = querySnapshot.getString("quantity")
+                val totalPrice: Int? = querySnapshot.getField("total_price")
+                val type: String? = querySnapshot.getString("type")
+                val item = Item(name!!, description!!, type!!)
+                item.id = id
+                item.price = price!!
+                item.total_price = totalPrice!!
+                item.quantity = quantity!!
+                itemss.add(item)
+            }
+        }
         binding.apply {
             btnCompleteOrder.setOnClickListener {
-                showCompleteOrderDialog(items)
+                showCompleteOrderDialog(itemss)
             }
         }
     }

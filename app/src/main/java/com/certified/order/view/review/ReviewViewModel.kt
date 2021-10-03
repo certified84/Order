@@ -25,6 +25,6 @@ class ReviewViewModel(private val reviewList: List<Review>) : ViewModel() {
         Handler(Looper.myLooper()!!).postDelayed({
             _reviews.value = reviewList
             _showProgressBar.value = false
-        }, 5000)
+        }, 2000)
     }
 }

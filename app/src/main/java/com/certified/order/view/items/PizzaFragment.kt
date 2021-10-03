@@ -79,7 +79,7 @@ class PizzaFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.recyclerViewItems.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = ItemAdapter(pizzas)
+        val adapter = ItemAdapter(pizzas, "Pizza")
         binding.recyclerViewItems.adapter = adapter
 
         adapter.setOnItemClickedListener(object : OnItemClickedListener {

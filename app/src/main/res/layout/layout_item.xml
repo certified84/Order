@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@{item.name}"
@@ -56,7 +56,7 @@
                 android:id="@+id/tv_item_desc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:alpha=".7"
                 android:ellipsize="end"
                 android:maxLines="2"
@@ -73,29 +73,62 @@
                 tools:text="The only people who don't like a Krabby Patty have never tasted one." />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView25"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="#"
                 android:textColor="@color/red"
-                android:textSize="@dimen/_8ssp"
+                android:textSize="@dimen/_11ssp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_item_price"
                 app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/tv_item_price" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_item_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
                 android:text="@{String.valueOf(item.price)}"
                 android:textColor="@color/red"
-                android:textSize="@dimen/_8ssp"
+                android:textSize="@dimen/_11ssp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/materialTextView26"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_item_name"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="450" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="Qty: "
+                android:textSize="@dimen/_11ssp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_item_desc"
+                app:layout_constraintStart_toEndOf="@+id/tv_item_desc"
+                app:layout_constraintStart_toStartOf="@+id/materialTextView25"
+                app:layout_constraintTop_toBottomOf="@+id/tv_item_price" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/itv_item_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.quantity}"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/materialTextView26"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView26"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView26"
+                tools:text="2" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/group_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="itv_item_quantity,materialTextView26" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

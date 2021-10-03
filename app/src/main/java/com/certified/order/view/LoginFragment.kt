@@ -161,6 +161,7 @@ class LoginFragment : DialogFragment() {
             if (it.exists()) {
                 val phone = it.getString("phone")
                 editor.putString(PreferenceKeys.USER_PHONE, phone)
+                editor.apply()
             }
         }
         editor.apply()

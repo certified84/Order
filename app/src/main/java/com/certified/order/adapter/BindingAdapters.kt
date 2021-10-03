@@ -23,17 +23,17 @@ fun bindItemRecyclerView(recyclerView: RecyclerView, data: List<Item>?) {
     adapter.submitList(data)
 }
 
-@BindingAdapter("listCartItems")
-fun bindCartRecyclerView(recyclerView: RecyclerView, data: List<Item>?) {
-    val adapter = recyclerView.adapter as CartAdapter
-    adapter.submitList(data)
-}
+//@BindingAdapter("listCartItems")
+//fun bindCartRecyclerView(recyclerView: RecyclerView, data: List<Item>?) {
+//    val adapter = recyclerView.adapter as CartAdapter
+//    adapter.submitList(data)
+//}
 
-@BindingAdapter("listReviews")
-fun bindReviewRecyclerView(recyclerView: RecyclerView, data: List<Review>?) {
-    val adapter = recyclerView.adapter as ReviewAdapter
-    adapter.submitList(data)
-}
+//@BindingAdapter("listReviews")
+//fun bindReviewRecyclerView(recyclerView: RecyclerView, data: List<Review>?) {
+//    val adapter = recyclerView.adapter as ReviewAdapter
+//    adapter.submitList(data)
+//}
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {

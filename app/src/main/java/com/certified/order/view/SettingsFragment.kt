@@ -51,12 +51,13 @@ class SettingsFragment : Fragment() {
         checkAccountType()
 
         binding.apply {
-            ivEditProfile.setOnClickListener { navController.navigate(R.id.profileFragment) }
+
             groupMyProfile.setOnClickListener { navController.navigate(R.id.profileFragment) }
             groupMyAddress.setOnClickListener { showMap() }
             groupPaymentMethods.setOnClickListener {
                 Toast.makeText(requireContext(), "", Toast.LENGTH_LONG).show()
             }
+            groupMyOrders.setOnClickListener { navController.navigate(R.id.myOrdersFragment) }
 
             val nightMode = preferences.getInt(PreferenceKeys.DARK_MODE, 0)
             val editor = preferences.edit()
@@ -74,10 +75,11 @@ class SettingsFragment : Fragment() {
             }
 
             groupAboutUs.setOnClickListener {
-//                TODO: lytical technology about us page
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://lyticaltechnology.com/#about")
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://lyticaltechnology.com/#about")
+                    )
                 )
             }
             groupContactUs.setOnClickListener {
@@ -100,8 +102,8 @@ class SettingsFragment : Fragment() {
                 editor.putBoolean(PreferenceKeys.IS_FIRST_LOGIN, true)
                 editor.putBoolean(PreferenceKeys.IS_APPROVED, false)
                 editor.apply()
-                val navOptions = NavOptions.Builder()
-                navOptions.setPopUpTo(R.id.settingsFragment, true)
+                val navOptions = NavOptions.Builder().setPopUpTo(R.id.onboardingFragment, true).build()
+                navController.popBackStack()
                 navController.navigate(R.id.onboardingFragment)
             }
         }
@@ -136,15 +138,10 @@ class SettingsFragment : Fragment() {
     private fun checkAccountType() {
         binding.apply {
             if (accountType == "Dispatcher") {
-                tvMyOrders.text = getString(R.string.completed_orders)
+                groupMyOrders.visibility = View.GONE
                 groupMyAddress.visibility = View.GONE
                 groupPaymentMethods.visibility = View.GONE
-                groupMyOrders.setOnClickListener {
-//                            TODO: Show the dispatchers completed orders
-                    TODO("Not yet implemented")
-                }
-            } else
-                groupMyOrders.setOnClickListener { navController.navigate(R.id.myOrdersFragment) }
+            }
         }
     }
 }

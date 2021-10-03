@@ -50,9 +50,9 @@ class HomeFragment : Fragment() {
         navController = Navigation.findNavController(view)
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        val currentUser = auth.currentUser!!
+        val currentUser = auth.currentUser
         val name = preferences.getString(PreferenceKeys.USER_NAME, "")?.substringBefore(" ")
-        val profilePicture = currentUser.photoUrl
+        val profilePicture = currentUser?.photoUrl
 
         checkAccountType()
 
@@ -102,9 +102,10 @@ class HomeFragment : Fragment() {
 
             if (accountType == "User")
                 cart.setOnClickListener { navController.navigate(R.id.cartFragment) }
-            else
-//                TODO: navigate to the dispatchers completed orders
+            else {
                 cart.setOnClickListener { navController.navigate(R.id.completedOrdersFragment) }
+                tabLayout.getTabAt(0)!!.text = "New Orders"
+            }
         }
     }
 

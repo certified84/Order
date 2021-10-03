@@ -68,7 +68,7 @@ class ChickenAndChipsFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.recyclerViewItems.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = ItemAdapter(chickenAndChips)
+        val adapter = ItemAdapter(chickenAndChips, "Chicken and chips")
         binding.recyclerViewItems.adapter = adapter
 
         adapter.setOnItemClickedListener(object : OnItemClickedListener {

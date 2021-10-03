@@ -1,5 +1,7 @@
-package com.certified.order
+package com.certified.order.view.review
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,14 +22,9 @@ class ReviewViewModel(private val reviewList: List<Review>) : ViewModel() {
     }
 
     private fun getBurgers() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            try {
-                _reviews.value = reviewList
-                _showProgressBar.value = false
-//            } catch (e: Exception) {
-////                TODO: Show Shimmering or something like that design
-//        e.message
-//            }
-//        }
+        Handler(Looper.myLooper()!!).postDelayed({
+            _reviews.value = reviewList
+            _showProgressBar.value = false
+        }, 5000)
     }
 }

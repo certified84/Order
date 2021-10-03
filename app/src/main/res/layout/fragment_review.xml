@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.certified.order.ReviewViewModel" />
+            type="com.certified.order.view.review.ReviewViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.ReviewFragment">
+        tools:context=".view.review.ReviewFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_reviews"

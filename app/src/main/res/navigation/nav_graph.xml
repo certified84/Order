@@ -31,7 +31,7 @@
         android:label="CartFragment" />
     <fragment
         android:id="@+id/deliveredOrdersFragment"
-        android:name="com.certified.order.view.DeliveredOrdersFragment"
+        android:name="com.certified.order.view.my_orders.DeliveredOrdersFragment"
         android:label="DeliveredOrdersFragment" />
     <fragment
         android:id="@+id/completeOrderFragment"
@@ -43,7 +43,7 @@
         android:label="DetailsFragment" />
     <fragment
         android:id="@+id/myOrdersFragment"
-        android:name="com.certified.order.view.MyOrdersFragment"
+        android:name="com.certified.order.view.my_orders.MyOrdersFragment"
         android:label="MyOrdersFragment" />
     <fragment
         android:id="@+id/orderDetailsFragment"

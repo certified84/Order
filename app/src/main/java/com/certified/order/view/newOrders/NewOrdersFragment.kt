@@ -1,5 +1,6 @@
 package com.certified.order.view.newOrders
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,10 +37,14 @@ class NewOrdersFragment(private val orders: List<Order>) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val burgers = listOf(
-            Item(0, "Krabby Patty", "Those who don't like Krabby patties haven't tasted it", R.drawable.burger_image_3),
-            Item(1, "Awesome Item", "The taste is just awesome", R.drawable.burger_image_3),
-            Item(2, "King Item", "Are you a king? Then this is for you", R.drawable.burger_image_3),
-            Item(3, "Vegan Item", "Every vegan knows their stuff", R.drawable.burger_image_3)
+            Item("Krabby Patty", "Those who don't like Krabby patties haven't tasted it",
+                "burger"),
+            Item( "Awesome Burger", "The taste is just awesome",
+                "burger"),
+            Item("King Burger", "Are you a king? Then this is for you",
+                "burger"),
+            Item("Vegan Burger", "Every vegan knows their stuff",
+                "burger")
         )
 //        val viewModelFactory = ItemViewModelFactory(burgers)
 //        val viewModel: ItemViewModel by lazy {

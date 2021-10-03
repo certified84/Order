@@ -36,7 +36,7 @@
 
     <style name="TextAppearance.Order.TitleText" parent="Widget.MaterialComponents.TextView">
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="TextAppearance.Order.SubtitleText" parent="Widget.MaterialComponents.TextView">

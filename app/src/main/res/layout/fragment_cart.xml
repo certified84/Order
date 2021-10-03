@@ -18,7 +18,6 @@
             android:id="@+id/recycler_view_items"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:listCartItems="@{viewModel.items}"
             android:layout_marginTop="@dimen/_16sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -30,14 +29,14 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_complete_order"
             android:layout_width="0dp"
-            android:layout_margin="@dimen/_16sdp"
             android:layout_height="@dimen/_40sdp"
+            android:layout_margin="@dimen/_16sdp"
             android:text="Checkout"
             android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_view_items"
             app:layout_constraintVertical_bias="0.767" />
 
         <ProgressBar

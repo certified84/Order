@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.certified.order.ItemViewModel
 import com.certified.order.ItemViewModelFactory
-import com.certified.order.R
 import com.certified.order.adapter.ItemAdapter
 import com.certified.order.adapter.ItemAdapter.OnItemClickedListener
 import com.certified.order.databinding.FragmentItemsBinding
@@ -39,27 +38,29 @@ class ShawarmaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        TODO: change the burger picture to shawarma
         val shawarmas = listOf(
             Item(
-                0,
-                "Krabby Patty",
+                "Krabby Shawarma",
                 "Those who don't like Krabby patties haven't tasted it",
-                R.drawable.shawarma_image
+                "shawarma"
             ),
-            Item(1, "Awesome Pizza", "The taste is just awesome", R.drawable.shawarma_image),
             Item(
-                2,
-                "King Pizza",
+                "Awesome Shawarma", "The taste is just awesome",
+                "shawarma"
+            ),
+            Item(
+                "King Shawarma",
                 "Are you a king? Then this is for you",
-                R.drawable.shawarma_image
+                "shawarma"
             ),
-            Item(3, "Vegan Pizza", "Every vegan knows their stuff", R.drawable.shawarma_image),
             Item(
-                4,
-                "Chicken Pizza",
+                "Vegan Shawarma", "Every vegan knows their stuff",
+                "shawarma"
+            ),
+            Item(
+                "Chicken Shawarma",
                 "I bet you love eating chicken. If you do, then this is for you",
-                R.drawable.shawarma_image
+                "shawarma"
             )
         )
         val viewModelFactory = ItemViewModelFactory(shawarmas)

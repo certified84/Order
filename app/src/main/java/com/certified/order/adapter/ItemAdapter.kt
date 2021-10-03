@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.certified.order.R
 import com.certified.order.databinding.LayoutItemBinding
 import com.certified.order.model.Item
 
@@ -33,11 +33,22 @@ class ItemAdapter(val items: List<Item>) :
         fun bind(item: Item) {
             binding.item = item
             binding.executePendingBindings()
-            Glide.with(itemView)
-                .load(item.picture)
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.itemImage)
+            binding.apply {
+                when (item.type) {
+                    "burger" -> Glide.with(itemView)
+                        .load(R.drawable.burger_image_3)
+                        .into(itemImage)
+                    "shawarma" -> Glide.with(itemView)
+                        .load(R.drawable.shawarma_image)
+                        .into(itemImage)
+                    "pizza" -> Glide.with(itemView)
+                        .load(R.drawable.pizza_image)
+                        .into(itemImage)
+                    "chicken and chips" -> Glide.with(itemView)
+                        .load(R.drawable.chicken_and_chips_image)
+                        .into(itemImage)
+                }
+            }
         }
 
         init {

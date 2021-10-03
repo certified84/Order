@@ -2,29 +2,33 @@ package com.certified.order.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.certified.order.R
 import com.certified.order.databinding.LayoutItemCartBinding
 import com.certified.order.model.Item
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
-class CartAdapter(private val items: List<Item>) :
-    ListAdapter<Item, CartAdapter.ViewHolder>(diffCallback) {
+class OtherCartAdapter(options: FirestoreRecyclerOptions<Item>) :
+    FirestoreRecyclerAdapter<Item, OtherCartAdapter.ViewHolder>(
+        options
+    ) {
 
-    companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<Item>() {
-            override fun areItemsTheSame(oldItem: Item, newItem: Item) =
-                oldItem.id == newItem.id
-
-            override fun areContentsTheSame(
-                oldItem: Item,
-                newItem: Item
-            ): Boolean = oldItem == newItem
-        }
-    }
+//    companion object {
+//        private val options: FirestoreRecyclerOptions<Item> =
+//            FirestoreRecyclerOptions.Builder<Item>()
+//                .setQuery(
+//                    Firebase.firestore.collection("cart")
+//                        .document(Firebase.auth.currentUser!!.uid).collection("my_cart_items"),
+//                    Item::class.java
+//                ).build()
+//    }
 
     inner class ViewHolder(private val binding: LayoutItemCartBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -33,7 +37,7 @@ class CartAdapter(private val items: List<Item>) :
             binding.item = burger
             var quantity = burger.quantity.toInt()
             checkQuantity(quantity)
-            binding.executePendingBindings()
+//            binding.executePendingBindings()
             binding.apply {
                 when (item!!.type) {
                     "burger" -> Glide.with(itemView)
@@ -80,8 +84,7 @@ class CartAdapter(private val items: List<Item>) :
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = items[position]
-        holder.bind(currentItem)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, model: Item) {
+        holder.bind(model)
     }
 }

@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.certified.order.ItemViewModel
 import com.certified.order.ItemViewModelFactory
-import com.certified.order.R
 import com.certified.order.adapter.ItemAdapter
 import com.certified.order.adapter.ItemAdapter.OnItemClickedListener
 import com.certified.order.databinding.FragmentItemsBinding
@@ -41,14 +40,22 @@ class BurgerFragment : Fragment() {
 
         val burgers = listOf(
             Item(
-                0,
                 "Krabby Patty",
                 "Those who don't like Krabby patties haven't tasted it",
-                R.drawable.burger_image_3
+                "burger"
             ),
-            Item(1, "Awesome Item", "The taste is just awesome", R.drawable.burger_image_3),
-            Item(2, "King Item", "Are you a king? Then this is for you", R.drawable.burger_image_3),
-            Item(3, "Vegan Item", "Every vegan knows their stuff", R.drawable.burger_image_3)
+            Item(
+                "Awesome Item", "The taste is just awesome",
+                "burger"
+            ),
+            Item(
+                "King Item", "Are you a king? Then this is for you",
+                "burger"
+            ),
+            Item(
+                "Vegan Item", "Every vegan knows their stuff",
+                "burger"
+            )
         )
         val viewModelFactory = ItemViewModelFactory(burgers)
         val viewModel: ItemViewModel by lazy {

@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.certified.order.view.DeliveredOrdersFragment
-import com.certified.order.view.PendingOrdersFragment
+import com.certified.order.view.my_orders.DeliveredOrdersFragment
+import com.certified.order.view.my_orders.PendingOrdersFragment
 
 class MyOrdersViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle): FragmentStateAdapter(fragmentManager, lifecycle) {
 

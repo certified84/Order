@@ -6,7 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.certified.order.view.CompletedOrdersFragment
 import com.certified.order.view.ItemFragment
-import com.certified.order.view.ReviewFragment
+import com.certified.order.view.review.ReviewFragment
 
 class HomeViewPagerAdapter(
     fragmentManager: FragmentManager,

@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<!--    TODO: Change the type to item -->
     <data>
         <variable
             name="item"
@@ -125,6 +124,8 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimary"
                 android:contentDescription="Increase quantity button"
+                android:minWidth="@dimen/_25sdp"
+                android:minHeight="@dimen/_25sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/tv_item_price"
                 app:layout_constraintTop_toBottomOf="@+id/tv_item_desc"
@@ -135,6 +136,8 @@
                 android:id="@+id/btn_decrease_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="@dimen/_25sdp"
+                android:minHeight="@dimen/_25sdp"
                 android:layout_marginEnd="@dimen/_4sdp"
                 android:backgroundTint="@color/colorPrimary"
                 android:contentDescription="Decrease quantity button"

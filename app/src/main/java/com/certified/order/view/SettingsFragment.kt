@@ -21,9 +21,6 @@ import com.certified.order.util.PreferenceKeys
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class SettingsFragment : Fragment() {
 
@@ -54,6 +51,7 @@ class SettingsFragment : Fragment() {
         checkAccountType()
 
         binding.apply {
+            ivEditProfile.setOnClickListener { navController.navigate(R.id.profileFragment) }
             groupMyProfile.setOnClickListener { navController.navigate(R.id.profileFragment) }
             groupMyAddress.setOnClickListener { showMap() }
             groupPaymentMethods.setOnClickListener {
@@ -79,20 +77,31 @@ class SettingsFragment : Fragment() {
 //                TODO: lytical technology about us page
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://www.lyticaltechnology.com/")
+                    Uri.parse("https://lyticaltechnology.com/#about")
                 )
             }
             groupContactUs.setOnClickListener {
 //                TODO: Open mail app to .....
-                Intent(Intent.ACTION_SEND)
+                val intent = Intent(Intent.ACTION_SENDTO).apply {
+                    data = Uri.parse("mailto:")
+                    putExtra(Intent.EXTRA_EMAIL, "info@lyticaltechnology.com")
+                    putExtra(Intent.EXTRA_SUBJECT, "Enquiry")
+                }
+                if (intent.resolveActivity(requireActivity().packageManager) != null)
+                    startActivity(intent)
             }
 
             btnSignout.setOnClickListener {
                 auth.signOut()
                 editor.putString(PreferenceKeys.ACCOUNT_TYPE, "")
+                editor.putString(PreferenceKeys.USER_NAME, "")
+                editor.putString(PreferenceKeys.USER_EMAIL, "")
+                editor.putString(PreferenceKeys.USER_PHONE, "")
+                editor.putBoolean(PreferenceKeys.IS_FIRST_LOGIN, true)
+                editor.putBoolean(PreferenceKeys.IS_APPROVED, false)
                 editor.apply()
                 val navOptions = NavOptions.Builder()
-                navOptions.setPopUpTo(R.id.onboardingFragment, true)
+                navOptions.setPopUpTo(R.id.settingsFragment, true)
                 navController.navigate(R.id.onboardingFragment)
             }
         }
@@ -103,27 +112,24 @@ class SettingsFragment : Fragment() {
     }
 
     private fun loadUserDetails() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val name = preferences.getString(PreferenceKeys.USER_NAME, "")
-            val email = preferences.getString(PreferenceKeys.USER_EMAIL, "")
-            val phone = preferences.getString(PreferenceKeys.USER_PHONE, "")
-            val profileImageUri = auth.currentUser!!.photoUrl
-            accountType = preferences.getString("account_type", "")
+        val name = preferences.getString(PreferenceKeys.USER_NAME, "")
+        val email = preferences.getString(PreferenceKeys.USER_EMAIL, "")
+        val phone = preferences.getString(PreferenceKeys.USER_PHONE, "")
+        val profileImageUri = auth.currentUser?.photoUrl
+        accountType = preferences.getString("account_type", "")
 
-            binding.apply {
-                if (profileImageUri != null)
-                    Glide.with(requireContext())
-                        .load(profileImageUri)
-                        .into(profileImage)
-                else
-                    Glide.with(requireContext())
-                        .load(R.drawable.no_profile_image)
-                        .into(profileImage)
-
-                tvName.text = name
-                tvEmail.text = email
-                tvPhone.text = phone
-            }
+        binding.apply {
+            if (profileImageUri != null)
+                Glide.with(requireContext())
+                    .load(profileImageUri)
+                    .into(profileImage)
+            else
+                Glide.with(requireContext())
+                    .load(R.drawable.no_profile_image)
+                    .into(profileImage)
+            tvName.text = name
+            tvEmail.text = email
+            tvPhone.text = phone
         }
     }
 

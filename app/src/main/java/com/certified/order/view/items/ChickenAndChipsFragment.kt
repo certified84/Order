@@ -1,5 +1,6 @@
 package com.certified.order.view.items
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,15 +40,19 @@ class ChickenAndChipsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        TODO: change the burger picture to chicken and chips
-        val shawarmas = listOf(
-            Item(0, "Krabby Patty", "Those who don't like Krabby patties haven't tasted it", R.drawable.chicken_and_chips_image),
-            Item(1, "Awesome Pizza", "The taste is just awesome", R.drawable.chicken_and_chips_image),
-            Item(2, "King Pizza", "Are you a king? Then this is for you", R.drawable.chicken_and_chips_image),
-            Item(3, "Vegan Pizza", "Every vegan knows their stuff", R.drawable.chicken_and_chips_image),
-            Item(4, "Chicken Pizza", "I bet you love eating chicken. If you do, then this is for you", R.drawable.chicken_and_chips_image)
+        val chickenAndChips = listOf(
+            Item("Krabby Chicken and chips", "Those who don't like Krabby patties haven't tasted it",
+                "chicken and chips"),
+            Item("Awesome Chicken and chips", "The taste is just awesome",
+                "chicken and chips"),
+            Item("King Chicken and chips", "Are you a king? Then this is for you",
+                "chicken and chips"),
+            Item("Vegan Chicken and chips", "Every vegan knows their stuff",
+                "chicken and chips"),
+            Item("Plain Chicken and chips", "I bet you love eating chicken. If you do, then this is for you",
+                "chicken and chips")
         )
-        val viewModelFactory = ItemViewModelFactory(shawarmas)
+        val viewModelFactory = ItemViewModelFactory(chickenAndChips)
         val viewModel: ItemViewModel by lazy {
             ViewModelProvider(this, viewModelFactory).get(ItemViewModel::class.java)
         }
@@ -63,7 +68,7 @@ class ChickenAndChipsFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.recyclerViewItems.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = ItemAdapter(shawarmas)
+        val adapter = ItemAdapter(chickenAndChips)
         binding.recyclerViewItems.adapter = adapter
 
         adapter.setOnItemClickedListener(object : OnItemClickedListener {

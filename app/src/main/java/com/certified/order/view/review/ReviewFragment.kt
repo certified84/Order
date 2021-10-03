@@ -1,4 +1,4 @@
-package com.certified.order.view
+package com.certified.order.view.review
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.certified.order.ReviewViewModel
-import com.certified.order.ReviewViewModelFactory
 import com.certified.order.adapter.ReviewAdapter
 import com.certified.order.databinding.FragmentReviewBinding
 import com.certified.order.model.Review

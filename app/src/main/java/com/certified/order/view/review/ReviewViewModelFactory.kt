@@ -1,4 +1,4 @@
-package com.certified.order
+package com.certified.order.view.review
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

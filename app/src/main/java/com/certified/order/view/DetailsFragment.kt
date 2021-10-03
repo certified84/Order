@@ -51,9 +51,20 @@ class DetailsFragment(val type: String, val item: Item, val uid: String) : Dialo
                 btnBuyNow.visibility = View.GONE
                 btnAddToCart.visibility = View.GONE
             } else if (type == "home") {
-                Glide.with(requireContext())
-                    .load(R.drawable.burger_image_3)
-                    .into(itemImage)
+                when (item!!.type) {
+                    "burger" -> Glide.with(requireContext())
+                        .load(R.drawable.burger_image_3)
+                        .into(itemImage)
+                    "shawarma" -> Glide.with(requireContext())
+                        .load(R.drawable.shawarma_image)
+                        .into(itemImage)
+                    "pizza" -> Glide.with(requireContext())
+                        .load(R.drawable.pizza_image)
+                        .into(itemImage)
+                    "chicken and chips" -> Glide.with(requireContext())
+                        .load(R.drawable.chicken_and_chips_image)
+                        .into(itemImage)
+                }
             }
 
             btnAddToCart.setOnClickListener {
@@ -64,6 +75,7 @@ class DetailsFragment(val type: String, val item: Item, val uid: String) : Dialo
                 val db = Firebase.firestore
                 val ordersRef =
                     db.collection("cart").document(uid).collection("my_cart_items").document()
+                newItem.id = ordersRef.id
                 ordersRef.set(newItem).addOnCompleteListener {
                     progressBar2.visibility = View.GONE
                     dismiss()

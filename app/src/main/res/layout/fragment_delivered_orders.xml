@@ -6,7 +6,7 @@
         android:id="@+id/recycler_view_delivered_orders"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.DeliveredOrdersFragment"
+        tools:context=".view.my_orders.DeliveredOrdersFragment"
         tools:listitem="@layout/layout_order" />
 
 </layout>

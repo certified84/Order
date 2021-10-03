@@ -11,7 +11,8 @@ import com.certified.order.R
 import com.certified.order.databinding.LayoutItemReviewBinding
 import com.certified.order.model.Review
 
-class ReviewAdapter(private val reviews: List<Review>): ListAdapter<Review, ReviewAdapter.ViewHolder>(diffCallback) {
+class ReviewAdapter(private val reviews: List<Review>) :
+    ListAdapter<Review, ReviewAdapter.ViewHolder>(diffCallback) {
 
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Review>() {
@@ -31,21 +32,17 @@ class ReviewAdapter(private val reviews: List<Review>): ListAdapter<Review, Revi
         fun bind(review: Review) {
             binding.review = review
             binding.executePendingBindings()
-            binding.apply {
-                Glide.with(itemView)
-                    .load(R.drawable.no_profile_image)
-                    .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(ivReviewerPicture)
-//                tvName.text = character.name
-//                tvSpecie.text = character.specie
-//                tvStatus.text = character.status
-            }
+            Glide.with(itemView)
+                .load(R.drawable.no_profile_image)
+                .centerCrop()
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(binding.ivReviewerPicture)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = LayoutItemReviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            LayoutItemReviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

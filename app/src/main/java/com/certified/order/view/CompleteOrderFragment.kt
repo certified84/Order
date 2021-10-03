@@ -93,7 +93,6 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
 //            TODO: Obtain the current device location
 //            val deliveryAddress = getCurrentLocation()
             val profileImage = currentUser.photoUrl
-            tvReceiverName.text = "Samson Achiaga"
 
             val userRef =
                 db.collection("accounts").document("users")
@@ -139,9 +138,9 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
                         progressBar.visibility = View.VISIBLE
 
                         val newOrder = Order(
-                            "Samson Achiaga",
-                            null,
-                            "08136108482",
+                            currentUser.displayName!!,
+                            currentUser.photoUrl,
+                            tvReceiverPhone.text.toString(),
                             subtotal,
                             items
                         )
@@ -151,13 +150,16 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
 //                        TODO: If the oder was completed successfully, replace the if
 //                        if (true) {
                         val ordersRef = db.collection("orders").document(currentUser.uid)
+                        newOrder.id = ordersRef.id
                         ordersRef.set(newOrder).addOnCompleteListener {
                             if (it.isSuccessful) {
                                 progressBar.visibility = View.GONE
-                                val cartRef = db.collection("cart").document(currentUser.uid)
+                                val cartRef =
+                                    db.collection("cart").document(currentUser.uid)
+                                        .collection("my_cart_items")
                                 cartRef.get().addOnSuccessListener {
-////                                TODO: Delete all items in the users cart
-//                        TODO: progressBar.Visibility = View.Gone
+//                                    TODO: Delete all items in the users cart
+//                                    TODO: progressBar.Visibility = View.Gone
                                 }
                                 super.dismiss()
                             }

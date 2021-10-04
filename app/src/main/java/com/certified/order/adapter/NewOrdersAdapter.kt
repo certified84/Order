@@ -33,12 +33,9 @@ class NewOrdersAdapter(private val order: List<Order>) :
     inner class ViewHolder(private val binding: LayoutOrderBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        //        TODO: Replace the burger with an item
         fun bind(order: Order) {
             binding.order = order
             binding.executePendingBindings()
-            binding.apply {
-            }
         }
 
         init {

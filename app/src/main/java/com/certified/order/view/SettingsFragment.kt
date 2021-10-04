@@ -52,12 +52,12 @@ class SettingsFragment : Fragment() {
 
         binding.apply {
 
-            groupMyProfile.setOnClickListener { navController.navigate(R.id.profileFragment) }
-            groupMyAddress.setOnClickListener { showMap() }
-            groupPaymentMethods.setOnClickListener {
+            tvMyProfile.setOnClickListener { navController.navigate(R.id.profileFragment) }
+            tvMyAddress.setOnClickListener { showMap() }
+            tvPaymentMethods.setOnClickListener {
                 Toast.makeText(requireContext(), "", Toast.LENGTH_LONG).show()
             }
-            groupMyOrders.setOnClickListener { navController.navigate(R.id.myOrdersFragment) }
+            tvMyOrders.setOnClickListener { navController.navigate(R.id.myOrdersFragment) }
 
             val nightMode = preferences.getInt(PreferenceKeys.DARK_MODE, 0)
             val editor = preferences.edit()
@@ -74,7 +74,7 @@ class SettingsFragment : Fragment() {
                 editor.apply()
             }
 
-            groupAboutUs.setOnClickListener {
+            tvAboutUs.setOnClickListener {
                 startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
@@ -82,7 +82,7 @@ class SettingsFragment : Fragment() {
                     )
                 )
             }
-            groupContactUs.setOnClickListener {
+            tvContactUs.setOnClickListener {
 //                TODO: Open mail app to .....
                 val intent = Intent(Intent.ACTION_SENDTO).apply {
                     data = Uri.parse("mailto:")
@@ -138,9 +138,9 @@ class SettingsFragment : Fragment() {
     private fun checkAccountType() {
         binding.apply {
             if (accountType == "Dispatcher") {
-                groupMyOrders.visibility = View.GONE
-                groupMyAddress.visibility = View.GONE
-                groupPaymentMethods.visibility = View.GONE
+                tvMyOrders.visibility = View.GONE
+                tvMyAddress.visibility = View.GONE
+                tvPaymentMethods.visibility = View.GONE
             }
         }
     }

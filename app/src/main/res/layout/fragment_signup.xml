@@ -241,19 +241,19 @@
                         android:layout_height="wrap_content"
                         android:text="@string/already_have_an_account"
                         android:textSize="@dimen/_11ssp"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_login"
-                        app:layout_constraintEnd_toStartOf="@+id/tv_login"
+                        app:layout_constraintBottom_toBottomOf="@+id/btn_login"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_login"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tv_login" />
+                        app:layout_constraintTop_toTopOf="@+id/btn_login" />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_login"
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:id="@+id/btn_login"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_20sdp"
                         android:text="@string/login"
                         android:textColor="@color/red"
                         android:textSize="@dimen/_14ssp"

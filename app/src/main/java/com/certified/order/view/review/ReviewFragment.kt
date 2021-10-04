@@ -33,11 +33,11 @@ class ReviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val reviews = listOf(
-            Review("0", "Samson Achiaga", "I made the app so I'll definitely give a 5 star", 5),
-            Review("1", "Daniel Achiaga", "My brother made it so you can trust them.", 4),
-            Review("2", "Y3k & Bbno$", "Whatever man I'm just typing shit", 3),
-            Review("3", "Fuck off", "I said what I said. What you gon do?", 2),
-            Review("4", "Mr. Nobody", "Nigga y'all dumb asf", 1)
+            Review("Samson Achiaga", "I made the app so I'll definitely give a 5 star", 5),
+            Review("Daniel Achiaga", "My brother made it so you can trust them.", 4),
+            Review("Y3k & Bbno$", "Whatever man I'm just typing shit", 3),
+            Review("Fuck off", "I said what I said. What you gon do?", 2),
+            Review("Mr. Nobody", "Nigga y'all dumb asf", 1)
         )
         val viewModelFactory = ReviewViewModelFactory(reviews)
         val viewModel: ReviewViewModel by lazy {

@@ -179,7 +179,7 @@ class SignupFragment : DialogFragment() {
 
             root.setOnClickListener { super.dismiss() }
 
-            tvLogin.setOnClickListener {
+            btnLogin.setOnClickListener {
                 super.dismiss()
                 CoroutineScope(Dispatchers.IO).launch {
                     showLoginDialog()

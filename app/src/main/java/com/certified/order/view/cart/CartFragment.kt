@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.certified.order.ItemViewModel
@@ -46,62 +45,10 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        TODO: Get the cart items from firebase
-        val items = listOf(
-            Item(
-                "Krabby Patty",
-                "Those who don't like Krabby patties haven't tasted it",
-                "burger"
-            ),
-            Item(
-                "Awesome Chicken and chips",
-                "The taste is just awesome", "chicken and chips"
-            ),
-            Item(
-                "King Pizza",
-                "Are you a king? Then this is for you",
-                "pizza"
-            ),
-            Item(
-                "Vegan Shawarma",
-                "Every vegan knows their stuff",
-                "shawarma"
-            )
-        )
-        val viewModelFactory = ItemViewModelFactory(items)
-        val viewModel: ItemViewModel by lazy {
-            ViewModelProvider(this, viewModelFactory).get(ItemViewModel::class.java)
-        }
-
-        viewModel.showProgressBar.observe(viewLifecycleOwner) {
-            if (it)
-                binding.progressBar.visibility = View.VISIBLE
-            else
-                binding.progressBar.visibility = View.GONE
-        }
-
-        viewModel.showEmptyCartDesign.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.apply {
-                    groupEmptyCart.visibility = View.VISIBLE
-                    groupCartItems.visibility = View.GONE
-                }
-            }
-        }
-
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
-
+        val items = ArrayList<Item>()
         val query =
             Firebase.firestore.collection("cart").document(Firebase.auth.currentUser!!.uid)
                 .collection("my_cart_items").orderBy("id")
-        val options =
-            FirestoreRecyclerOptions.Builder<Item>().setQuery(query, Item::class.java).build()
-        adapter = CartAdapter(options)
-        binding.recyclerViewItems.adapter = adapter
-        binding.recyclerViewItems.layoutManager = LinearLayoutManager(requireContext())
-
-        val itemss = ArrayList<Item>()
         query.get().addOnSuccessListener {
             for (querySnapshot in it) {
                 val id: String = querySnapshot.id
@@ -116,16 +63,49 @@ class CartFragment : Fragment() {
                 item.price = price!!
                 item.total_price = totalPrice!!
                 item.quantity = quantity!!
-                itemss.add(item)
+                items.add(item)
             }
         }
+        val options =
+            FirestoreRecyclerOptions.Builder<Item>().setQuery(query, Item::class.java).build()
+        adapter = CartAdapter(options)
+
+        val viewModelFactory = ItemViewModelFactory(items)
+        val viewModel: ItemViewModel by lazy {
+            ViewModelProvider(this, viewModelFactory).get(ItemViewModel::class.java)
+        }
+
+        viewModel.showProgressBar.observe(viewLifecycleOwner) {
+            if (it)
+                binding.progressBar.visibility = View.VISIBLE
+            else
+                binding.progressBar.visibility = View.GONE
+        }
+
+        viewModel.showEmptyCartDesign.observe(viewLifecycleOwner) {
+            binding.apply {
+                if (it) {
+                    groupEmptyCart.visibility = View.VISIBLE
+                    groupCartItems.visibility = View.GONE
+                } else {
+                    groupEmptyCart.visibility = View.GONE
+                    groupCartItems.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
         binding.apply {
+            recyclerViewItems.adapter = adapter
+            recyclerViewItems.layoutManager = LinearLayoutManager(requireContext())
             val navOptions = NavOptions.Builder().setPopUpTo(R.id.homeFragment, true).build()
             btnAddToCart.setOnClickListener {
                 findNavController().navigate(R.id.homeFragment, null, navOptions)
             }
             btnCompleteOrder.setOnClickListener {
-                showCompleteOrderDialog(itemss)
+                showCompleteOrderDialog(items)
             }
         }
     }

@@ -150,18 +150,18 @@
                         android:layout_height="wrap_content"
                         android:text="@string/don_t_have_an_account"
                         android:textSize="@dimen/_11ssp"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_signup"
-                        app:layout_constraintEnd_toStartOf="@+id/tv_signup"
+                        app:layout_constraintBottom_toBottomOf="@+id/btn_signup"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_signup"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tv_signup" />
+                        app:layout_constraintTop_toTopOf="@+id/btn_signup" />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_signup"
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:id="@+id/btn_signup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_4sdp"
                         android:layout_marginBottom="@dimen/_20sdp"
                         android:text="@string/sign_up"
                         android:textColor="@color/red"

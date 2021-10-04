@@ -11,7 +11,7 @@ import com.certified.order.databinding.FragmentMyOrdersBinding
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 
-class MyOrdersFragment() : Fragment() {
+class MyOrdersFragment : Fragment() {
 
     private lateinit var binding: FragmentMyOrdersBinding
 

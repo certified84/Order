@@ -50,8 +50,11 @@ class ItemViewModel(private val itemList: List<Item>) : ViewModel() {
             _subtotal.value = _itemTotal.value?.let { _subtotal.value?.plus(it) }
 
             _showProgressBar.value = false
+
             if (itemList.isNotEmpty())
                 _showEmptyCartDesign.value = false
+            else
+                _showProgressBar.value = false
 
         }, 3000)
     }

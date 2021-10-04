@@ -57,8 +57,10 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/cart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_height="0dp"
             android:layout_marginEnd="@dimen/_16sdp"
             app:layout_constraintBottom_toBottomOf="@id/profile_image"
             app:layout_constraintEnd_toEndOf="parent"

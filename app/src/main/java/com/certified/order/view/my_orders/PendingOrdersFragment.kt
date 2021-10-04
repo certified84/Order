@@ -1,16 +1,29 @@
 package com.certified.order.view.my_orders
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.certified.order.OrderViewModel
+import com.certified.order.OrderViewModelFactory
 import com.certified.order.R
+import com.certified.order.adapter.OrdersRecyclerAdapter
 import com.certified.order.databinding.FragmentPendingOrdersBinding
+import com.certified.order.model.Order
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class PendingOrdersFragment : Fragment() {
 
+//    private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentPendingOrdersBinding
+    private lateinit var adapter: OrdersRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,6 +32,70 @@ class PendingOrdersFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentPendingOrdersBinding.inflate(layoutInflater)
 
+//        auth = Firebase.auth
+
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val orders = ArrayList<Order>()
+        val query =
+            Firebase.firestore.collection("orders").orderBy("id")
+        val options =
+            FirestoreRecyclerOptions.Builder<Order>().setQuery(query, Order::class.java).build()
+        adapter = OrdersRecyclerAdapter(options, "Pending")
+
+        val viewModelFactory = OrderViewModelFactory(orders)
+        val viewModel: OrderViewModel by lazy {
+            ViewModelProvider(this, viewModelFactory).get(OrderViewModel::class.java)
+        }
+
+        viewModel.showProgressBar.observe(viewLifecycleOwner) {
+            if (it)
+                binding.progressBar.visibility = View.VISIBLE
+            else
+                binding.progressBar.visibility = View.GONE
+        }
+
+        viewModel.showEmptyOrderDesign.observe(viewLifecycleOwner) {
+            binding.apply {
+                if (it) {
+                    groupEmptyCart.visibility = View.VISIBLE
+                    recyclerViewPendingOrders.visibility = View.GONE
+                } else {
+                    groupEmptyCart.visibility = View.GONE
+                    recyclerViewPendingOrders.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        binding.apply {
+            recyclerViewPendingOrders.adapter = adapter
+            recyclerViewPendingOrders.layoutManager = LinearLayoutManager(requireContext())
+
+//            TODO: This shit might crash
+            val navOptions = NavOptions.Builder().setPopUpTo(R.id.cartFragment, true).build()
+            btnPlaceOrder.setOnClickListener {
+                findNavController().navigate(R.id.cartFragment, null, navOptions)
+            }
+
+            adapter.setOnOrderClickedListener(object : OrdersRecyclerAdapter.OnOrderClickedListener {
+                override fun onOrderClick(order: Order) {
+//                    TODO: Show order status
+                }
+            })
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        adapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter.stopListening()
     }
 }

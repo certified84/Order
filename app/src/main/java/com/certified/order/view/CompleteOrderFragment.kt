@@ -25,7 +25,6 @@ import com.certified.order.model.Item
 import com.certified.order.model.Order
 import com.certified.order.util.Config
 import com.certified.order.util.Mailer
-import com.flutterwave.raveandroid.RavePayManager
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.CancellationToken
@@ -300,7 +299,6 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
             .setMinute(0)
             .setTitleText("Schedule delivery")
             .build()
-//        In activity use supportFragmentManager
         picker.show(childFragmentManager, "Time Picker")
         picker.addOnPositiveButtonClickListener {
 //            TODO: Check out how to get the AM/PM from the time picker

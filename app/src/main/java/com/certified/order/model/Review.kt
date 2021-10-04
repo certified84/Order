@@ -1,7 +1,9 @@
 package com.certified.order.model
 
-data class Review(val id: String = "0",
+data class Review(
     val reviewer: String = "",
     val review: String = "",
     val rating: Int = 0
-)
+) {
+    var id: String = ""
+}

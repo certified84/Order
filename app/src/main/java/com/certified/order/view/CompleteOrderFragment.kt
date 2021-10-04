@@ -139,7 +139,7 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
                         newOrder.deliveryTime = tvDeliveryTime.text.toString()
 
 //                        TODO: Process the order with either Gpay or Flutterwave. Only make use of one for now
-//                        TODO: If the oder was completed successfully, replace the if
+//                        TODO: If the oder was completed successfully, show success dialog and replace the if
 //                        if (true) {
                         val ordersRef = db.collection("orders").document(currentUser.uid)
                         newOrder.id = ordersRef.id

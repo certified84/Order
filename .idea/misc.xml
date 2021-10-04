@@ -23,8 +23,8 @@
         <entry key="app/src/main/res/layout/dialog_leave_a_review.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_burger.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_burgers.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.1345565749235474" />
-        <entry key="app/src/main/res/layout/fragment_complete_order.xml" value="0.23655913978494625" />
+        <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_complete_order.xml" value="0.1835564053537285" />
         <entry key="app/src/main/res/layout/fragment_completed_orders.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_delivered_orders.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.38930348258706465" />

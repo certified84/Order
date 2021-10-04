@@ -7,9 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.certified.order.ItemViewModel
 import com.certified.order.ItemViewModelFactory
+import com.certified.order.R
 import com.certified.order.adapter.CartAdapter
 import com.certified.order.databinding.FragmentCartBinding
 import com.certified.order.model.Item
@@ -76,6 +80,15 @@ class CartFragment : Fragment() {
                 binding.progressBar.visibility = View.GONE
         }
 
+        viewModel.showEmptyCartDesign.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.apply {
+                    groupEmptyCart.visibility = View.VISIBLE
+                    groupCartItems.visibility = View.GONE
+                }
+            }
+        }
+
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
@@ -107,6 +120,10 @@ class CartFragment : Fragment() {
             }
         }
         binding.apply {
+            val navOptions = NavOptions.Builder().setPopUpTo(R.id.homeFragment, true).build()
+            btnAddToCart.setOnClickListener {
+                findNavController().navigate(R.id.homeFragment, null, navOptions)
+            }
             btnCompleteOrder.setOnClickListener {
                 showCompleteOrderDialog(itemss)
             }

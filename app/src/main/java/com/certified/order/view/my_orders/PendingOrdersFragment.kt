@@ -9,8 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.certified.order.OrderViewModel
-import com.certified.order.OrderViewModelFactory
 import com.certified.order.R
 import com.certified.order.adapter.OrdersRecyclerAdapter
 import com.certified.order.databinding.FragmentPendingOrdersBinding

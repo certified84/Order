@@ -22,5 +22,5 @@
     <color name="bottomNavViewBackgroundColor">@color/colorPrimary</color>
     <color name="bottomNavViewIconTint">@color/white</color>
     <color name="customAlertDialogBackgroundColor">@color/colorPrimaryDark</color>
-    <color name="dialogBackgroundColor">#30000000</color>
+    <color name="dialogBackgroundColor">#90000000</color>
 </resources>

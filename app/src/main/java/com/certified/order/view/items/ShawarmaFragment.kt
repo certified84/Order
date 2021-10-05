@@ -13,7 +13,7 @@ import com.certified.order.adapter.ItemAdapter
 import com.certified.order.adapter.ItemAdapter.OnItemClickedListener
 import com.certified.order.databinding.FragmentItemsBinding
 import com.certified.order.model.Item
-import com.certified.order.view.DetailsFragment
+import com.certified.order.view.details.ItemDetailsFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -85,7 +85,7 @@ class ShawarmaFragment : Fragment() {
         adapter.setOnItemClickedListener(object : OnItemClickedListener {
             override fun onItemClick(item: Item) {
                 val fragmentManager = requireActivity().supportFragmentManager
-                val completeOrderFragment = DetailsFragment("home", item, auth.currentUser!!.uid)
+                val completeOrderFragment = ItemDetailsFragment("home", item, auth.currentUser!!.uid)
                 val transaction = fragmentManager.beginTransaction()
                 transaction
                     .add(android.R.id.content, completeOrderFragment)

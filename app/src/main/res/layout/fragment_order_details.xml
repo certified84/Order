@@ -42,7 +42,7 @@
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/receiver_profile_image"
-                        style="@style/ShapeAppearanceOverlay.Order"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Order"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="@dimen/_40sdp"
                         android:layout_marginTop="@dimen/_20sdp"

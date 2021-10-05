@@ -1,27 +1,28 @@
-package com.certified.order.view
+package com.certified.order.view.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.certified.order.R
-import com.certified.order.databinding.LayoutItemDetailsBinding
+import com.certified.order.databinding.FragmentItemDetailsBinding
 import com.certified.order.model.Item
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class DetailsFragment(val type: String, val item: Item, val uid: String) : DialogFragment() {
+class ItemDetailsFragment(val type: String, val item: Item, val uid: String) : DialogFragment() {
 
-    private lateinit var binding: LayoutItemDetailsBinding
+    private lateinit var binding: FragmentItemDetailsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = LayoutItemDetailsBinding.inflate(layoutInflater)
+        binding = FragmentItemDetailsBinding.inflate(layoutInflater)
 
         return binding.root
     }
@@ -29,15 +30,30 @@ class DetailsFragment(val type: String, val item: Item, val uid: String) : Dialo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.item = item
-
         var quantity = item.quantity.toInt()
         checkQuantity(quantity)
-//            TODO: Save the quantity in a viewholder to prevent loss on configuration change
+
+        val viewModelFactory = ItemDetailsViewModelFactory(item)
+        val viewModel: ItemDetailsViewModel by lazy {
+            ViewModelProvider(
+                viewModelStore,
+                viewModelFactory
+            ).get(ItemDetailsViewModel::class.java)
+        }
+
+        viewModel.showProgressBar.observe(viewLifecycleOwner) {
+            if (it)
+                binding.progressBar.visibility = View.VISIBLE
+            else
+                binding.progressBar.visibility = View.GONE
+        }
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         binding.apply {
 
-            root.setOnClickListener { dismiss() }
+            root.setOnClickListener { super.dismissAllowingStateLoss() }
             btnIncreaseQuantity.setOnClickListener {
                 quantity++
                 checkQuantity(quantity)
@@ -51,7 +67,7 @@ class DetailsFragment(val type: String, val item: Item, val uid: String) : Dialo
                 btnBuyNow.visibility = View.GONE
                 btnAddToCart.visibility = View.GONE
             } else if (type == "home") {
-                when (item!!.type) {
+                when (item.type) {
                     "burger" -> Glide.with(requireContext())
                         .load(R.drawable.burger_image_3)
                         .into(itemImage)
@@ -68,18 +84,22 @@ class DetailsFragment(val type: String, val item: Item, val uid: String) : Dialo
             }
 
             btnAddToCart.setOnClickListener {
-                progressBar2.visibility = View.VISIBLE
+                progressBar.visibility = View.VISIBLE
                 val newItem = item
-                newItem!!.quantity = binding.tvItemQuantity.text.toString()
+                newItem.quantity = binding.tvItemQuantity.text.toString()
                 newItem.total_price = newItem.quantity.toInt() * newItem.price
                 val db = Firebase.firestore
                 val ordersRef =
                     db.collection("cart").document(uid).collection("my_cart_items").document()
                 newItem.id = ordersRef.id
                 ordersRef.set(newItem).addOnCompleteListener {
-                    progressBar2.visibility = View.GONE
+                    progressBar.visibility = View.GONE
                     dismiss()
                 }
+            }
+
+            btnBuyNow.setOnClickListener {
+//                TODO: Process the order
             }
         }
     }

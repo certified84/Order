@@ -33,7 +33,7 @@
             android:id="@+id/recycler_view_items"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_8sdp"
             app:layout_constraintBottom_toTopOf="@+id/materialTextView29"
             app:layout_constraintEnd_toEndOf="parent"
@@ -119,8 +119,8 @@
             android:text="Subtotal"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/btn_complete_order"
-            app:layout_constraintStart_toStartOf="@+id/btn_complete_order" />
+            app:layout_constraintBottom_toTopOf="@+id/btn_checkout"
+            app:layout_constraintStart_toStartOf="@+id/btn_checkout" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/materialTextView32"
@@ -156,7 +156,7 @@
             app:layout_constraintTop_toTopOf="@+id/recycler_view_items" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_complete_order"
+            android:id="@+id/btn_checkout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -176,8 +176,8 @@
             android:id="@+id/group_cart_items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="materialTextView31,materialTextView27,materialTextView32,btn_complete_order,materialTextView30,tv_delivery_fee,materialTextView33,tv_subtotal,materialTextView28,recycler_view_items,tv_item_total,materialTextView29" />
+            android:visibility="visible"
+            app:constraint_referenced_ids="materialTextView31,materialTextView27,materialTextView32,btn_checkout,materialTextView30,tv_delivery_fee,materialTextView33,tv_subtotal,materialTextView28,recycler_view_items,tv_item_total,materialTextView29" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView8"
@@ -259,7 +259,7 @@
             android:id="@+id/group_empty_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             app:constraint_referenced_ids="appCompatImageView8,materialTextView36,materialTextView37,btn_add_to_cart,guideline10,guideline9" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

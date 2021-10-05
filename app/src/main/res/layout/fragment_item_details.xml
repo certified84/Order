@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="item"
-            type="com.certified.order.model.Item" />
+            name="viewModel"
+            type="com.certified.order.view.details.ItemDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,24 +49,14 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/item_image"
-                    android:layout_width="@dimen/_200sdp"
+                    android:layout_width="@dimen/_150sdp"
                     android:layout_height="0dp"
                     android:layout_marginTop="@dimen/_16sdp"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ProgressBar
-                    android:id="@+id/progressBar2"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="wrap_content"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/shawarma_image"/>
 
                 <com.rd.PageIndicatorView
                     android:id="@+id/indicator"
@@ -93,11 +83,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_16sdp"
                     android:layout_marginTop="@dimen/_16sdp"
-                    android:text="@{item.name}"
+                    android:text="@{viewModel.itemName}"
                     android:textSize="@dimen/_14ssp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/indicator"
+                    app:layout_constraintTop_toBottomOf="@+id/item_image"
                     tools:text="Nike Airforce 1" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -106,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_16sdp"
-                    android:text="@{item.description}"
+                    android:text="@{viewModel.itemDescription}"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintEnd_toStartOf="@+id/tv_item_price"
                     app:layout_constraintStart_toStartOf="@+id/tv_item_name"
@@ -130,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_16sdp"
-                    android:text="@{String.valueOf(item.price)}"
+                    android:text="@{String.valueOf(viewModel.itemPrice)}"
                     android:textColor="@color/red"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
@@ -155,9 +145,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_4sdp"
-                    android:text="@{item.quantity}"
+                    android:text="@{String.valueOf(viewModel.itemQuantity)}"
                     android:textSize="@dimen/_11ssp"
                     android:textStyle="bold"
+                    tools:text="1"
                     app:layout_constraintBottom_toBottomOf="@+id/btn_increase_quantity"
                     app:layout_constraintEnd_toStartOf="@+id/btn_increase_quantity"
                     app:layout_constraintTop_toTopOf="@+id/btn_increase_quantity" />
@@ -169,6 +160,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/add_to_cart"
                     android:textAllCaps="false"
+                    android:textSize="@dimen/_12ssp"
                     android:textColor="@color/black"
                     app:cornerRadius="@dimen/_2sdp"
                     app:layout_constraintBottom_toBottomOf="@+id/btn_buy_now"
@@ -186,6 +178,7 @@
                     android:layout_marginTop="@dimen/_16sdp"
                     android:backgroundTint="@color/red"
                     android:text="@string/buy_now"
+                    android:textSize="@dimen/_12ssp"
                     android:textAllCaps="false"
                     android:textColor="@color/midWhite"
                     app:cornerRadius="@dimen/_2sdp"
@@ -218,6 +211,16 @@
                     app:layout_constraintTop_toTopOf="@+id/btn_increase_quantity"
                     app:srcCompat="@drawable/ic_baseline_remove_24"
                     app:tint="@color/midWhite" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

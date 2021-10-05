@@ -39,7 +39,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
-class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
+class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
 
     private lateinit var binding: FragmentCompleteOrderBinding
     private lateinit var auth: FirebaseAuth
@@ -122,7 +122,7 @@ class CompleteOrderFragment(private val items: List<Item>) : DialogFragment() {
 //            }
             tvDeliveryTime.setOnClickListener { openTimePicker() }
 
-            btnCompleteOrder.setOnClickListener {
+            btnConfirmOrder.setOnClickListener {
                 if (tvDeliveryTime.text != "00:00 AM") {
                     if (tvAddress.text == resources.getString(R.string.click_here_to_set_delivery_address)) {
 

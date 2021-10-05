@@ -9,14 +9,16 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.certified.order.ItemViewModel
 import com.certified.order.ItemViewModelFactory
 import com.certified.order.R
 import com.certified.order.adapter.CartAdapter
 import com.certified.order.databinding.FragmentCartBinding
 import com.certified.order.model.Item
-import com.certified.order.view.CompleteOrderFragment
+import com.certified.order.view.ConfirmOrderFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -104,9 +106,23 @@ class CartFragment : Fragment() {
             btnAddToCart.setOnClickListener {
                 findNavController().navigate(R.id.homeFragment, null, navOptions)
             }
-            btnCompleteOrder.setOnClickListener {
-                showCompleteOrderDialog(items)
+            btnCheckout.setOnClickListener {
+                showConfirmOrderDialog(items)
             }
+
+            ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    adapter.deleteItem(viewHolder.adapterPosition)
+                }
+            }).attachToRecyclerView(recyclerViewItems)
         }
     }
 
@@ -120,12 +136,11 @@ class CartFragment : Fragment() {
         adapter.stopListening()
     }
 
-    private fun showCompleteOrderDialog(items: List<Item>) {
+    private fun showConfirmOrderDialog(items: List<Item>) {
         val fragmentManager = requireActivity().supportFragmentManager
-        val completeOrderFragment = CompleteOrderFragment(items)
+        val completeOrderFragment = ConfirmOrderFragment(items)
         val transaction = fragmentManager.beginTransaction()
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        transaction
             .add(android.R.id.content, completeOrderFragment)
             .addToBackStack(null)
             .commit()

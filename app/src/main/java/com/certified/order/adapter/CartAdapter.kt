@@ -70,4 +70,6 @@ class CartAdapter(options: FirestoreRecyclerOptions<Item>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: Item) {
         holder.bind(model)
     }
+
+    fun deleteItem(position: Int) = snapshots.getSnapshot(position).reference.delete()
 }

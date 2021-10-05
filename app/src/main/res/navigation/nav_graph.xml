@@ -34,12 +34,12 @@
         android:name="com.certified.order.view.my_orders.DeliveredOrdersFragment"
         android:label="DeliveredOrdersFragment" />
     <fragment
-        android:id="@+id/completeOrderFragment"
-        android:name="com.certified.order.view.CompleteOrderFragment"
+        android:id="@+id/confirmOrderFragment"
+        android:name="com.certified.order.view.ConfirmOrderFragment"
         android:label="CompleteOrderFragment" />
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.certified.order.view.DetailsFragment"
+        android:name="com.certified.order.view.details.ItemDetailsFragment"
         android:label="DetailsFragment" />
     <fragment
         android:id="@+id/myOrdersFragment"

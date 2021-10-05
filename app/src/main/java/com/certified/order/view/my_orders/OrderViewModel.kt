@@ -1,4 +1,4 @@
-package com.certified.order
+package com.certified.order.view.my_orders
 
 import android.os.Handler
 import android.os.Looper
@@ -13,11 +13,11 @@ class OrderViewModel(private val orderList: List<Order>) : ViewModel() {
     val orders: LiveData<List<Order>>
         get() = _orders
 
-    private var _showProgressBar = MutableLiveData<Boolean>()
+    private var _showProgressBar = MutableLiveData<Boolean>(true)
     val showProgressBar: LiveData<Boolean>
         get() = _showProgressBar
 
-    private var _showEmptyOrderDesign = MutableLiveData<Boolean>()
+    private var _showEmptyOrderDesign = MutableLiveData<Boolean>(true)
     val showEmptyOrderDesign: LiveData<Boolean>
         get() = _showEmptyOrderDesign
 

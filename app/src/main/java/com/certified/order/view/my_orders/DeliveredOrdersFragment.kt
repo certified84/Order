@@ -5,22 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.certified.order.OrderViewModel
-import com.certified.order.OrderViewModelFactory
 import com.certified.order.R
 import com.certified.order.adapter.OrdersRecyclerAdapter
 import com.certified.order.databinding.FragmentDeliveredOrdersBinding
 import com.certified.order.model.Order
-import com.certified.order.view.CompleteOrderFragment
 import com.certified.order.view.NewReviewFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 

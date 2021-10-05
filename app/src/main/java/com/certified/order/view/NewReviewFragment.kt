@@ -33,6 +33,7 @@ class NewReviewFragment(val order: Order) : DialogFragment() {
         binding.apply {
             btnSubmitReview.setOnClickListener {
                 if (ratingBar.rating != 0f && etReview.text.toString().isNotEmpty()) {
+                    progressBar.visibility = View.VISIBLE
                     val review = Review(
                         Firebase.auth.currentUser?.displayName!!,
                         etReview.text.toString(),
@@ -42,8 +43,12 @@ class NewReviewFragment(val order: Order) : DialogFragment() {
                     review.id = reviewRef.id
                     reviewRef.set(review).addOnCompleteListener {
                         if (it.isSuccessful) {
+                            Firebase.firestore.collection("orders").document(order.id)
+                                .update("rated", true).addOnSuccessListener {
 //                            TODO: Change the isRated field of the current order to true
-                            dismiss()
+                                    progressBar.visibility = View.GONE
+                                    dismiss()
+                                }
                         }
                     }
                 } else

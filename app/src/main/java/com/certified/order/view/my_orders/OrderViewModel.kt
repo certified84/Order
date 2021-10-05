@@ -13,11 +13,11 @@ class OrderViewModel(private val orderList: List<Order>) : ViewModel() {
     val orders: LiveData<List<Order>>
         get() = _orders
 
-    private var _showProgressBar = MutableLiveData<Boolean>(true)
+    private var _showProgressBar = MutableLiveData<Boolean>()
     val showProgressBar: LiveData<Boolean>
         get() = _showProgressBar
 
-    private var _showEmptyOrderDesign = MutableLiveData<Boolean>(true)
+    private var _showEmptyOrderDesign = MutableLiveData<Boolean>()
     val showEmptyOrderDesign: LiveData<Boolean>
         get() = _showEmptyOrderDesign
 
@@ -28,15 +28,12 @@ class OrderViewModel(private val orderList: List<Order>) : ViewModel() {
     private fun getBurgers() {
         Handler(Looper.myLooper()!!).postDelayed({
 
+            if (orderList.isNotEmpty())
+                _showEmptyOrderDesign.value = false
+
             _orders.value = orderList
 
             _showProgressBar.value = false
-
-            if (orderList.isNotEmpty())
-                _showEmptyOrderDesign.value = false
-            else
-                _showProgressBar.value = false
-
         }, 3000)
     }
 }

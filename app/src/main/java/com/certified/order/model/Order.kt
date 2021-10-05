@@ -11,13 +11,13 @@ data class Order(
     val items: List<Item>? = null
 ) {
     var id: String = ""
-    val receiver_id = FirebaseAuth.getInstance().currentUser?.uid
+    var receiver_id = FirebaseAuth.getInstance().currentUser?.uid
     var deliveryTime = "00:00"
     var isDelivered = false
-    val latitude: String? = null
-    val longitude: String? = null
+    var latitude: String? = null
+    var longitude: String? = null
     var isRated = false
-    val dispatcher_name = ""
-    val dispatcher_phone_no = ""
-    val status = if (isDelivered) "Delivered" else "Pending"
+    var dispatcher_name = ""
+    var dispatcher_phone_no = ""
+    var status = if (isDelivered) "Delivered" else "Pending"
 }

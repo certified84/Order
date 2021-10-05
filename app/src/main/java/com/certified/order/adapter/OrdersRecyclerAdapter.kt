@@ -24,6 +24,7 @@ class OrdersRecyclerAdapter(options: FirestoreRecyclerOptions<Order>, val from: 
 
         fun bind(order: Order) {
             binding.order = order
+            println("OrderID: ${order.id}")
         }
 
         init {
@@ -42,13 +43,7 @@ class OrdersRecyclerAdapter(options: FirestoreRecyclerOptions<Order>, val from: 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: Order) {
-        when (from) {
-            "Pending" -> if (!model.isDelivered)
-                holder.bind(model)
-            "Delivered" -> if (model.isDelivered)
-                holder.bind(model)
-            else holder.bind(model)
-        }
+        holder.bind(model)
     }
 
     interface OnOrderClickedListener {

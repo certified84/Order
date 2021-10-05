@@ -140,7 +140,7 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
 //                        TODO: Process the order with either Gpay or Flutterwave. Only make use of one for now
 //                        TODO: If the oder was completed successfully, show success dialog and replace the if
 //                        if (true) {
-                        val ordersRef = db.collection("orders").document(currentUser.uid)
+                        val ordersRef = db.collection("orders").document()
                         newOrder.id = ordersRef.id
                         ordersRef.set(newOrder).addOnCompleteListener {
                             if (it.isSuccessful) {

@@ -97,7 +97,7 @@ class CartFragment : Fragment() {
         }
 
         binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.apply {
             recyclerViewItems.adapter = adapter

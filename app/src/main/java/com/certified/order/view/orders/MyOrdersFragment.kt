@@ -1,4 +1,4 @@
-package com.certified.order.view.my_orders
+package com.certified.order.view.orders
 
 import android.os.Bundle
 import android.view.LayoutInflater

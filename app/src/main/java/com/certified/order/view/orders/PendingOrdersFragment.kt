@@ -1,4 +1,4 @@
-package com.certified.order.view.my_orders
+package com.certified.order.view.orders
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -67,7 +67,7 @@ class PendingOrdersFragment : Fragment() {
         }
         val options =
             FirestoreRecyclerOptions.Builder<Order>().setQuery(query, Order::class.java).build()
-        adapter = OrdersRecyclerAdapter(options, "Pending")
+        adapter = OrdersRecyclerAdapter(options)
 
         val viewModelFactory = OrderViewModelFactory(orders)
         val viewModel: OrderViewModel by lazy {

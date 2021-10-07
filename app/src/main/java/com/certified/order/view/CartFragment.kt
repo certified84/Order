@@ -1,4 +1,4 @@
-package com.certified.order.view.cart
+package com.certified.order.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,7 +18,6 @@ import com.certified.order.R
 import com.certified.order.adapter.CartAdapter
 import com.certified.order.databinding.FragmentCartBinding
 import com.certified.order.model.Item
-import com.certified.order.view.ConfirmOrderFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -108,6 +107,9 @@ class CartFragment : Fragment() {
             }
             btnCheckout.setOnClickListener {
                 showConfirmOrderDialog(items)
+//                val bundle = Bundle()
+//                bundle.putParcelableArray("cartItems", items)
+//                findNavController().navigate(R.id.confirmOrderFragment )
             }
 
             ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {

@@ -31,7 +31,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:strokeColor="@color/colorPrimary"
-                tools:src="@drawable/burger_image_3" />
+                tools:src="@drawable/burger_image" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_item_name"

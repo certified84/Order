@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.cart.CartFragment">
+        tools:context=".view.CartFragment">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/materialTextView27"
@@ -176,13 +176,14 @@
             android:id="@+id/group_cart_items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             app:constraint_referenced_ids="materialTextView31,materialTextView27,materialTextView32,btn_checkout,materialTextView30,tv_delivery_fee,materialTextView33,tv_subtotal,materialTextView28,recycler_view_items,tv_item_total,materialTextView29" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView8"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:srcCompat="@drawable/empty_cart"
             app:layout_constraintBottom_toTopOf="@+id/materialTextView36"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/guideline10"
@@ -259,7 +260,7 @@
             android:id="@+id/group_empty_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             app:constraint_referenced_ids="appCompatImageView8,materialTextView36,materialTextView37,btn_add_to_cart,guideline10,guideline9" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

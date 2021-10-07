@@ -8,4 +8,5 @@ object PreferenceKeys {
     const val USER_NAME = "user_name"
     const val USER_EMAIL = "user_email"
     const val USER_PHONE = "user_phone"
+    const val USER_DEFAULT_DELIVERY_ADDRESS = "default_delivery_address"
 }

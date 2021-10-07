@@ -34,19 +34,20 @@ class OrderDetailsFragment(private val order: Order) : DialogFragment() {
 
             loadOrderDetails(order)
 
-            chipItemStatus.setOnClickListener {
-                when (chipItemStatus.text.toString()) {
-                    "Pending" -> {
-                        chipItemStatus.text = resources.getString(R.string.delivered)
-                        chipItemStatus.isChecked = true
+//            if (order.dispatcher_name != "")
+                chipItemStatus.setOnClickListener {
+                    when (chipItemStatus.text.toString()) {
+                        "Pending" -> {
+                            chipItemStatus.text = resources.getString(R.string.delivered)
+                            chipItemStatus.isChecked = true
 
-                        chipItemStatus.isClickable = false
+                            chipItemStatus.isClickable = false
 
 //                            TODO: Update the order details in firestore
+                        }
+                        "Delivered" -> chipItemStatus.isClickable = false
                     }
-                    "Delivered" -> chipItemStatus.isClickable = false
                 }
-            }
         }
     }
 

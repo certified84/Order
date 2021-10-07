@@ -9,7 +9,9 @@
         <entry key="app/src/main/res/drawable/ic_baseline_contact_support_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_dark_mode_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_right_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_location_on_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_order_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_payment_24.xml" value="0.18697916666666667" />
@@ -18,8 +20,10 @@
         <entry key="app/src/main/res/drawable/ic_baseline_photo_camera_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_remove_24.xml" value="0.15341880341880343" />
         <entry key="app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.15341880341880343" />
+        <entry key="app/src/main/res/drawable/ic_baseline_vpn_key_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_wb_sunny_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dialog_edit_profile.xml" value="0.5" />
         <entry key="app/src/main/res/layout/dialog_leave_a_review.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_burger.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_burgers.xml" value="0.33" />
@@ -27,8 +31,8 @@
         <entry key="app/src/main/res/layout/fragment_complete_order.xml" value="0.2965641952983725" />
         <entry key="app/src/main/res/layout/fragment_completed_orders.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_delivered_orders.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.38930348258706465" />
-        <entry key="app/src/main/res/layout/fragment_item.xml" value="0.17083333333333334" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.17" />
+        <entry key="app/src/main/res/layout/fragment_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_item_details.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_items.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.47467438494934877" />
@@ -40,7 +44,7 @@
         <entry key="app/src/main/res/layout/fragment_order_details.xml" value="0.3416666666666667" />
         <entry key="app/src/main/res/layout/fragment_orders.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_pending_orders.xml" value="0.3353658536585366" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.3416666666666667" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_review.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.43283582089552236" />
@@ -70,7 +74,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.22" />
+        <option name="scale" value="0.67" />
       </ProjectState>
     </option>
   </component>

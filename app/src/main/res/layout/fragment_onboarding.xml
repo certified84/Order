@@ -22,7 +22,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_get_started"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_35sdp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_16sdp"

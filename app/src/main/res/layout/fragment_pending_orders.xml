@@ -16,7 +16,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:context=".view.my_orders.PendingOrdersFragment"
+            tools:context=".view.orders.PendingOrdersFragment"
             tools:listitem="@layout/layout_order" />
 
         <ProgressBar

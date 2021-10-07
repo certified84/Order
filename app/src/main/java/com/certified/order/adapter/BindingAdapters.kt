@@ -8,14 +8,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.certified.order.R
 import com.certified.order.model.Item
-import com.certified.order.model.Order
-import com.certified.order.model.Review
 
-@BindingAdapter("listNewOrders")
-fun bindNewOrdersRecyclerView(recyclerView: RecyclerView, data: List<Order>?) {
-    val adapter = recyclerView.adapter as NewOrdersAdapter
-    adapter.submitList(data)
-}
+//@BindingAdapter("listNewOrders")
+//fun bindNewOrdersRecyclerView(recyclerView: RecyclerView, data: List<Order>?) {
+//    val adapter = recyclerView.adapter as CompletedOrdersAdapter
+//    adapter.submitList(data)
+//}
 
 @BindingAdapter("listItems")
 fun bindItemRecyclerView(recyclerView: RecyclerView, data: List<Item>?) {
@@ -39,7 +37,7 @@ fun bindItemRecyclerView(recyclerView: RecyclerView, data: List<Item>?) {
 fun bindImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
         val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
-        val burger = R.drawable.burger_image_3
+        val burger = R.drawable.burger_image
         Glide.with(imgView.context)
             .load(burger)
             .centerCrop()

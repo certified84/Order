@@ -1,18 +1,19 @@
-package com.certified.order.view
+package com.certified.order.view.orders
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.certified.order.adapter.CompletedOrdersAdapter
-import com.certified.order.databinding.FragmentCompletedOrdersBinding
+import com.certified.order.R
+import com.certified.order.adapter.OrdersRecyclerAdapter
+import com.certified.order.databinding.FragmentNewOrdersBinding
 import com.certified.order.model.Order
-import com.certified.order.view.orders.OrderViewModel
-import com.certified.order.view.orders.OrderViewModelFactory
+import com.certified.order.view.OrderDetailsFragment
+import com.certified.order.view.SignupFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -20,19 +21,19 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
 
-class CompletedOrdersFragment : Fragment() {
+class NewOrdersFragment() : Fragment() {
 
-    private lateinit var binding: FragmentCompletedOrdersBinding
-    private lateinit var adapter: CompletedOrdersAdapter
-    private lateinit var navController: NavController
+    private lateinit var binding: FragmentNewOrdersBinding
+    private lateinit var adapter: OrdersRecyclerAdapter
     private lateinit var auth: FirebaseAuth
+    private lateinit var viewModel: OrderViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentCompletedOrdersBinding.inflate(layoutInflater)
+        binding = FragmentNewOrdersBinding.inflate(layoutInflater)
 
         auth = Firebase.auth
 
@@ -44,9 +45,8 @@ class CompletedOrdersFragment : Fragment() {
 
         val orders = ArrayList<Order>()
         val query =
-            Firebase.firestore.collection("orders").document(auth.currentUser!!.uid)
-                .collection("my_orders")
-                .whereEqualTo("status", "Delivered")
+            Firebase.firestore.collection("orders")
+                .whereEqualTo("status", "Pending")
         query.get().addOnSuccessListener {
             for (querySnapShot in it) {
 
@@ -71,12 +71,38 @@ class CompletedOrdersFragment : Fragment() {
         }
         val options =
             FirestoreRecyclerOptions.Builder<Order>().setQuery(query, Order::class.java).build()
-        adapter = CompletedOrdersAdapter(options)
+        adapter = OrdersRecyclerAdapter(options)
 
         val viewModelFactory = OrderViewModelFactory(orders)
-        val viewModel: OrderViewModel by lazy {
-            ViewModelProvider(viewModelStore, viewModelFactory).get(OrderViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this, viewModelFactory).get(OrderViewModel::class.java)
+
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        binding.apply {
+            recyclerViewNewOrders.adapter = adapter
+            recyclerViewNewOrders.layoutManager = LinearLayoutManager(requireContext())
+
+            adapter.setOnOrderClickedListener(object :
+                OrdersRecyclerAdapter.OnOrderClickedListener {
+                override fun onOrderClick(order: Order) {
+//                    TODO: Load order details
+                    val fragmentManager = requireActivity().supportFragmentManager
+                    val orderDetailsFragment = OrderDetailsFragment(order)
+                    val transaction = fragmentManager.beginTransaction()
+                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    transaction
+                        .add(android.R.id.content, orderDetailsFragment)
+                        .addToBackStack(null)
+                        .commit()
+//        }
+                }
+            })
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         viewModel.showProgressBar.observe(viewLifecycleOwner) {
             if (it)
@@ -89,26 +115,12 @@ class CompletedOrdersFragment : Fragment() {
             binding.apply {
                 if (it) {
                     groupEmptyCart.visibility = View.VISIBLE
-                    recyclerViewCompletedOrders.visibility = View.GONE
+                    recyclerViewNewOrders.visibility = View.GONE
                 } else {
                     groupEmptyCart.visibility = View.GONE
-                    recyclerViewCompletedOrders.visibility = View.VISIBLE
+                    recyclerViewNewOrders.visibility = View.VISIBLE
                 }
             }
-        }
-
-        binding.lifecycleOwner = viewLifecycleOwner
-
-        binding.apply {
-            recyclerViewCompletedOrders.adapter = adapter
-            recyclerViewCompletedOrders.layoutManager = LinearLayoutManager(requireContext())
-
-            adapter.setOnOrderClickedListener(object :
-                CompletedOrdersAdapter.OnOrderClickedListener {
-                override fun onOrderClick(order: Order) {
-//                    TODO: Show order status
-                }
-            })
         }
     }
 

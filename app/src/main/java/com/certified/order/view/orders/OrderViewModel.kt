@@ -1,4 +1,4 @@
-package com.certified.order.view.my_orders
+package com.certified.order.view.orders
 
 import android.os.Handler
 import android.os.Looper
@@ -22,13 +22,13 @@ class OrderViewModel(private val orderList: List<Order>) : ViewModel() {
         get() = _showEmptyOrderDesign
 
     init {
-        getBurgers()
+        getItems()
     }
 
-    private fun getBurgers() {
+    private fun getItems() {
         Handler(Looper.myLooper()!!).postDelayed({
 
-            if (orderList.isNotEmpty())
+            if (orderList.size >= 1)
                 _showEmptyOrderDesign.value = false
 
             _orders.value = orderList

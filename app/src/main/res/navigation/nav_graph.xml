@@ -27,23 +27,27 @@
         android:label="ProfileFragment" />
     <fragment
         android:id="@+id/cartFragment"
-        android:name="com.certified.order.view.cart.CartFragment"
+        android:name="com.certified.order.view.CartFragment"
         android:label="CartFragment" />
     <fragment
         android:id="@+id/deliveredOrdersFragment"
-        android:name="com.certified.order.view.my_orders.DeliveredOrdersFragment"
+        android:name="com.certified.order.view.orders.DeliveredOrdersFragment"
         android:label="DeliveredOrdersFragment" />
     <fragment
         android:id="@+id/confirmOrderFragment"
         android:name="com.certified.order.view.ConfirmOrderFragment"
-        android:label="CompleteOrderFragment" />
+        android:label="CompleteOrderFragment" >
+        <argument
+            android:name="CartItems"
+            app:argType="com.certified.order.model.Item[]" />
+    </fragment>
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.certified.order.view.details.ItemDetailsFragment"
         android:label="DetailsFragment" />
     <fragment
         android:id="@+id/myOrdersFragment"
-        android:name="com.certified.order.view.my_orders.MyOrdersFragment"
+        android:name="com.certified.order.view.orders.MyOrdersFragment"
         android:label="MyOrdersFragment" />
     <fragment
         android:id="@+id/orderDetailsFragment"
@@ -60,7 +64,7 @@
         tools:layout="@layout/fragment_track_order" />
     <fragment
         android:id="@+id/newOrdersFragment"
-        android:name="com.certified.order.view.newOrders.NewOrdersFragment"
+        android:name="com.certified.order.view.orders.NewOrdersFragment"
         android:label="NewOrdersFragment" />
     <fragment
         android:id="@+id/splashFragment"

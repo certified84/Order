@@ -8,14 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.certified.order.R
-import com.certified.order.adapter.HomeViewPagerAdapter
 import com.certified.order.databinding.FragmentHomeBinding
 import com.certified.order.util.PreferenceKeys
-import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import com.google.android.material.tabs.TabLayout.Tab
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -67,89 +63,15 @@ class HomeFragment : Fragment() {
                     .load(profilePicture)
                     .into(profileImage)
             profileImage.setOnClickListener { navController.navigate(R.id.settingsFragment) }
-
-            val adapter = requireActivity().let {
-                HomeViewPagerAdapter(
-                    it.supportFragmentManager,
-                    it.lifecycle,
-                    accountType!!
-                )
-            }
-
-            viewPagerItems.adapter = adapter
-            tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
-                override fun onTabSelected(tab: Tab?) {
-                    viewPagerItems.currentItem = tab?.position!!
-                }
-
-                override fun onTabUnselected(tab: Tab?) {
-
-                }
-
-                override fun onTabReselected(tab: Tab?) {
-
-                }
-
-            })
-
-            viewPagerItems.registerOnPageChangeCallback(object :
-                ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                    tabLayout.selectTab(tabLayout.getTabAt(position))
-                }
-            })
-
-            if (accountType == "User")
-                cart.setOnClickListener { navController.navigate(R.id.cartFragment) }
-            else {
-                cart.setOnClickListener { navController.navigate(R.id.completedOrdersFragment) }
-                tabLayout.getTabAt(0)!!.text = "New Orders"
-            }
         }
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        binding.apply {
-////            val itemFragment: FragmentContainerView =
-////                viewPagerItems.findViewById(R.id.fragment_items)
-//            val controller = Navigation.findNavController(requireActivity(), R.id.fragment_items)
-//            val itemTab: Tab? = tabLayout.getTabAt(0)
-//            chipBurger.setOnClickListener {
-//                controller.navigate(R.id.burgerFragment)
-//                chipBurger.isChecked = true
-//                itemTab?.text = "Burgers"
-//                tabLayout.selectTab(itemTab)
-//            }
-//            chipChickenAndChips.setOnClickListener {
-//                controller.navigate(R.id.chickenAndChipsFragment)
-//                chipChickenAndChips.isChecked = true
-//                itemTab?.text = "Chicken and Chips"
-//                tabLayout.selectTab(itemTab)
-//            }
-//            chipPizza.setOnClickListener {
-//                controller.navigate(R.id.pizzaFragment)
-//                chipPizza.isChecked = true
-//                itemTab?.text = "Pizzas"
-//                tabLayout.selectTab(itemTab)
-//            }
-//            chipShawarma.setOnClickListener {
-//                controller.navigate(R.id.shawarmaFragment)
-//                chipShawarma.isChecked = true
-//                itemTab?.text = "Shawarmas"
-//                tabLayout.selectTab(itemTab)
-//            }
-//        }
-//    }
 
     private fun checkAccountType() {
         accountType = preferences.getString(PreferenceKeys.ACCOUNT_TYPE, "")
         binding.apply {
             if (accountType == "Dispatcher") {
                 cart.setImageResource(R.drawable.ic_baseline_assignment_24)
-                chipGroup.visibility = View.GONE
-                cart.setOnClickListener { navController.navigate(R.id.newOrdersFragment) }
+                cart.setOnClickListener { navController.navigate(R.id.completedOrdersFragment) }
             } else
                 cart.setOnClickListener { navController.navigate(R.id.cartFragment) }
         }

@@ -185,7 +185,7 @@
                             android:textSize="@dimen/_10ssp"
                             app:layout_constraintBottom_toTopOf="@+id/tv_my_address"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="@+id/tv_my_orders"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tv_my_orders" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -200,7 +200,7 @@
                             android:textSize="@dimen/_10ssp"
                             app:layout_constraintBottom_toTopOf="@+id/tv_payment_methods"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="@+id/tv_my_profile"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tv_my_profile" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -215,7 +215,7 @@
                             android:textSize="@dimen/_10ssp"
                             app:layout_constraintBottom_toTopOf="@+id/tv_contact_us"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="@+id/tv_my_address"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tv_my_address" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -230,7 +230,7 @@
                             android:textSize="@dimen/_10ssp"
                             app:layout_constraintBottom_toTopOf="@+id/tv_about_us"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="@+id/tv_payment_methods"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tv_payment_methods" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -246,7 +246,7 @@
                             android:textSize="@dimen/_10ssp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="@+id/tv_contact_us"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tv_contact_us" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

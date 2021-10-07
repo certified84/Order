@@ -24,7 +24,7 @@ class CartAdapter(options: FirestoreRecyclerOptions<Item>) :
             binding.apply {
                 when (item!!.type) {
                     "burger" -> Glide.with(itemView)
-                        .load(R.drawable.burger_image_3)
+                        .load(R.drawable.burger_image)
                         .into(itemImage)
                     "shawarma" -> Glide.with(itemView)
                         .load(R.drawable.shawarma_image)

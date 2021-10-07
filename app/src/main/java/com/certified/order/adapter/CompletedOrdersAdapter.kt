@@ -8,8 +8,8 @@ import com.certified.order.model.Order
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
-class OrdersRecyclerAdapter(options: FirestoreRecyclerOptions<Order>) :
-    FirestoreRecyclerAdapter<Order, OrdersRecyclerAdapter.ViewHolder>(
+class CompletedOrdersAdapter(options: FirestoreRecyclerOptions<Order>) :
+    FirestoreRecyclerAdapter<Order, CompletedOrdersAdapter.ViewHolder>(
         options
     ) {
 

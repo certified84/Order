@@ -1,4 +1,4 @@
-package com.certified.order.view.my_orders
+package com.certified.order.view.orders
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

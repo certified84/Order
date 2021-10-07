@@ -69,7 +69,7 @@ class ItemDetailsFragment(val type: String, val item: Item, val uid: String) : D
             } else if (type == "home") {
                 when (item.type) {
                     "burger" -> Glide.with(requireContext())
-                        .load(R.drawable.burger_image_3)
+                        .load(R.drawable.burger_image)
                         .into(itemImage)
                     "shawarma" -> Glide.with(requireContext())
                         .load(R.drawable.shawarma_image)

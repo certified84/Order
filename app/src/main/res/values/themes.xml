@@ -47,4 +47,12 @@
     <style name="ShapeAppearanceOverlay.Order" parent="">
         <item name="cornerSize">15%</item>
     </style>
+
+    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetDialogStyle</item>
+    </style>
+
+    <style name="BottomSheetDialogStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="background">@android:color/transparent</item>
+    </style>
 </resources>

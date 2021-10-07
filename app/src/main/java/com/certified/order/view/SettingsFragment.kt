@@ -86,11 +86,10 @@ class SettingsFragment : Fragment() {
 //                TODO: Open mail app to .....
                 val intent = Intent(Intent.ACTION_SENDTO).apply {
                     data = Uri.parse("mailto:")
-                    putExtra(Intent.EXTRA_EMAIL, "info@lyticaltechnology.com")
                     putExtra(Intent.EXTRA_SUBJECT, "Enquiry")
+                    putExtra(Intent.EXTRA_EMAIL, "info@lyticaltechnology.com")
                 }
-                if (intent.resolveActivity(requireActivity().packageManager) != null)
-                    startActivity(intent)
+                startActivity(intent)
             }
 
             btnSignout.setOnClickListener {
@@ -102,7 +101,8 @@ class SettingsFragment : Fragment() {
                 editor.putBoolean(PreferenceKeys.IS_FIRST_LOGIN, true)
                 editor.putBoolean(PreferenceKeys.IS_APPROVED, false)
                 editor.apply()
-                val navOptions = NavOptions.Builder().setPopUpTo(R.id.onboardingFragment, true).build()
+                val navOptions =
+                    NavOptions.Builder().setPopUpTo(R.id.onboardingFragment, true).build()
                 navController.popBackStack()
                 navController.navigate(R.id.onboardingFragment)
             }

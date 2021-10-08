@@ -38,6 +38,10 @@
             android:value="@string/google_maps_key" />
 
         <meta-data
+            android:name="co.paystack.android.PublicKey"
+            android:value="pk_test_9ad2592883f7646302f65dd0ac3bcc3d50e32f99"/>
+
+        <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
 

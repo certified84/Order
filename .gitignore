@@ -13,6 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+gradle.properties
 /app/google-services.json
 /app/src/main/java/com/certified/order/util/Config.kt
 /app/src/main/java/com/certified/order/util/Mailer.kt

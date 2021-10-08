@@ -20,6 +20,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
+
+        buildConfigField("String", "PSTK_PUBLIC_KEY", PSTK_PUBLIC_KEY)
+        buildConfigField("String", "ADMIN_EMAIL", ADMIN_EMAIL)
+        buildConfigField("String", "ADMIN_PASSWORD", ADMIN_PASSWORD)
     }
 
     buildTypes {

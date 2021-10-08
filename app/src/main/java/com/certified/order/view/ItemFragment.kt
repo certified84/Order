@@ -5,13 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.ViewPager2
+import com.certified.order.R
 import com.certified.order.adapter.ItemViewPagerAdapter
 import com.certified.order.databinding.FragmentItemBinding
 import com.certified.order.util.PreferenceKeys
+import com.certified.order.view.items.ChickenAndChipsFragment
 import com.google.android.material.tabs.TabLayout
 
 class ItemFragment : Fragment() {
@@ -73,8 +77,15 @@ class ItemFragment : Fragment() {
 
             chipBurger.setOnClickListener { tabLayout.getTabAt(0)?.text = "Burgers" }
 
+//            val fragmentManager = requireActivity().supportFragmentManager
+//            val transaction = fragmentManager.beginTransaction()
             chipChickenAndChips.setOnClickListener {
                 tabLayout.getTabAt(0)?.text = "Chicken and Chips"
+//                val chickenAndChipsFragment = ChickenAndChipsFragment()
+//                transaction
+//                    .replace(viewPagerItems.get(0)., chickenAndChipsFragment)
+//                    .addToBackStack(null)
+//                    .commit()
             }
 
             chipPizza.setOnClickListener { tabLayout.getTabAt(0)?.text = "Pizzas" }
@@ -94,6 +105,8 @@ class ItemFragment : Fragment() {
                     chipPizza.isChecked -> tabLayout.getTabAt(0)?.text = "Pizzas"
                     chipShawarma.isChecked -> tabLayout.getTabAt(0)?.text = "Shawarmas"
                 }
+            else
+                chipGroup.visibility = View.GONE
         }
     }
 

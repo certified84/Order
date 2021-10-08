@@ -71,6 +71,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.firebaseui:firebase-ui-firestore:6.3.0'
     implementation 'com.firebaseui:firebase-ui-storage:6.3.0'
 
@@ -85,6 +86,9 @@ dependencies {
 
 //    Flutterwave
     implementation 'com.github.Flutterwave:rave-android:1.0.38'
+
+//    Paystack
+//    implementation 'co.paystack.android:paystack:3.1.2'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'com.google.truth:truth:1.1.2'

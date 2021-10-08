@@ -14,6 +14,7 @@ import com.certified.order.adapter.OrdersRecyclerAdapter
 import com.certified.order.databinding.FragmentPendingOrdersBinding
 import com.certified.order.model.Order
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
@@ -41,7 +42,8 @@ class PendingOrdersFragment : Fragment() {
 
         val orders = ArrayList<Order>()
         val query =
-            Firebase.firestore.collection("orders")
+            Firebase.firestore.collection("orders").document(Firebase.auth.currentUser!!.uid)
+                .collection("my_orders")
                 .whereEqualTo("status", "Pending")
         query.get().addOnSuccessListener {
             for (querySnapShot in it) {

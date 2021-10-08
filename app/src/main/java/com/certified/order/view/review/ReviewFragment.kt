@@ -12,6 +12,7 @@ import com.certified.order.databinding.FragmentReviewBinding
 import com.certified.order.model.Item
 import com.certified.order.model.Review
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -33,11 +34,11 @@ class ReviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val reviews = listOf(
-            Review("Samson Achiaga", "I made the app so I'll definitely give a 5 star", 5),
-            Review("Daniel Achiaga", "My brother made it so you can trust them.", 4),
-            Review("Y3k & Bbno$", "Whatever man I'm just typing shit", 3),
-            Review("Fuck off", "I said what I said. What you gon do?", 2),
-            Review("Mr. Nobody", "Nigga y'all dumb asf", 1)
+            Review("Samson Achiaga", "I made the app so I'll definitely give a 5 star", Firebase.auth.currentUser!!.photoUrl, 5),
+            Review("Daniel Achiaga", "My brother made it so you can trust them.", Firebase.auth.currentUser!!.photoUrl, 4),
+            Review("Y3k & Bbno$", "Whatever man I'm just typing shit", Firebase.auth.currentUser!!.photoUrl, 3),
+            Review("Fuck off", "I said what I said. What you gon do?", Firebase.auth.currentUser!!.photoUrl, 2),
+            Review("Mr. Nobody", "Nigga y'all dumb asf", Firebase.auth.currentUser!!.photoUrl, 1)
         )
         val viewModelFactory = ReviewViewModelFactory(reviews)
         val viewModel: ReviewViewModel by lazy {

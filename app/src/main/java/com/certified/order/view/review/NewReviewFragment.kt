@@ -1,4 +1,4 @@
-package com.certified.order.view
+package com.certified.order.view.review
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -37,6 +37,7 @@ class NewReviewFragment(val order: Order) : DialogFragment() {
                     val review = Review(
                         Firebase.auth.currentUser?.displayName!!,
                         etReview.text.toString(),
+                        Firebase.auth.currentUser?.photoUrl,
                         ratingBar.rating.toInt()
                     )
                     val reviewRef = Firebase.firestore.collection("reviews").document()
@@ -45,7 +46,6 @@ class NewReviewFragment(val order: Order) : DialogFragment() {
                         if (it.isSuccessful) {
                             Firebase.firestore.collection("orders").document(order.id)
                                 .update("rated", true).addOnSuccessListener {
-//                            TODO: Change the isRated field of the current order to true
                                     progressBar.visibility = View.GONE
                                     dismiss()
                                 }

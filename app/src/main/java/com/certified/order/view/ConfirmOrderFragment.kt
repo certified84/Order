@@ -27,8 +27,6 @@ import com.certified.order.util.Config
 import com.certified.order.util.Mailer
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.tasks.CancellationToken
-import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.auth.FirebaseAuth
@@ -37,6 +35,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
@@ -114,18 +115,17 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
                     .load(profileImage)
                     .into(receiverProfileImage)
 
-//            tvAddress.setOnClickListener {
-//                val latitude = getCurrentLocation()?.latitude
-//                val longitude = getCurrentLocation()?.longitude
+            tvAddress.setOnClickListener {
+                val latitude = getCurrentLocation()?.latitude
+                val longitude = getCurrentLocation()?.longitude
 //                val position = latitude?.let { it1 -> longitude?.let { it2 -> LatLng(it1, it2) } }
-//                getCurrentLocation()?.let { it1 -> openMap(it1) }
-//            }
+                getCurrentLocation()?.let { it1 -> openMap(it1) }
+            }
             tvDeliveryTime.setOnClickListener { openTimePicker() }
 
             btnConfirmOrder.setOnClickListener {
                 if (tvDeliveryTime.text != "00:00 AM") {
-                    if (tvAddress.text == resources.getString(R.string.click_here_to_set_delivery_address)) {
-
+                    if (tvAddress.text != resources.getString(R.string.click_here_to_set_delivery_address)) {
                         progressBar.visibility = View.VISIBLE
 
                         val newOrder = Order(
@@ -140,17 +140,23 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
 //                        TODO: Process the order with either Gpay or Flutterwave. Only make use of one for now
 //                        TODO: If the oder was completed successfully, show success dialog and replace the if
 //                        if (true) {
+//                        TODO: Save the order in general orders
                         val ordersRef = db.collection("orders").document()
                         newOrder.id = ordersRef.id
                         ordersRef.set(newOrder).addOnCompleteListener {
                             if (it.isSuccessful) {
-                                progressBar.visibility = View.GONE
-                                val cartRef =
-                                    db.collection("cart").document(currentUser.uid)
-                                        .collection("my_cart_items")
-                                cartRef.get().addOnSuccessListener {
-//                                    TODO: Delete all items in the users cart
-//                                    TODO: progressBar.Visibility = View.Gone
+//                        TODO: Save the order in general orders
+                                val myOrdersRef = db.collection("orders").document(currentUser.uid)
+                                    .collection("my_orders").document()
+                                newOrder.id = myOrdersRef.id
+                                myOrdersRef.set(newOrder).addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        val cartRef =
+                                            db.collection("cart").document(currentUser.uid)
+                                                .collection("my_cart_items")
+                                        progressBar.visibility = View.GONE
+//                                        TODO: Delete the cart Items
+                                    }
                                 }
                                 super.dismiss()
                             }
@@ -220,9 +226,7 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
 //    }
 
     private fun getCurrentLocation(): LatLng? {
-
         var address: LatLng? = null
-//        CoroutineScope(Dispatchers.IO).launch {
         val locationProvider =
             LocationServices.getFusedLocationProviderClient(requireActivity())
         if (ActivityCompat.checkSelfPermission(
@@ -230,39 +234,19 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            locationProvider.getCurrentLocation(100, object : CancellationToken() {
-                override fun isCancellationRequested(): Boolean {
-                    return false
-                }
-
-                override fun onCanceledRequested(p0: OnTokenCanceledListener): CancellationToken {
-                    TODO("Not yet implemented")
-                }
-
-            }).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val location = it.result
-                    val geocoder = Geocoder(requireActivity(), Locale.getDefault())
-                    val addresses: List<Address>? = try {
-                        geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                    } catch (e: Exception) {
-                        null
-                    }
-                    address = LatLng(location.latitude, location.longitude)
+            CoroutineScope(Dispatchers.IO).launch {
+                locationProvider.getCurrentLocation(100, null).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        val location = it.result
+                        val geocoder = Geocoder(requireActivity(), Locale.getDefault())
+                        val addresses: List<Address>? = try {
+                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                        } catch (e: Exception) {
+                            null
+                        }
+                        address = LatLng(location.latitude, location.longitude)
 //                        address = addresses?.get(0)
-                }
-            }
-            locationProvider.lastLocation.addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val location = it.result
-                    val geocoder = Geocoder(requireActivity(), Locale.getDefault())
-                    val addresses: List<Address>? = try {
-                        geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                    } catch (e: Exception) {
-                        null
                     }
-                    address = LatLng(location.latitude, location.longitude)
-//                        address = addresses?.get(0)
                 }
             }
         } else
@@ -271,16 +255,13 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 101
             )
-//        }
         return address
     }
 
     private fun openMap(defaultAddress: LatLng) {
         val fragmentManager = requireActivity().supportFragmentManager
         val mapsFragment =
-            if (defaultAddress != null) MapsFragment(defaultAddress) else MapsFragment(
-                LatLng(-34.0, 151.0)
-            )
+            MapsFragment(defaultAddress)
         val transaction = fragmentManager.beginTransaction()
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction
@@ -294,9 +275,9 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
         val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
 
         val picker = MaterialTimePicker.Builder()
-            .setTimeFormat(TimeFormat.CLOCK_12H)
+            .setTimeFormat(clockFormat)
             .setHour(12)
-            .setMinute(0)
+            .setMinute(30)
             .setTitleText("Schedule delivery")
             .build()
         picker.show(childFragmentManager, "Time Picker")

@@ -13,7 +13,6 @@
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:context=".view.orders.DeliveredOrdersFragment"
@@ -108,7 +107,7 @@
             android:id="@+id/group_empty_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             app:constraint_referenced_ids="appCompatImageView8,materialTextView36,materialTextView37,btn_place_order,guideline10,guideline9" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -92,7 +92,6 @@
                                              to the receiver's location is shown as a dialog-->
 
                     <androidx.fragment.app.FragmentContainerView
-                        android:name="com.certified.order.view.MapsFragment"
                         android:id="@+id/fragment_location"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_150sdp"

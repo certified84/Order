@@ -21,13 +21,14 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_reviewer_picture"
-                style="@style/ShapeAppearanceOverlay.Order"
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_60sdp"
                 android:layout_marginStart="@dimen/_8sdp"
+                app:imageUrl="@{review.reviewer_photoUrl.toString()}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_item_desc"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/rating_bar"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Order"
                 app:strokeColor="@color/colorPrimary"
                 tools:src="@tools:sample/avatars" />
 

@@ -34,14 +34,21 @@ fun bindItemRecyclerView(recyclerView: RecyclerView, data: List<Item>?) {
 //}
 
 @BindingAdapter("imageUrl")
-fun bindImage(imgView: ImageView, imgUrl: String?) {
+fun bindProfileImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
         val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
         val burger = R.drawable.burger_image
-        Glide.with(imgView.context)
-            .load(burger)
-            .centerCrop()
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(imgView)
+        if (imgUri == null)
+            Glide.with(imgView.context)
+                .load(R.drawable.no_profile_image)
+                .centerCrop()
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(imgView)
+        else
+            Glide.with(imgView.context)
+                .load(imgUri)
+                .centerCrop()
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(imgView)
     }
 }

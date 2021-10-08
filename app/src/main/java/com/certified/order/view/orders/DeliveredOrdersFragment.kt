@@ -14,8 +14,9 @@ import com.certified.order.R
 import com.certified.order.adapter.OrdersRecyclerAdapter
 import com.certified.order.databinding.FragmentDeliveredOrdersBinding
 import com.certified.order.model.Order
-import com.certified.order.view.NewReviewFragment
+import com.certified.order.view.review.NewReviewFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
@@ -41,11 +42,11 @@ class DeliveredOrdersFragment : Fragment() {
 
         val orders = ArrayList<Order>()
         val query =
-            Firebase.firestore.collection("orders")
+            Firebase.firestore.collection("orders").document(Firebase.auth.currentUser!!.uid)
+                .collection("my_orders")
                 .whereEqualTo("status", "Delivered")
         query.get().addOnSuccessListener {
             for (querySnapShot in it) {
-
                 val order = Order(
                     querySnapShot.getString("receiver_name")!!,
                     querySnapShot.getField("receiver_photourl"),
@@ -110,6 +111,8 @@ class DeliveredOrdersFragment : Fragment() {
                 override fun onOrderClick(order: Order) {
                     if (!order.isRated) {
                         showOrderDeliveredDialog(order)
+                    } else {
+//                        TODO: Load the order details
                     }
                 }
             })

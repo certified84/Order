@@ -77,6 +77,19 @@ class NewOrdersFragment() : Fragment() {
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(OrderViewModel::class.java)
 
+        viewModel.showEmptyOrderDesign.observe(viewLifecycleOwner) {
+            binding.apply {
+                if (it) {
+                    groupEmptyCart.visibility = View.VISIBLE
+                    recyclerViewNewOrders.visibility = View.GONE
+                } else {
+                    groupEmptyCart.visibility = View.GONE
+                    recyclerViewNewOrders.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.apply {
@@ -95,7 +108,6 @@ class NewOrdersFragment() : Fragment() {
                         .add(android.R.id.content, orderDetailsFragment)
                         .addToBackStack(null)
                         .commit()
-//        }
                 }
             })
         }

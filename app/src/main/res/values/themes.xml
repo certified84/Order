@@ -48,7 +48,7 @@
         <item name="cornerSize">15%</item>
     </style>
 
-    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetDialogStyle</item>
     </style>
 

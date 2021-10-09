@@ -1,5 +1,6 @@
 package com.certified.order.util
 
+import com.certified.order.BuildConfig
 import io.reactivex.Completable
 import java.util.*
 import javax.mail.*
@@ -28,7 +29,7 @@ object Mailer {
 
             val session = Session.getDefaultInstance(props, object : Authenticator() {
                 override fun getPasswordAuthentication(): PasswordAuthentication {
-                    return PasswordAuthentication(Config.ADMIN_EMAIL, Config.ADMIN_PASSWORD)
+                    return PasswordAuthentication(BuildConfig.ADMIN_EMAIL, BuildConfig.ADMIN_PASSWORD)
                 }
             })
 

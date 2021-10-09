@@ -10,8 +10,8 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentTransaction
 import com.certified.order.databinding.FragmentSignupBinding
-import com.certified.order.model.Dispatcher
 import com.certified.order.model.AccountType
+import com.certified.order.model.Dispatcher
 import com.certified.order.util.Config
 import com.certified.order.util.Mailer
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -29,7 +29,6 @@ import com.certified.order.model.User as nUser
 
 class SignupFragment : DialogFragment() {
 
-//    private lateinit var navController: NavController
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentSignupBinding
 
@@ -48,13 +47,14 @@ class SignupFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        navController = Navigation.findNavController(view)
-        val currentUser = auth.currentUser
-
         binding.apply {
 
             val accountTypes = arrayListOf("Select account type", "Dispatcher", "User")
-            val arrayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, accountTypes)
+            val arrayAdapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                accountTypes
+            )
             spinnerAccountType.adapter = arrayAdapter
 
             btnSignup.setOnClickListener {
@@ -65,116 +65,114 @@ class SignupFragment : DialogFragment() {
                 val password = etPassword.text.toString().trim()
                 val accountType = spinnerAccountType.selectedItem.toString()
 
-//                if (currentUser == null) {
-                    if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && phone.isNotEmpty()) {
-                        if (accountType != "Select account type") {
+                if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && phone.isNotEmpty()) {
+                    if (accountType != "Select account type") {
 
-                            progressBar.visibility = View.VISIBLE
+                        progressBar.visibility = View.VISIBLE
 
-                            auth.createUserWithEmailAndPassword(email, password)
-                                .addOnCompleteListener(requireActivity()) { task ->
-                                    if (task.isSuccessful) {
-                                        val user = auth.currentUser
+                        auth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(requireActivity()) { task ->
+                                if (task.isSuccessful) {
+                                    val user = auth.currentUser
 
-                                        user!!.sendEmailVerification()
+                                    user!!.sendEmailVerification()
 
-                                        val db = Firebase.firestore
-                                        val newAccountType =
-                                            db.collection("account_type")
-                                                .document(user.uid)
-                                        newAccountType.set(AccountType(accountType))
+                                    val db = Firebase.firestore
+                                    val newAccountType =
+                                        db.collection("account_type")
+                                            .document(user.uid)
+                                    newAccountType.set(AccountType(accountType))
 
-                                        if (accountType == "Dispatcher") {
+                                    if (accountType == "Dispatcher") {
 
-                                            val newDispatcher = Dispatcher(name, phone)
-                                            newDispatcher.id = user.uid
-                                            newDispatcher.email = user.email.toString()
+                                        val newDispatcher = Dispatcher(name, phone)
+                                        newDispatcher.id = user.uid
+                                        newDispatcher.email = user.email.toString()
 
-                                            val userRef =
-                                                db.collection("accounts").document("dispatchers")
-                                                    .collection(user.uid).document("details")
-                                            userRef.set(newDispatcher).addOnCompleteListener {
-                                                if (it.isSuccessful) {
-                                                    val profileChangeRequest =
-                                                        UserProfileChangeRequest.Builder()
-                                                            .setDisplayName(newDispatcher.name)
-                                                            .setPhotoUri(newDispatcher.profile_image)
-                                                            .build()
-                                                    user.updateProfile(profileChangeRequest)
+                                        val userRef =
+                                            db.collection("accounts").document("dispatchers")
+                                                .collection(user.uid).document("details")
+                                        userRef.set(newDispatcher).addOnCompleteListener {
+                                            if (it.isSuccessful) {
+                                                val profileChangeRequest =
+                                                    UserProfileChangeRequest.Builder()
+                                                        .setDisplayName(newDispatcher.name)
+                                                        .setPhotoUri(newDispatcher.profile_image)
+                                                        .build()
+                                                user.updateProfile(profileChangeRequest)
 
-                                                    showDialog()
-                                                    mailAdmin()
-                                                    mailUser()
+                                                showDialog()
+                                                mailAdmin()
+                                                mailUser()
 
-                                                    Firebase.auth.signOut()
-                                                } else
-                                                    Toast.makeText(
-                                                        requireContext(),
-                                                        "An error occurred: ${it.exception}",
-                                                        Toast.LENGTH_LONG
-                                                    ).show()
-                                            }
-                                        } else {
-                                            val newUser =
-                                                nUser(name, phone)
-                                            newUser.id = user.uid
-                                            newUser.email = user.email.toString()
-
-                                            val userRef =
-                                                db.collection("accounts").document("users")
-                                                    .collection(user.uid).document("details")
-                                            userRef.set(newUser).addOnCompleteListener {
-                                                if (it.isSuccessful) {
-                                                    val profileChangeRequest =
-                                                        UserProfileChangeRequest.Builder()
-                                                            .setDisplayName(newUser.name)
-                                                            .setPhotoUri(newUser.profile_image)
-                                                            .build()
-                                                    user.updateProfile(profileChangeRequest)
-
-                                                    Firebase.auth.signOut()
-                                                } else
-                                                    Toast.makeText(
-                                                        requireContext(),
-                                                        "An error occurred: ${it.exception}",
-                                                        Toast.LENGTH_LONG
-                                                    ).show()
-                                            }
+                                                Firebase.auth.signOut()
+                                            } else
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    "An error occurred: ${it.exception}",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
                                         }
-
-                                        progressBar.visibility = View.GONE
-
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Success. Check email for verification link",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-
-                                        Firebase.auth.signOut()
-
                                     } else {
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Registration failed ${task.exception}",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        val newUser =
+                                            nUser(name, phone)
+                                        newUser.id = user.uid
+                                        newUser.email = user.email.toString()
+
+                                        val userRef =
+                                            db.collection("accounts").document("users")
+                                                .collection(user.uid).document("details")
+                                        userRef.set(newUser).addOnCompleteListener {
+                                            if (it.isSuccessful) {
+                                                val profileChangeRequest =
+                                                    UserProfileChangeRequest.Builder()
+                                                        .setDisplayName(newUser.name)
+                                                        .setPhotoUri(newUser.profile_image)
+                                                        .build()
+                                                user.updateProfile(profileChangeRequest)
+
+                                                Firebase.auth.signOut()
+                                            } else
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    "An error occurred: ${it.exception}",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                        }
                                     }
+
+                                    progressBar.visibility = View.GONE
+
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Success. Check email for verification link",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                    Firebase.auth.signOut()
+
+                                } else {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Registration failed ${task.exception}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                "Please select an account type",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
+                            }
                     } else {
                         Toast.makeText(
                             requireContext(),
-                            "All fields are required",
+                            "Please select an account type",
                             Toast.LENGTH_LONG
                         ).show()
                     }
-//                }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "All fields are required",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
 
             root.setOnClickListener { super.dismiss() }
@@ -189,7 +187,7 @@ class SignupFragment : DialogFragment() {
     }
 
     @SuppressLint("CheckResult")
-    private fun mailUser() {
+    private fun mailUser() =
         binding.apply {
             val email = etEmail.text.toString()
             val name = etName.text.toString().substringBefore(" ")
@@ -204,23 +202,22 @@ class SignupFragment : DialogFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
         }
-    }
 
     @SuppressLint("CheckResult")
-    private fun mailAdmin() {
+    private fun mailAdmin() =
         binding.apply {
-        val email = Config.ADMIN_EMAIL
-        val subject = "New dispatcher registration"
-        val message = "A new account has been registered as a dispatcher. Find details below\n" +
-                "Name: ${etName.text.toString()}\n" +
-                "Email: ${etEmail.text.toString()}\n" +
-                "Phone: ${etPhone.text.toString()}"
+            val email = Config.ADMIN_EMAIL
+            val subject = "New dispatcher registration"
+            val message =
+                "A new account has been registered as a dispatcher. Find details below\n" +
+                        "Name: ${etName.text.toString()}\n" +
+                        "Email: ${etEmail.text.toString()}\n" +
+                        "Phone: ${etPhone.text.toString()}"
 
-        Mailer.sendMail(email, subject, message).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
+            Mailer.sendMail(email, subject, message).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
         }
-    }
 
     private fun showDialog() {
         val alertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
@@ -240,12 +237,12 @@ class SignupFragment : DialogFragment() {
 //        if (isLargeLayout) {
 //            loginFragment.show(fragmentManager, "loginFragment")
 //        } else {
-            val transaction = fragmentManager.beginTransaction()
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            transaction
-                .add(android.R.id.content, loginFragment)
-                .addToBackStack(null)
-                .commit()
+        val transaction = fragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        transaction
+            .add(android.R.id.content, loginFragment)
+            .addToBackStack(null)
+            .commit()
 //        }
     }
 }

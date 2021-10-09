@@ -1,6 +1,7 @@
 package com.certified.order.view
 
 import android.Manifest
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -10,23 +11,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import co.paystack.android.Paystack
+import co.paystack.android.PaystackSdk
+import co.paystack.android.Transaction
+import co.paystack.android.model.Card
+import co.paystack.android.model.Charge
 import com.bumptech.glide.Glide
+import com.certified.order.BuildConfig
 import com.certified.order.ItemViewModel
 import com.certified.order.ItemViewModelFactory
 import com.certified.order.R
 import com.certified.order.adapter.ItemAdapter
+import com.certified.order.databinding.DialogCardDetailsBinding
 import com.certified.order.databinding.FragmentCompleteOrderBinding
 import com.certified.order.model.Item
 import com.certified.order.model.Order
 import com.certified.order.util.Config
 import com.certified.order.util.Mailer
+import com.certified.order.util.PreferenceKeys
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.auth.FirebaseAuth
@@ -44,6 +56,7 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
 
     private lateinit var binding: FragmentCompleteOrderBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var preferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +66,8 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
         binding = FragmentCompleteOrderBinding.inflate(layoutInflater)
 
         auth = Firebase.auth
+        PaystackSdk.initialize(requireContext())
+        PaystackSdk.setPublicKey(BuildConfig.PSTK_PUBLIC_KEY)
 
         return binding.root
     }
@@ -60,6 +75,7 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val viewModelFactory = ItemViewModelFactory(items)
         val viewModel: ItemViewModel by lazy {
             ViewModelProvider(this, viewModelFactory).get(ItemViewModel::class.java)
@@ -94,16 +110,8 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
 //            val deliveryAddress = getCurrentLocation()
             val profileImage = currentUser.photoUrl
 
-            val userRef =
-                db.collection("accounts").document("users")
-                    .collection(currentUser.uid).document("details")
-            userRef.get().addOnSuccessListener {
-                if (it.exists()) {
-                    tvReceiverPhone.text = it.getString("phone")!!
-                    tvAddress.text = it.getString("default_address_line")
-                }
-            }
-
+            tvReceiverPhone.text = preferences.getString(PreferenceKeys.USER_PHONE, "")
+            tvAddress.text = preferences.getString(PreferenceKeys.USER_DEFAULT_DELIVERY_ADDRESS, "")
             tvReceiverName.text = currentUser.displayName
 
             if (profileImage == null)
@@ -123,51 +131,57 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
             }
             tvDeliveryTime.setOnClickListener { openTimePicker() }
 
+            btnCloseDialog.setOnClickListener { dismiss() }
             btnConfirmOrder.setOnClickListener {
                 if (tvDeliveryTime.text != "00:00 AM") {
-                    if (tvAddress.text != resources.getString(R.string.click_here_to_set_delivery_address)) {
-                        progressBar.visibility = View.VISIBLE
+//                    if (tvAddress.text != resources.getString(R.string.click_here_to_set_delivery_address)) {
+                    progressBar.visibility = View.VISIBLE
 
-                        val newOrder = Order(
-                            currentUser.displayName!!,
-                            currentUser.photoUrl,
-                            tvReceiverPhone.text.toString(),
-                            tvSubtotal.text.toString().toDouble(),
-                            items
-                        )
-                        newOrder.deliveryTime = tvDeliveryTime.text.toString()
+                    val newOrder = Order(
+                        currentUser.displayName!!,
+                        currentUser.photoUrl,
+                        tvReceiverPhone.text.toString(),
+                        tvSubtotal.text.toString().toDouble(),
+                        items
+                    )
+                    newOrder.deliveryTime = tvDeliveryTime.text.toString()
 
-//                        TODO: Process the order with either Gpay or Flutterwave. Only make use of one for now
-//                        TODO: If the oder was completed successfully, show success dialog and replace the if
-//                        if (true) {
-//                        TODO: Save the order in general orders
+                    if (launchPaymentDialog(tvItemTotal.text.toString())) {
+
+//                        TODO: Save the order in general orders for dispatchers to be to access easily
+
                         val ordersRef = db.collection("orders").document()
                         newOrder.id = ordersRef.id
                         ordersRef.set(newOrder).addOnCompleteListener {
                             if (it.isSuccessful) {
-//                        TODO: Save the order in general orders
-                                val myOrdersRef = db.collection("orders").document(currentUser.uid)
-                                    .collection("my_orders").document()
+
+//                        TODO: Save the order in general orders for the users access only
+
+                                val myOrdersRef =
+                                    db.collection("orders").document(currentUser.uid)
+                                        .collection("my_orders").document()
                                 newOrder.id = myOrdersRef.id
                                 myOrdersRef.set(newOrder).addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
+
+//                                            TODO: Delete all the items in the users cart
+
                                         val cartRef =
                                             db.collection("cart").document(currentUser.uid)
                                                 .collection("my_cart_items")
                                         progressBar.visibility = View.GONE
-//                                        TODO: Delete the cart Items
                                     }
                                 }
                                 super.dismiss()
                             }
                         }
-//                        }
-                    } else
-                        Toast.makeText(
-                            requireContext(),
-                            "Please set your delivery address",
-                            Toast.LENGTH_LONG
-                        ).show()
+                    }
+//                    } else
+//                        Toast.makeText(
+//                            requireContext(),
+//                            "Please set your delivery address",
+//                            Toast.LENGTH_LONG
+//                        ).show()
                 } else
                     Toast.makeText(
                         requireContext(),
@@ -175,17 +189,93 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
                         Toast.LENGTH_LONG
                     ).show()
             }
-
-//            val raveUiManager =
-//                RavePayManager(requireActivity()).setAmount(tvSubtotal.text.toString().toDouble())
-//                    .setCurrency("NGN")
-//                    .setfName(currentUser.displayName?.substringBefore(" "))
-//                    .setlName(currentUser.displayName?.substringAfter(" "))
-//                    .setEmail(currentUser.email)
         }
     }
 
-    private fun mailAdmin() {
+    private fun launchPaymentDialog(amount: String): Boolean {
+        var success = false
+        val cardDetailsDialog =
+            DialogCardDetailsBinding.inflate(
+                layoutInflater,
+                ConstraintLayout(requireContext()),
+                false
+            )
+        val bottomSheetDialog =
+            BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+        cardDetailsDialog.apply {
+            btnConfirmPayment.text = "Pay #$amount"
+            btnConfirmPayment.setOnClickListener {
+                if (etCardNumber.text.toString().isNotEmpty() && etCardExpiryDate.text.toString()
+                        .isNotEmpty() && etCardCvv.text.toString().isNotEmpty()
+                ) {
+                    val cardNumber = etCardNumber.text.toString().trim()
+                    val expiryMonth =
+                        etCardExpiryDate.text.toString().substringBefore("/").trim()
+                            .toInt()
+                    val expiryYear =
+                        etCardExpiryDate.text.toString().substringAfter("/").trim()
+                            .toInt()
+                    val cvv = etCardCvv.text.toString()
+                    val card = Card(cardNumber, expiryMonth, expiryYear, cvv)
+                    println("expiryMonth: $expiryMonth, expiryYear: $expiryYear")
+                    if (card.isValid) {
+                        progressBar.visibility = View.VISIBLE
+                        val charge = Charge()
+                        charge.amount = amount.toInt()
+                        charge.email = auth.currentUser?.email
+                        charge.card = card
+
+                        success = chargeCard(charge)
+                    } else
+                        Toast.makeText(
+                            requireContext(),
+                            "Invalid card",
+                            Toast.LENGTH_LONG
+                        ).show()
+                } else {
+                    etCardNumber.error = "*Required"
+                    etCardExpiryDate.error = "*Required"
+                    etCardCvv.error = "*Required"
+                }
+            }
+            btnCancel.setOnClickListener { bottomSheetDialog.dismiss() }
+        }
+        bottomSheetDialog.setContentView(cardDetailsDialog.root)
+        bottomSheetDialog.show()
+        return success
+    }
+
+    private fun chargeCard(charge: Charge): Boolean {
+        var success = false
+        PaystackSdk.chargeCard(
+            requireActivity(),
+            charge,
+            object : Paystack.TransactionCallback {
+                override fun onSuccess(transaction: Transaction?) {
+                    success = true
+                    mailAdmin()
+                    mailUser()
+                }
+
+                override fun beforeValidate(transaction: Transaction?) {
+//                    TODO("Not yet implemented")
+                }
+
+                override fun onError(
+                    error: Throwable?,
+                    transaction: Transaction?
+                ) {
+                    Toast.makeText(
+                        requireContext(),
+                        "An error occurred: ${error?.localizedMessage}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
+        return success
+    }
+
+    private fun mailAdmin() =
         binding.apply {
             val email = Config.ADMIN_EMAIL
             val subject = "New Order received"
@@ -196,9 +286,8 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
         }
-    }
 
-    private fun mailUser() {
+    private fun mailUser() =
         binding.apply {
             val email = auth.currentUser!!.email!!
             val name = auth.currentUser!!.displayName?.substringAfter(" ")
@@ -213,17 +302,6 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
         }
-    }
-
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        if (requestCode == 101)
-//            getCurrentLocation()
-//    }
 
     private fun getCurrentLocation(): LatLng? {
         var address: LatLng? = null

@@ -92,7 +92,7 @@ dependencies {
     implementation 'com.github.Flutterwave:rave-android:1.0.38'
 
 //    Paystack
-//    implementation 'co.paystack.android:paystack:3.1.2'
+    implementation 'co.paystack.android:paystack:3.1.2'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'com.google.truth:truth:1.1.2'

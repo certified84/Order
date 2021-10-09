@@ -17,8 +17,8 @@ class ItemViewModel(private val itemList: List<Item>) : ViewModel() {
     val subtotal: LiveData<Double>
         get() = _subtotal
 
-    private val _itemTotal = MutableLiveData<Double>()
-    val itemTotal: LiveData<Double>
+    private val _itemTotal = MutableLiveData<Int>()
+    val itemTotal: LiveData<Int>
         get() = _itemTotal
 
     private val _items = MutableLiveData<List<Item>>()
@@ -42,7 +42,7 @@ class ItemViewModel(private val itemList: List<Item>) : ViewModel() {
 
             _deliveryFee.value = 500.00
             _items.value = itemList
-            _itemTotal.value = 0.0
+            _itemTotal.value = 0
             _subtotal.value = _deliveryFee.value
 
             for (item in itemList)

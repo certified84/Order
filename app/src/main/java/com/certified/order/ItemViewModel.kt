@@ -9,12 +9,12 @@ import com.certified.order.model.Item
 
 class ItemViewModel(private val itemList: List<Item>) : ViewModel() {
 
-    private val _deliveryFee = MutableLiveData<Double>()
-    val deliveryFee: LiveData<Double>
+    private val _deliveryFee = MutableLiveData<Int>()
+    val deliveryFee: LiveData<Int>
         get() = _deliveryFee
 
-    private val _subtotal = MutableLiveData<Double>()
-    val subtotal: LiveData<Double>
+    private val _subtotal = MutableLiveData<Int>()
+    val subtotal: LiveData<Int>
         get() = _subtotal
 
     private val _itemTotal = MutableLiveData<Int>()
@@ -40,7 +40,7 @@ class ItemViewModel(private val itemList: List<Item>) : ViewModel() {
     private fun getBurgers() {
         Handler(Looper.myLooper()!!).postDelayed({
 
-            _deliveryFee.value = 500.00
+            _deliveryFee.value = 500
             _items.value = itemList
             _itemTotal.value = 0
             _subtotal.value = _deliveryFee.value

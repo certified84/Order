@@ -36,11 +36,7 @@
     <fragment
         android:id="@+id/confirmOrderFragment"
         android:name="com.certified.order.view.ConfirmOrderFragment"
-        android:label="CompleteOrderFragment" >
-        <argument
-            android:name="CartItems"
-            app:argType="com.certified.order.model.Item[]" />
-    </fragment>
+        android:label="CompleteOrderFragment" />
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.certified.order.view.details.ItemDetailsFragment"
@@ -72,6 +68,6 @@
         android:label="SplashFragment" />
     <fragment
         android:id="@+id/completedOrdersFragment"
-        android:name="com.certified.order.view.CompletedOrdersFragment"
+        android:name="com.certified.order.view.orders.CompletedOrdersFragment"
         android:label="CompletedOrdersFragment" />
 </navigation>

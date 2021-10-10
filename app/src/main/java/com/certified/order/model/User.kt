@@ -9,7 +9,7 @@ data class User(
     val phone: String
 ) {
     val account_type = "user"
-    val profile_image: Uri? = null
+    val profile_image: String? = null
     var email = ""
     val default_Address: Address? = null
     val default_address_line = "Click here to set delivery address"

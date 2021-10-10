@@ -352,6 +352,7 @@ class ProfileFragment : Fragment() {
                 Glide.with(requireContext())
                     .load(uri)
                     .into(binding.profileImage)
+                userRef.update("profile_image", uri.toString())
                 storageRef.putFile(uri).addOnCompleteListener {
                     if (it.isSuccessful) {
                         val profileChangeRequest =

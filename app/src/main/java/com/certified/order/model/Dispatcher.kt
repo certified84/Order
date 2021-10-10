@@ -8,7 +8,7 @@ data class Dispatcher(
     val phone: String
 ) {
     val account_type = "dispatcher"
-    val profile_image: Uri? = null
+    val profile_image: String? = null
     var email = ""
     val current_location: Address? = null
     var id = ""

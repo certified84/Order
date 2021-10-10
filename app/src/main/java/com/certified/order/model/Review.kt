@@ -1,11 +1,12 @@
 package com.certified.order.model
 
-import android.net.Uri
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 data class Review(
     val reviewer: String = "",
     val review: String = "",
-    val reviewer_photoUrl: Uri? = null,
+    val reviewer_photoUrl: String? = Firebase.auth.currentUser!!.photoUrl.toString(),
     val rating: Int = 0
 ) {
     var id: String = ""

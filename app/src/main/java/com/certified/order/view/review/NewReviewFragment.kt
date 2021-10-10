@@ -37,7 +37,7 @@ class NewReviewFragment(val order: Order) : DialogFragment() {
                     val review = Review(
                         Firebase.auth.currentUser?.displayName!!,
                         etReview.text.toString(),
-                        Firebase.auth.currentUser?.photoUrl,
+                        Firebase.auth.currentUser?.photoUrl.toString(),
                         ratingBar.rating.toInt()
                     )
                     val reviewRef = Firebase.firestore.collection("reviews").document()

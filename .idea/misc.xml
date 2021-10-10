@@ -6,6 +6,7 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.1859375" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.15341880341880343" />
         <entry key="app/src/main/res/drawable/ic_baseline_assignment_24.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/drawable/ic_baseline_close_27.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_contact_support_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_dark_mode_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.18697916666666667" />
@@ -23,31 +24,33 @@
         <entry key="app/src/main/res/drawable/ic_baseline_vpn_key_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_wb_sunny_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dialog_card_details.xml" value="0.11887254901960784" />
         <entry key="app/src/main/res/layout/dialog_edit_profile.xml" value="0.5" />
         <entry key="app/src/main/res/layout/dialog_leave_a_review.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_burger.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_burgers.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/fragment_complete_order.xml" value="0.2965641952983725" />
+        <entry key="app/src/main/res/layout/fragment_complete_order.xml" value="0.2656449553001277" />
         <entry key="app/src/main/res/layout/fragment_completed_orders.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_confirm_order.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_delivered_orders.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.17" />
         <entry key="app/src/main/res/layout/fragment_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_item_details.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_items.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.47467438494934877" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25573770491803277" />
         <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/layout/fragment_my_orders.xml" value="0.3416666666666667" />
         <entry key="app/src/main/res/layout/fragment_new_orders.xml" value="0.23339011925042588" />
         <entry key="app/src/main/res/layout/fragment_new_review.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_onboarding.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/fragment_order_details.xml" value="0.3416666666666667" />
+        <entry key="app/src/main/res/layout/fragment_order_details.xml" value="0.2982261640798226" />
         <entry key="app/src/main/res/layout/fragment_orders.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_pending_orders.xml" value="0.3353658536585366" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_review.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.43283582089552236" />
+        <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.2290748898678414" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.16" />
         <entry key="app/src/main/res/layout/fragment_track_order.xml" value="0.14017094017094017" />
         <entry key="app/src/main/res/layout/item_view_pager.xml" value="0.1" />

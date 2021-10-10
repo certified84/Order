@@ -31,7 +31,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_close_dialog"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn_close_dialog"
                 app:layout_constraintTop_toTopOf="@+id/btn_close_dialog" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -96,6 +96,7 @@
                 android:layout_marginStart="@dimen/_16sdp"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:clickable="true"
+                android:textStyle="bold"
                 android:text="@string/click_here_to_set_delivery_address"
                 android:textSize="@dimen/_11ssp"
                 app:layout_constraintEnd_toEndOf="@+id/tv_receiver_phone"
@@ -279,13 +280,13 @@
 
             <ImageButton
                 android:id="@+id/btn_close_dialog"
-                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:contentDescription="Cancel Order button"
                 app:layout_constraintStart_toStartOf="@+id/materialTextView7"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_close_27" />
+                app:srcCompat="@drawable/ic_baseline_close_26" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -160,9 +160,11 @@ class LoginFragment : DialogFragment() {
         userRef.get().addOnSuccessListener {
             if (it.exists()) {
                 val phone = it.getString("phone")
-                val defaultAddress = it.getString("default_Address")
                 editor.putString(PreferenceKeys.USER_PHONE, phone)
-                editor.putString(PreferenceKeys.USER_DEFAULT_DELIVERY_ADDRESS, defaultAddress)
+                if (accountType == "User") {
+                    val defaultAddressLine = it.getString("default_address_line")
+                    editor.putString(PreferenceKeys.USER_DEFAULT_DELIVERY_ADDRESS, defaultAddressLine)
+                }
                 editor.apply()
             }
         }

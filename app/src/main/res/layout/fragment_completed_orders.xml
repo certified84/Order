@@ -17,7 +17,7 @@
             android:visibility="gone"
             android:layout_height="match_parent"
             tools:listitem="@layout/layout_order"
-            tools:context=".view.CompletedOrdersFragment"/>
+            tools:context=".view.orders.CompletedOrdersFragment"/>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView8"

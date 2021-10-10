@@ -42,15 +42,13 @@ class PendingOrdersFragment : Fragment() {
 
         val orders = ArrayList<Order>()
         val query =
-            Firebase.firestore.collection("orders").document(Firebase.auth.currentUser!!.uid)
+            Firebase.firestore.collection("user_orders").document(Firebase.auth.currentUser!!.uid)
                 .collection("my_orders")
                 .whereEqualTo("status", "Pending")
         query.get().addOnSuccessListener {
             for (querySnapShot in it) {
 
                 val order = Order(
-                    querySnapShot.getString("receiver_name")!!,
-                    querySnapShot.getField("receiver_photourl"),
                     querySnapShot.getString("receiver_phone_no")!!
                 )
                 order.id = querySnapShot.getString("id")!!

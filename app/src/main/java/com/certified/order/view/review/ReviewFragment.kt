@@ -33,13 +33,20 @@ class ReviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val reviews = listOf(
-            Review("Samson Achiaga", "I made the app so I'll definitely give a 5 star", Firebase.auth.currentUser!!.photoUrl, 5),
-            Review("Daniel Achiaga", "My brother made it so you can trust them.", Firebase.auth.currentUser!!.photoUrl, 4),
-            Review("Y3k & Bbno$", "Whatever man I'm just typing shit", Firebase.auth.currentUser!!.photoUrl, 3),
-            Review("Fuck off", "I said what I said. What you gon do?", Firebase.auth.currentUser!!.photoUrl, 2),
-            Review("Mr. Nobody", "Nigga y'all dumb asf", Firebase.auth.currentUser!!.photoUrl, 1)
-        )
+        val query = Firebase.firestore.collection("reviews").orderBy("id")
+        val options =
+            FirestoreRecyclerOptions.Builder<Review>().setQuery(query, Review::class.java).build()
+        
+        val profileImageUrl: String? = Firebase.auth.currentUser?.photoUrl.toString()
+
+        val reviews = ArrayList<Review>()
+        query.get().addOnSuccessListener {
+            for (querySnapshot in it) {
+                val review = querySnapshot.toObject(Review::class.java)
+                review.id = querySnapshot.id
+                reviews.add(review)
+            }
+        }
         val viewModelFactory = ReviewViewModelFactory(reviews)
         val viewModel: ReviewViewModel by lazy {
             ViewModelProvider(this, viewModelFactory).get(ReviewViewModel::class.java)
@@ -54,10 +61,6 @@ class ReviewFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-
-        val query = Firebase.firestore.collection("reviews").orderBy("id")
-        val options =
-            FirestoreRecyclerOptions.Builder<Review>().setQuery(query, Review::class.java).build()
 
         adapter = ReviewAdapter(options)
         binding.recyclerViewReviews.adapter = adapter

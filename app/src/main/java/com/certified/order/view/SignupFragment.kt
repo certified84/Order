@@ -1,6 +1,7 @@
 package com.certified.order.view
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -97,7 +98,7 @@ class SignupFragment : DialogFragment() {
                                                 val profileChangeRequest =
                                                     UserProfileChangeRequest.Builder()
                                                         .setDisplayName(newDispatcher.name)
-                                                        .setPhotoUri(newDispatcher.profile_image)
+                                                        .setPhotoUri(Uri.parse(newDispatcher.profile_image))
                                                         .build()
                                                 user.updateProfile(profileChangeRequest)
 
@@ -127,7 +128,7 @@ class SignupFragment : DialogFragment() {
                                                 val profileChangeRequest =
                                                     UserProfileChangeRequest.Builder()
                                                         .setDisplayName(newUser.name)
-                                                        .setPhotoUri(newUser.profile_image)
+                                                        .setPhotoUri(Uri.parse(newUser.profile_image))
                                                         .build()
                                                 user.updateProfile(profileChangeRequest)
 

@@ -1,7 +1,6 @@
 package com.certified.order.view
 
 import android.Manifest
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -30,7 +29,7 @@ import com.certified.order.ItemViewModelFactory
 import com.certified.order.R
 import com.certified.order.adapter.ItemAdapter
 import com.certified.order.databinding.DialogCardDetailsBinding
-import com.certified.order.databinding.FragmentCompleteOrderBinding
+import com.certified.order.databinding.FragmentConfirmOrderBinding
 import com.certified.order.model.Item
 import com.certified.order.model.Order
 import com.certified.order.util.Config
@@ -52,18 +51,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
+class ConfirmOrderFragment(private val items: List<Item>, private val from: String) :
+    DialogFragment() {
 
-    private lateinit var binding: FragmentCompleteOrderBinding
+    private lateinit var binding: FragmentConfirmOrderBinding
     private lateinit var auth: FirebaseAuth
-    private lateinit var preferences: SharedPreferences
+    private var currentLatLng: LatLng? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCompleteOrderBinding.inflate(layoutInflater)
+        binding = FragmentConfirmOrderBinding.inflate(layoutInflater)
 
         auth = Firebase.auth
         PaystackSdk.initialize(requireContext())
@@ -104,10 +104,6 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
         binding.apply {
 
             val currentUser = auth.currentUser!!
-            val db = Firebase.firestore
-
-//            TODO: Obtain the current device location
-//            val deliveryAddress = getCurrentLocation()
             val profileImage = currentUser.photoUrl
 
             tvReceiverPhone.text = preferences.getString(PreferenceKeys.USER_PHONE, "")
@@ -123,65 +119,142 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
                     .load(profileImage)
                     .into(receiverProfileImage)
 
-            tvAddress.setOnClickListener {
-                val latitude = getCurrentLocation()?.latitude
-                val longitude = getCurrentLocation()?.longitude
-//                val position = latitude?.let { it1 -> longitude?.let { it2 -> LatLng(it1, it2) } }
-                getCurrentLocation()?.let { it1 -> openMap(it1) }
-            }
+            tvAddress.setOnClickListener { getCurrentLocation() }
             tvDeliveryTime.setOnClickListener { openTimePicker() }
 
             btnCloseDialog.setOnClickListener { dismiss() }
             btnConfirmOrder.setOnClickListener {
+
                 if (tvDeliveryTime.text != "00:00 AM") {
-//                    if (tvAddress.text != resources.getString(R.string.click_here_to_set_delivery_address)) {
-                    progressBar.visibility = View.VISIBLE
+                    if (tvAddress.text != resources.getString(R.string.click_here_to_set_delivery_address)) {
 
-                    val newOrder = Order(
-                        currentUser.displayName!!,
-                        currentUser.photoUrl,
-                        tvReceiverPhone.text.toString(),
-                        tvSubtotal.text.toString().toDouble(),
-                        items
-                    )
-                    newOrder.deliveryTime = tvDeliveryTime.text.toString()
+//                        TODO: Process the Order
+                        val subtotal = tvSubtotal.text.toString()
+                        val newOrder = Order(
+                            tvReceiverPhone.text.toString(),
+                            subtotal.toInt(),
+                            items
+                        )
+                        newOrder.deliveryTime = tvDeliveryTime.text.toString()
+                        newOrder.latitude = currentLatLng?.latitude.toString()
+                        newOrder.longitude = currentLatLng?.longitude.toString()
 
-                    if (launchPaymentDialog(tvItemTotal.text.toString())) {
+//                        TODO: Launch a dialog for the user to enter card details
+                        val cardDetailsDialog =
+                            DialogCardDetailsBinding.inflate(
+                                layoutInflater,
+                                ConstraintLayout(requireContext()),
+                                false
+                            )
+                        val bottomSheetDialog =
+                            BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+                        cardDetailsDialog.apply {
 
-//                        TODO: Save the order in general orders for dispatchers to be to access easily
+//                            TODO: Load the test card details into the edit text fields
+                            etCardNumber.setText(TEST_CARD_NUMBER)
+                            etCardExpiryDate.setText(TEST_CARD_EXPIRY_DATE)
+                            etCardCvv.setText(TEST_CARD_CVV)
+                            btnConfirmPayment.text = "Pay #$subtotal"
 
-                        val ordersRef = db.collection("orders").document()
-                        newOrder.id = ordersRef.id
-                        ordersRef.set(newOrder).addOnCompleteListener {
-                            if (it.isSuccessful) {
+                            btnConfirmPayment.setOnClickListener {
+                                if (etCardNumber.text.toString()
+                                        .isNotEmpty() && etCardExpiryDate.text.toString()
+                                        .isNotEmpty() && etCardCvv.text.toString().isNotEmpty()
+                                ) {
+                                    val cardNumber = etCardNumber.text.toString().trim()
+                                    val expiryMonth =
+                                        etCardExpiryDate.text.toString().substringBefore("/").trim()
+                                            .toInt()
+                                    val expiryYear =
+                                        etCardExpiryDate.text.toString().substringAfter("/").trim()
+                                            .toInt()
+                                    val cvv = etCardCvv.text.toString()
+                                    val card = Card(cardNumber, expiryMonth, expiryYear, cvv)
+                                    println("expiryMonth: $expiryMonth, expiryYear: $expiryYear")
+                                    if (card.isValid) {
 
-//                        TODO: Save the order in general orders for the users access only
+                                        progressBar.visibility = View.VISIBLE
+                                        val charge = Charge()
+                                        charge.amount = subtotal.toInt() * 100
+                                        charge.email = auth.currentUser?.email
+                                        charge.card = card
 
-                                val myOrdersRef =
-                                    db.collection("orders").document(currentUser.uid)
-                                        .collection("my_orders").document()
-                                newOrder.id = myOrdersRef.id
-                                myOrdersRef.set(newOrder).addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
+//                                        TODO: When the card details entered is valid, Use PaystackSdk to collect payment
+                                        PaystackSdk.chargeCard(
+                                            requireActivity(),
+                                            charge,
+                                            object : Paystack.TransactionCallback {
+                                                override fun onSuccess(transaction: Transaction?) {
 
-//                                            TODO: Delete all the items in the users cart
+//                                                    TODO: When the payment is successful, Save the order details in firestore
+//                                                    TODO: Save the order in general orders for dispatchers to be to access easily
+                                                    val db = Firebase.firestore
+                                                    val ordersRef =
+                                                        db.collection("all_orders").document()
+                                                    newOrder.id = ordersRef.id
+                                                    ordersRef.set(newOrder)
 
-                                        val cartRef =
-                                            db.collection("cart").document(currentUser.uid)
-                                                .collection("my_cart_items")
-                                        progressBar.visibility = View.GONE
-                                    }
+//                                                    TODO: Save the order in my_orders for the users access only
+                                                    val myOrdersRef =
+                                                        db.collection("user_orders")
+                                                            .document(auth.currentUser!!.uid)
+                                                            .collection("my_orders")
+                                                            .document()
+                                                    myOrdersRef.set(newOrder)
+
+//                                                    TODO: If the user places the order from the cart, Delete all the items in the users cart
+                                                    if (from == "Cart") {
+                                                        val cartRef =
+                                                            db.collection("cart")
+                                                                .document(auth.currentUser!!.uid)
+                                                        cartRef.delete()
+                                                    }
+                                                    mailAdmin()
+                                                    mailUser()
+                                                    progressBar.visibility = View.GONE
+                                                    Toast.makeText(requireContext(), "Order placed successfully", Toast.LENGTH_LONG).show()
+                                                    bottomSheetDialog.dismiss()
+                                                    dismiss()
+                                                }
+
+                                                override fun beforeValidate(transaction: Transaction?) {
+//                                                    TODO("Not yet implemented")
+                                                }
+
+                                                override fun onError(
+                                                    error: Throwable?,
+                                                    transaction: Transaction?
+                                                ) {
+                                                    progressBar.visibility = View.GONE
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        "An error occurred: ${error?.localizedMessage}",
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+                                                }
+                                            })
+                                    } else
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "Invalid card",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                } else {
+                                    etCardNumber.error = "*Required"
+                                    etCardExpiryDate.error = "*Required"
+                                    etCardCvv.error = "*Required"
                                 }
-                                super.dismiss()
                             }
+                            btnCancel.setOnClickListener { bottomSheetDialog.dismiss() }
                         }
-                    }
-//                    } else
-//                        Toast.makeText(
-//                            requireContext(),
-//                            "Please set your delivery address",
-//                            Toast.LENGTH_LONG
-//                        ).show()
+                        bottomSheetDialog.setContentView(cardDetailsDialog.root)
+                        bottomSheetDialog.show()
+                    } else
+                        Toast.makeText(
+                            requireContext(),
+                            "Please set your delivery address",
+                            Toast.LENGTH_LONG
+                        ).show()
                 } else
                     Toast.makeText(
                         requireContext(),
@@ -221,11 +294,37 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
                     if (card.isValid) {
                         progressBar.visibility = View.VISIBLE
                         val charge = Charge()
-                        charge.amount = amount.toInt()
+                        charge.amount = amount.toInt() * 100
                         charge.email = auth.currentUser?.email
                         charge.card = card
 
-                        success = chargeCard(charge)
+                        PaystackSdk.chargeCard(
+                            requireActivity(),
+                            charge,
+                            object : Paystack.TransactionCallback {
+                                override fun onSuccess(transaction: Transaction?) {
+                                    success = true
+                                    progressBar.visibility = View.VISIBLE
+                                    bottomSheetDialog.dismiss()
+                                    dismiss()
+                                }
+
+                                override fun beforeValidate(transaction: Transaction?) {
+//                    TODO("Not yet implemented")
+                                }
+
+                                override fun onError(
+                                    error: Throwable?,
+                                    transaction: Transaction?
+                                ) {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "An error occurred: ${error?.localizedMessage}",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            })
+                        progressBar.visibility = View.GONE
                     } else
                         Toast.makeText(
                             requireContext(),
@@ -245,7 +344,7 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
         return success
     }
 
-    private fun chargeCard(charge: Charge): Boolean {
+    private fun chargeCard(charge: Charge, order: Order): Boolean {
         var success = false
         PaystackSdk.chargeCard(
             requireActivity(),
@@ -253,8 +352,6 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
             object : Paystack.TransactionCallback {
                 override fun onSuccess(transaction: Transaction?) {
                     success = true
-                    mailAdmin()
-                    mailUser()
                 }
 
                 override fun beforeValidate(transaction: Transaction?) {
@@ -290,10 +387,10 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
     private fun mailUser() =
         binding.apply {
             val email = auth.currentUser!!.email!!
-            val name = auth.currentUser!!.displayName?.substringAfter(" ")
+            val name = auth.currentUser!!.displayName?.substringBefore(" ")
             val subject = "Order Received"
             val message = "Dear $name \n\n" +
-                    "Your has been placed successfully.\n" +
+                    "Your order has been placed successfully.\n" +
                     "A dispatcher will deliver the items to you at your requested time. \n\n" +
                     "Regards,\n" +
                     "Order app Team."
@@ -303,8 +400,9 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
                 .subscribe()
         }
 
-    private fun getCurrentLocation(): LatLng? {
-        var address: LatLng? = null
+    private fun getCurrentLocation(): Address? {
+        binding.progressBar.visibility = View.VISIBLE
+        var address: Address? = null
         val locationProvider =
             LocationServices.getFusedLocationProviderClient(requireActivity())
         if (ActivityCompat.checkSelfPermission(
@@ -313,17 +411,21 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             CoroutineScope(Dispatchers.IO).launch {
-                locationProvider.getCurrentLocation(100, null).addOnCompleteListener {
+                locationProvider.lastLocation.addOnCompleteListener {
                     if (it.isSuccessful) {
-                        val location = it.result
-                        val geocoder = Geocoder(requireActivity(), Locale.getDefault())
+                        binding.progressBar.visibility = View.GONE
+                        val result = it.result
+                        val geocoder = Geocoder(requireContext(), Locale.getDefault())
                         val addresses: List<Address>? = try {
-                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                            geocoder.getFromLocation(result.latitude, result.longitude, 1)
                         } catch (e: Exception) {
                             null
                         }
-                        address = LatLng(location.latitude, location.longitude)
-//                        address = addresses?.get(0)
+                        address = addresses?.get(0)
+                        binding.tvAddress.text = address?.getAddressLine(0)
+                        currentLatLng = LatLng(result.latitude, result.longitude)
+//                        TODO: Remove the Open Map function
+//                        openMap(LatLng(result.latitude, result.longitude))
                     }
                 }
             }
@@ -366,5 +468,11 @@ class ConfirmOrderFragment(private val items: List<Item>) : DialogFragment() {
             val AMPM = if (hour >= 12) "PM" else "AM"
             binding.tvDeliveryTime.text = "$hour:$min $AMPM"
         }
+    }
+
+    companion object {
+        private val TEST_CARD_NUMBER = "4084084084084081"
+        private val TEST_CARD_CVV = "408"
+        private val TEST_CARD_EXPIRY_DATE = "10/22"
     }
 }

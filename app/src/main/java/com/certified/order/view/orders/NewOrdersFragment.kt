@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.certified.order.R
 import com.certified.order.adapter.OrdersRecyclerAdapter
 import com.certified.order.databinding.FragmentNewOrdersBinding
+import com.certified.order.model.Item
 import com.certified.order.model.Order
 import com.certified.order.view.OrderDetailsFragment
 import com.certified.order.view.SignupFragment
@@ -21,7 +22,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
 
-class NewOrdersFragment() : Fragment() {
+class NewOrdersFragment : Fragment() {
 
     private lateinit var binding: FragmentNewOrdersBinding
     private lateinit var adapter: OrdersRecyclerAdapter
@@ -45,27 +46,12 @@ class NewOrdersFragment() : Fragment() {
 
         val orders = ArrayList<Order>()
         val query =
-            Firebase.firestore.collection("orders")
+            Firebase.firestore.collection("all_orders")
                 .whereEqualTo("status", "Pending")
         query.get().addOnSuccessListener {
             for (querySnapShot in it) {
-
-                val order = Order(
-                    querySnapShot.getString("receiver_name")!!,
-                    querySnapShot.getField("receiver_photourl"),
-                    querySnapShot.getString("receiver_phone_no")!!
-                )
-                order.id = querySnapShot.getString("id")!!
-                order.receiver_id = querySnapShot.getString("receiver_id")!!
-                order.deliveryTime = querySnapShot.getString("deliveryTime")!!
-                order.isDelivered = querySnapShot.getBoolean("delivered")!!
-                order.latitude = querySnapShot.getString("latitude")
-                order.longitude = querySnapShot.getString("longitude")
-                order.isRated = querySnapShot.getBoolean("rated")!!
-                order.dispatcher_name = querySnapShot.getString("dispatcher_name")!!
-                order.dispatcher_phone_no = querySnapShot.getString("dispatcher_phone_no")!!
-                order.status = querySnapShot.getString("status")!!
-
+                val order = querySnapShot.toObject(Order::class.java)
+                order.id = querySnapShot.id
                 orders.add(order)
             }
         }

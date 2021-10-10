@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.certified.order.R
 import com.certified.order.databinding.FragmentItemDetailsBinding
 import com.certified.order.model.Item
+import com.certified.order.view.ConfirmOrderFragment
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -100,8 +102,21 @@ class ItemDetailsFragment(val type: String, val item: Item, val uid: String) : D
 
             btnBuyNow.setOnClickListener {
 //                TODO: Process the order
+                item.quantity = tvItemQuantity.text.toString()
+                val items = listOf(item)
+                showConfirmOrderDialog(items)
             }
         }
+    }
+
+    private fun showConfirmOrderDialog(items: List<Item>) {
+        val fragmentManager = requireActivity().supportFragmentManager
+        val completeOrderFragment = ConfirmOrderFragment(items, "Home")
+        val transaction = fragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .add(android.R.id.content, completeOrderFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun checkQuantity(quantity: Int) {

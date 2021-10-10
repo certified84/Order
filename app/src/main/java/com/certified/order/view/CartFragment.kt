@@ -18,6 +18,7 @@ import com.certified.order.R
 import com.certified.order.adapter.CartAdapter
 import com.certified.order.databinding.FragmentCartBinding
 import com.certified.order.model.Item
+import com.certified.order.model.Order
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -52,18 +53,20 @@ class CartFragment : Fragment() {
                 .collection("my_cart_items").orderBy("id")
         query.get().addOnSuccessListener {
             for (querySnapshot in it) {
-                val id: String = querySnapshot.id
-                val name: String? = querySnapshot.getString("name")
-                val description: String? = querySnapshot.getString("description")
-                val price: Int? = querySnapshot.getField("price")
-                val quantity: String? = querySnapshot.getString("quantity")
-                val totalPrice: Int? = querySnapshot.getField("total_price")
-                val type: String? = querySnapshot.getString("type")
-                val item = Item(name!!, description!!, type!!)
-                item.id = id
-                item.price = price!!
-                item.total_price = totalPrice!!
-                item.quantity = quantity!!
+                val item = querySnapshot.toObject(Item::class.java)
+//                val id: String = querySnapshot.id
+//                val name: String? = querySnapshot.getString("name")
+//                val description: String? = querySnapshot.getString("description")
+//                val price: Int? = querySnapshot.getField("price")
+//                val quantity: String? = querySnapshot.getString("quantity")
+//                val totalPrice: Int? = querySnapshot.getField("total_price")
+//                val type: String? = querySnapshot.getString("type")
+//                val item = Item(name!!, description!!, type!!)
+//                item.id = id
+//                item.price = price!!
+//                item.total_price = totalPrice!!
+//                item.quantity = quantity!!
+                item.id = querySnapshot.id
                 items.add(item)
             }
         }
@@ -140,7 +143,7 @@ class CartFragment : Fragment() {
 
     private fun showConfirmOrderDialog(items: List<Item>) {
         val fragmentManager = requireActivity().supportFragmentManager
-        val completeOrderFragment = ConfirmOrderFragment(items)
+        val completeOrderFragment = ConfirmOrderFragment(items, "Cart")
         val transaction = fragmentManager.beginTransaction()
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .add(android.R.id.content, completeOrderFragment)

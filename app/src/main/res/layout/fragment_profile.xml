@@ -170,7 +170,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|start"
-                android:drawableStart="@drawable/ic_baseline_phone_24"
+                android:drawableStart="@drawable/ic_baseline_phone_27"
                 android:drawablePadding="@dimen/_8sdp"
                 android:gravity="center|start"
                 android:paddingStart="@dimen/_16sdp"

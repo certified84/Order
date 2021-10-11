@@ -14,6 +14,7 @@ import com.certified.order.R
 import com.certified.order.adapter.OrdersRecyclerAdapter
 import com.certified.order.databinding.FragmentDeliveredOrdersBinding
 import com.certified.order.model.Order
+import com.certified.order.view.DeliveredOrderDetailsFragment
 import com.certified.order.view.OrderDetailsFragment
 import com.certified.order.view.review.NewReviewFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -100,11 +101,11 @@ class DeliveredOrdersFragment : Fragment() {
                     } else {
 //                        TODO: Load the order details
                         val fragmentManager = requireActivity().supportFragmentManager
-                        val orderDetailsFragment = OrderDetailsFragment(order)
+                        val deliveredOrderDetailsFragment = DeliveredOrderDetailsFragment(order)
                         val transaction = fragmentManager.beginTransaction()
                         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         transaction
-                            .add(android.R.id.content, orderDetailsFragment)
+                            .add(android.R.id.content, deliveredOrderDetailsFragment)
                             .addToBackStack(null)
                             .commit()
                     }

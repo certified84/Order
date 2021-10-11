@@ -35,6 +35,7 @@
         <entry key="app/src/main/res/layout/fragment_complete_order.xml" value="0.2656449553001277" />
         <entry key="app/src/main/res/layout/fragment_completed_orders.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_confirm_order.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_delivered_order_details.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_delivered_orders.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.17" />
         <entry key="app/src/main/res/layout/fragment_item.xml" value="0.25" />

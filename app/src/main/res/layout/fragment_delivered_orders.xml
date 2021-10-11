@@ -31,6 +31,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView8"
             android:layout_width="0dp"
+            app:srcCompat="@drawable/empty_cart"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/materialTextView36"
             app:layout_constraintDimensionRatio="1:1"
@@ -102,7 +103,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent=".8" />
-        <!--        TODO: Change visibility to gone-->
+
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_empty_cart"
             android:layout_width="wrap_content"

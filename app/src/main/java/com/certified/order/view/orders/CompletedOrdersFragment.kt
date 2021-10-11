@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.certified.order.adapter.CompletedOrdersAdapter
 import com.certified.order.databinding.FragmentCompletedOrdersBinding
@@ -23,7 +22,6 @@ class CompletedOrdersFragment : Fragment() {
 
     private lateinit var binding: FragmentCompletedOrdersBinding
     private lateinit var adapter: CompletedOrdersAdapter
-    private lateinit var navController: NavController
     private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
@@ -92,7 +90,6 @@ class CompletedOrdersFragment : Fragment() {
             adapter.setOnOrderClickedListener(object :
                 CompletedOrdersAdapter.OnOrderClickedListener {
                 override fun onOrderClick(order: Order) {
-//                    TODO: Show order details
                     val fragmentManager = requireActivity().supportFragmentManager
                     val orderDetailsFragment = OrderDetailsFragment(order)
                     val transaction = fragmentManager.beginTransaction()

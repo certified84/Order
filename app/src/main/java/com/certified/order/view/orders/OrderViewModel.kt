@@ -28,7 +28,7 @@ class OrderViewModel(private val orderList: List<Order>) : ViewModel() {
     private fun getItems() {
         Handler(Looper.myLooper()!!).postDelayed({
 
-            if (orderList.size >= 1)
+            if (orderList.isNotEmpty())
                 _showEmptyOrderDesign.value = false
 
             _orders.value = orderList

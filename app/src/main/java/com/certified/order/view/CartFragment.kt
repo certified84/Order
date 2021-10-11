@@ -54,18 +54,6 @@ class CartFragment : Fragment() {
         query.get().addOnSuccessListener {
             for (querySnapshot in it) {
                 val item = querySnapshot.toObject(Item::class.java)
-//                val id: String = querySnapshot.id
-//                val name: String? = querySnapshot.getString("name")
-//                val description: String? = querySnapshot.getString("description")
-//                val price: Int? = querySnapshot.getField("price")
-//                val quantity: String? = querySnapshot.getString("quantity")
-//                val totalPrice: Int? = querySnapshot.getField("total_price")
-//                val type: String? = querySnapshot.getString("type")
-//                val item = Item(name!!, description!!, type!!)
-//                item.id = id
-//                item.price = price!!
-//                item.total_price = totalPrice!!
-//                item.quantity = quantity!!
                 item.id = querySnapshot.id
                 items.add(item)
             }
@@ -110,9 +98,6 @@ class CartFragment : Fragment() {
             }
             btnCheckout.setOnClickListener {
                 showConfirmOrderDialog(items)
-//                val bundle = Bundle()
-//                bundle.putParcelableArray("cartItems", items)
-//                findNavController().navigate(R.id.confirmOrderFragment )
             }
 
             ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {

@@ -349,17 +349,19 @@ class ProfileFragment : Fragment() {
                 }
                 val file = File(requireContext().filesDir, "profile_image")
                 val uri = Uri.fromFile(file)
-                Glide.with(requireContext())
-                    .load(uri)
-                    .into(binding.profileImage)
-                userRef.update("profile_image", uri.toString())
-                storageRef.putFile(uri).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        val profileChangeRequest =
-                            UserProfileChangeRequest.Builder()
-                                .setPhotoUri(uri)
-                                .build()
-                        currentUser.updateProfile(profileChangeRequest)
+                if (uri != null) {
+                    Glide.with(requireContext())
+                        .load(uri)
+                        .into(binding.profileImage)
+                    userRef.update("profile_image", uri.toString())
+                    storageRef.putFile(uri).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            val profileChangeRequest =
+                                UserProfileChangeRequest.Builder()
+                                    .setPhotoUri(uri)
+                                    .build()
+                            currentUser.updateProfile(profileChangeRequest)
+                        }
                     }
                 }
             } catch (e: IOException) {
@@ -369,11 +371,11 @@ class ProfileFragment : Fragment() {
             assert(data != null)
             val uri = data?.data
             try {
-//                TODO: Save the Image in Firebase Cloud storage before loading it
-                Glide.with(requireContext())
-                    .load(uri)
-                    .into(binding.profileImage)
                 if (uri != null) {
+                    Glide.with(requireContext())
+                        .load(uri)
+                        .into(binding.profileImage)
+                    userRef.update("profile_image", uri.toString())
                     storageRef.putFile(uri).addOnCompleteListener {
                         if (it.isSuccessful) {
                             val profileChangeRequest =

@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-<!--        TODO: List the orders from the viewmodel-->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_new_orders"
             android:layout_width="match_parent"
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent=".8" />
-        <!--        TODO: Change visibility to gone-->
+
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_empty_cart"
             android:layout_width="wrap_content"

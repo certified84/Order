@@ -126,20 +126,19 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
             btnConfirmOrder.setOnClickListener {
 
                 if (tvDeliveryTime.text != "00:00 AM") {
-                    if (tvAddress.text != resources.getString(R.string.click_here_to_set_delivery_address)) {
+                    if (tvAddress.text != resources.getString(R.string.click_here_to_set_delivery_address) && tvAddress.text.isNotEmpty()) {
 
-//                        TODO: Process the Order
                         val subtotal = tvSubtotal.text.toString()
                         val newOrder = Order(
                             tvReceiverPhone.text.toString(),
                             subtotal.toInt(),
                             items
                         )
-                        newOrder.deliveryTime = tvDeliveryTime.text.toString()
+                        newOrder.delivery_time = tvDeliveryTime.text.toString()
                         newOrder.latitude = currentLatLng?.latitude.toString()
                         newOrder.longitude = currentLatLng?.longitude.toString()
 
-//                        TODO: Launch a dialog for the user to enter card details
+//                        Launch a dialog for the user to enter card details
                         val cardDetailsDialog =
                             DialogCardDetailsBinding.inflate(
                                 layoutInflater,
@@ -150,7 +149,7 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
                             BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
                         cardDetailsDialog.apply {
 
-//                            TODO: Load the test card details into the edit text fields
+//                            Load the test card details into the edit text fields
                             etCardNumber.setText(TEST_CARD_NUMBER)
                             etCardExpiryDate.setText(TEST_CARD_EXPIRY_DATE)
                             etCardCvv.setText(TEST_CARD_CVV)
@@ -179,22 +178,22 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
                                         charge.email = auth.currentUser?.email
                                         charge.card = card
 
-//                                        TODO: When the card details entered is valid, Use PaystackSdk to collect payment
+//                                        When the card details entered is valid, Use PaystackSdk to collect payment
                                         PaystackSdk.chargeCard(
                                             requireActivity(),
                                             charge,
                                             object : Paystack.TransactionCallback {
                                                 override fun onSuccess(transaction: Transaction?) {
 
-//                                                    TODO: When the payment is successful, Save the order details in firestore
-//                                                    TODO: Save the order in general orders for dispatchers to be to access easily
+//                                                    When the payment is successful, Save the order details in firestore
+//                                                    Save the order in general orders for dispatchers to be to access easily
                                                     val db = Firebase.firestore
                                                     val ordersRef =
                                                         db.collection("all_orders").document()
                                                     newOrder.id = ordersRef.id
                                                     ordersRef.set(newOrder)
 
-//                                                    TODO: Save the order in my_orders for the users access only
+//                                                    Save the order in my_orders for the users access only
                                                     val myOrdersRef =
                                                         db.collection("user_orders")
                                                             .document(auth.currentUser!!.uid)
@@ -202,7 +201,7 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
                                                             .document()
                                                     myOrdersRef.set(newOrder)
 
-//                                                    TODO: If the user places the order from the cart, Delete all the items in the users cart
+//                                                    If the user places the order from the cart, Delete all the items in the users cart
                                                     if (from == "Cart") {
                                                         val cartRef =
                                                             db.collection("cart")
@@ -212,7 +211,11 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
                                                     mailAdmin()
                                                     mailUser()
                                                     progressBar.visibility = View.GONE
-                                                    Toast.makeText(requireContext(), "Order placed successfully", Toast.LENGTH_LONG).show()
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        "Order placed successfully",
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
                                                     bottomSheetDialog.dismiss()
                                                     dismiss()
                                                 }
@@ -263,113 +266,6 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
                     ).show()
             }
         }
-    }
-
-    private fun launchPaymentDialog(amount: String): Boolean {
-        var success = false
-        val cardDetailsDialog =
-            DialogCardDetailsBinding.inflate(
-                layoutInflater,
-                ConstraintLayout(requireContext()),
-                false
-            )
-        val bottomSheetDialog =
-            BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-        cardDetailsDialog.apply {
-            btnConfirmPayment.text = "Pay #$amount"
-            btnConfirmPayment.setOnClickListener {
-                if (etCardNumber.text.toString().isNotEmpty() && etCardExpiryDate.text.toString()
-                        .isNotEmpty() && etCardCvv.text.toString().isNotEmpty()
-                ) {
-                    val cardNumber = etCardNumber.text.toString().trim()
-                    val expiryMonth =
-                        etCardExpiryDate.text.toString().substringBefore("/").trim()
-                            .toInt()
-                    val expiryYear =
-                        etCardExpiryDate.text.toString().substringAfter("/").trim()
-                            .toInt()
-                    val cvv = etCardCvv.text.toString()
-                    val card = Card(cardNumber, expiryMonth, expiryYear, cvv)
-                    println("expiryMonth: $expiryMonth, expiryYear: $expiryYear")
-                    if (card.isValid) {
-                        progressBar.visibility = View.VISIBLE
-                        val charge = Charge()
-                        charge.amount = amount.toInt() * 100
-                        charge.email = auth.currentUser?.email
-                        charge.card = card
-
-                        PaystackSdk.chargeCard(
-                            requireActivity(),
-                            charge,
-                            object : Paystack.TransactionCallback {
-                                override fun onSuccess(transaction: Transaction?) {
-                                    success = true
-                                    progressBar.visibility = View.VISIBLE
-                                    bottomSheetDialog.dismiss()
-                                    dismiss()
-                                }
-
-                                override fun beforeValidate(transaction: Transaction?) {
-//                    TODO("Not yet implemented")
-                                }
-
-                                override fun onError(
-                                    error: Throwable?,
-                                    transaction: Transaction?
-                                ) {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "An error occurred: ${error?.localizedMessage}",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                            })
-                        progressBar.visibility = View.GONE
-                    } else
-                        Toast.makeText(
-                            requireContext(),
-                            "Invalid card",
-                            Toast.LENGTH_LONG
-                        ).show()
-                } else {
-                    etCardNumber.error = "*Required"
-                    etCardExpiryDate.error = "*Required"
-                    etCardCvv.error = "*Required"
-                }
-            }
-            btnCancel.setOnClickListener { bottomSheetDialog.dismiss() }
-        }
-        bottomSheetDialog.setContentView(cardDetailsDialog.root)
-        bottomSheetDialog.show()
-        return success
-    }
-
-    private fun chargeCard(charge: Charge, order: Order): Boolean {
-        var success = false
-        PaystackSdk.chargeCard(
-            requireActivity(),
-            charge,
-            object : Paystack.TransactionCallback {
-                override fun onSuccess(transaction: Transaction?) {
-                    success = true
-                }
-
-                override fun beforeValidate(transaction: Transaction?) {
-//                    TODO("Not yet implemented")
-                }
-
-                override fun onError(
-                    error: Throwable?,
-                    transaction: Transaction?
-                ) {
-                    Toast.makeText(
-                        requireContext(),
-                        "An error occurred: ${error?.localizedMessage}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            })
-        return success
     }
 
     private fun mailAdmin() =
@@ -424,7 +320,6 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
                         address = addresses?.get(0)
                         binding.tvAddress.text = address?.getAddressLine(0)
                         currentLatLng = LatLng(result.latitude, result.longitude)
-//                        TODO: Remove the Open Map function
 //                        openMap(LatLng(result.latitude, result.longitude))
                     }
                 }
@@ -439,6 +334,7 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
     }
 
     private fun openMap(defaultAddress: LatLng) {
+//        TODO: Method for user to select location from map
         val fragmentManager = requireActivity().supportFragmentManager
         val mapsFragment =
             MapsFragment(defaultAddress)
@@ -462,7 +358,6 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
             .build()
         picker.show(childFragmentManager, "Time Picker")
         picker.addOnPositiveButtonClickListener {
-//            TODO: Check out how to get the AM/PM from the time picker
             val hour = picker.hour
             val min = picker.minute
             val AMPM = if (hour >= 12) "PM" else "AM"

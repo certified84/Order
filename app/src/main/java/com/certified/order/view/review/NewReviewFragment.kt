@@ -42,14 +42,25 @@ class NewReviewFragment(val order: Order) : DialogFragment() {
                     )
                     val reviewRef = Firebase.firestore.collection("reviews").document()
                     review.id = reviewRef.id
-                    reviewRef.set(review).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            Firebase.firestore.collection("orders").document(order.id)
-                                .update("rated", true).addOnSuccessListener {
-                                    progressBar.visibility = View.GONE
-                                    dismiss()
-                                }
+                    reviewRef.set(review).addOnSuccessListener {
+                        progressBar.visibility = View.GONE
+                        dismiss()
+                    }
+                    val orderRef = Firebase.firestore.collection("all_orders").document(order.id)
+                    orderRef.update("rated", true).addOnSuccessListener {
+                        progressBar.visibility = View.GONE
+                        dismiss()
+                    }
+                    val myOrderRef = Firebase.firestore.collection("user_orders")
+                        .document(order.receiver_id.toString()).collection("my_orders")
+                        .whereEqualTo("id", order.id)
+                    myOrderRef.get().addOnSuccessListener { snapShot ->
+                        for (snap in snapShot) {
+                            snap.toObject(Order::class.java)
+                            snap.reference.update("rated", true)
                         }
+                        progressBar.visibility = View.GONE
+                        dismiss()
                     }
                 } else
                     Toast.makeText(requireContext(), "Please leave a review", Toast.LENGTH_LONG)

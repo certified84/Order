@@ -37,7 +37,6 @@ fun bindItemRecyclerView(recyclerView: RecyclerView, data: List<Item>?) {
 fun bindProfileImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
         val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
-        val burger = R.drawable.burger_image
         if (imgUri == null)
             Glide.with(imgView.context)
                 .load(R.drawable.no_profile_image)

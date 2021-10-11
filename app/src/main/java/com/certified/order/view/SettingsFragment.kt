@@ -1,7 +1,11 @@
 package com.certified.order.view
 
+import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +13,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
@@ -18,9 +24,12 @@ import com.bumptech.glide.Glide
 import com.certified.order.R
 import com.certified.order.databinding.FragmentSettingsBinding
 import com.certified.order.util.PreferenceKeys
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import java.util.*
 
 class SettingsFragment : Fragment() {
 
@@ -53,7 +62,7 @@ class SettingsFragment : Fragment() {
         binding.apply {
 
             tvMyProfile.setOnClickListener { navController.navigate(R.id.profileFragment) }
-            tvMyAddress.setOnClickListener { showMap() }
+            tvMyAddress.setOnClickListener { getLocation() }
             tvPaymentMethods.setOnClickListener {
                 Toast.makeText(requireContext(), "", Toast.LENGTH_LONG).show()
             }
@@ -83,7 +92,6 @@ class SettingsFragment : Fragment() {
                 )
             }
             tvContactUs.setOnClickListener {
-//                TODO: Open mail app to .....
                 val intent = Intent(Intent.ACTION_SENDTO).apply {
                     data = Uri.parse("mailto:")
                     putExtra(Intent.EXTRA_SUBJECT, "Enquiry")
@@ -108,9 +116,48 @@ class SettingsFragment : Fragment() {
             }
         }
     }
+    
+    private fun getLocation() {
+        val locationProvider =
+            LocationServices.getFusedLocationProviderClient(requireActivity())
+        if (ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            locationProvider.lastLocation.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    val result = it.result
+                    openMap(LatLng(result.latitude, result.longitude))
+                }
+            }
+        } else
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                101
+            )
+    }
 
-    private fun showMap() {
-        TODO("Not yet implemented")
+    private fun openMap(currentLatLng: LatLng) {
+        val fragmentManager = requireActivity().supportFragmentManager
+        val mapsFragment =
+            MapsFragment(currentLatLng)
+        val transaction = fragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        transaction
+            .add(android.R.id.content, mapsFragment)
+            .addToBackStack(null)
+            .commit()
+
+//        TODO: Get the user's selected position on the map and save in firestore
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        val addresses: List<Address>? = try {
+            geocoder.getFromLocation(currentLatLng.latitude, currentLatLng.longitude, 1)
+        } catch (e: Exception) {
+            null
+        }
+        val address_line = addresses?.get(0)?.getAddressLine(0)
     }
 
     private fun loadUserDetails() {

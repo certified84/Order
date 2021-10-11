@@ -5,11 +5,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.certified.order.view.ItemFragment
-import com.certified.order.view.items.BurgerFragment
 import com.certified.order.view.orders.NewOrdersFragment
 import com.certified.order.view.review.ReviewFragment
 
-class ItemViewPagerAdapter(
+class HomeViewPagerAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
     private val accountType: String
@@ -23,7 +22,7 @@ class ItemViewPagerAdapter(
         return if (accountType == "User")
             when (position) {
                 1 -> ReviewFragment()
-                else -> BurgerFragment()
+                else -> ItemFragment()
             }
         else
             when (position) {

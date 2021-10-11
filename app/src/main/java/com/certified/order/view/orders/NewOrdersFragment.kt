@@ -85,7 +85,6 @@ class NewOrdersFragment : Fragment() {
             adapter.setOnOrderClickedListener(object :
                 OrdersRecyclerAdapter.OnOrderClickedListener {
                 override fun onOrderClick(order: Order) {
-//                    TODO: Load order details
                     val fragmentManager = requireActivity().supportFragmentManager
                     val orderDetailsFragment = OrderDetailsFragment(order)
                     val transaction = fragmentManager.beginTransaction()

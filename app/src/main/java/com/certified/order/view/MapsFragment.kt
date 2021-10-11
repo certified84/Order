@@ -29,7 +29,7 @@ class MapsFragment(private val defaultMarker: LatLng? = null, private val orderL
          * user has installed Google Play services and returned to the app.
          */
         val sydney = LatLng(-34.0, 151.0)
-//        googleMap.addMarker(MarkerOptions().position(defaultMarker).title("Your location"))
+        googleMap.addMarker(MarkerOptions().position(defaultMarker ?: sydney).title("Your location"))
         googleMap.addMarker(MarkerOptions().position(orderLocation ?: sydney).title("Delivery location"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(orderLocation, 10f))
     }

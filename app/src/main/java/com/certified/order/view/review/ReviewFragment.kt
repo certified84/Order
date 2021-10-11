@@ -36,8 +36,6 @@ class ReviewFragment : Fragment() {
         val query = Firebase.firestore.collection("reviews").orderBy("id")
         val options =
             FirestoreRecyclerOptions.Builder<Review>().setQuery(query, Review::class.java).build()
-        
-        val profileImageUrl: String? = Firebase.auth.currentUser?.photoUrl.toString()
 
         val reviews = ArrayList<Review>()
         query.get().addOnSuccessListener {

@@ -171,7 +171,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <!--        TODO: Change visibility to visible-->
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_cart_items"
             android:layout_width="wrap_content"
@@ -254,7 +253,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent=".8" />
 
-<!--        TODO: Change visibility to gone-->
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_empty_cart"
             android:layout_width="wrap_content"

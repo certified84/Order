@@ -91,11 +91,6 @@
                 app:layout_constraintStart_toStartOf="@+id/materialTextView7"
                 app:layout_constraintTop_toBottomOf="@+id/receiver_profile_image" />
 
-            <!--               TODO: replace this view with a maps fragment that gives direction
-                                     from the dispatcher's location to the receiver's location
-                                     Or when the dispatcher clicks on this view, a map with direction
-                                     to the receiver's location is shown as a dialog-->
-
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment_location"
                 android:layout_width="0dp"

@@ -67,15 +67,103 @@
             app:layout_constraintTop_toTopOf="@id/profile_image"
             app:srcCompat="@drawable/ic_baseline_shopping_cart_24" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:name="com.certified.order.view.ItemFragment"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:orientation="horizontal"
+            app:chipSpacingHorizontal="@dimen/_8sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_image"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_all_items"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="All Items"
+                android:textColor="@color/midWhite"
+                app:checkedIconTint="@color/midWhite"
+                app:chipBackgroundColor="@color/colorPrimary" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_burger"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Burgers"
+                android:textColor="@color/midWhite"
+                app:checkedIconTint="@color/midWhite"
+                app:chipBackgroundColor="@color/colorPrimary" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_chicken_and_chips"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chicken and chips"
+                android:textColor="@color/midWhite"
+                app:checkedIconTint="@color/midWhite"
+                app:chipBackgroundColor="@color/colorPrimary" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_pizza"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pizzas"
+                android:textColor="@color/midWhite"
+                app:checkedIconTint="@color/midWhite"
+                app:chipBackgroundColor="@color/colorPrimary" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_shawarma"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shawarmas"
+                android:textColor="@color/midWhite"
+                app:checkedIconTint="@color/midWhite"
+                app:chipBackgroundColor="@color/colorPrimary" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroup">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14ssp"
+                tools:text="Burgers" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reviews"
+                android:textSize="@dimen/_14ssp" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager_items"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_image"/>
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

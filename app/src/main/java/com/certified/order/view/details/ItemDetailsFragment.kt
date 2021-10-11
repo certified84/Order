@@ -101,7 +101,6 @@ class ItemDetailsFragment(val type: String, val item: Item, val uid: String) : D
             }
 
             btnBuyNow.setOnClickListener {
-//                TODO: Process the order
                 item.quantity = tvItemQuantity.text.toString()
                 val items = listOf(item)
                 showConfirmOrderDialog(items)

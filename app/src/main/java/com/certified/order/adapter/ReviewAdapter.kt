@@ -21,7 +21,6 @@ class ReviewAdapter(options: FirestoreRecyclerOptions<Review>) :
 
         fun bind(review: Review) {
             binding.review = review
-//            binding.executePendingBindings()
             if (Firebase.auth.currentUser?.photoUrl != null)
                 Glide.with(itemView)
                     .load(Firebase.auth.currentUser?.photoUrl)

@@ -24,8 +24,8 @@
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_60sdp"
                 android:layout_marginStart="@dimen/_8sdp"
-                app:imageUrl="@{review.reviewer_photoUrl.toString()}"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_item_desc"
+                app:imageUrl="@{review.reviewer_photourl.toString()}"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_review"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/rating_bar"
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Order"
@@ -34,10 +34,10 @@
 
             <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/rating_bar"
+                android:layout_marginTop="@dimen/_6sdp"
                 style="?android:attr/ratingBarStyleIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
                 android:clickable="false"
                 android:isIndicator="true"
                 android:numStars="5"
@@ -46,8 +46,22 @@
                 app:layout_constraintBottom_toTopOf="@+id/tv_reviewer_name"
                 app:layout_constraintStart_toStartOf="@+id/tv_reviewer_name"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:ignore="SpeakableTextPresentCheck"
                 tools:rating="3.5" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_review_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toBottomOf="@+id/rating_bar"
+                app:layout_constraintEnd_toEndOf="@+id/tv_review"
+                app:layout_constraintStart_toEndOf="@+id/rating_bar"
+                app:layout_constraintTop_toTopOf="@+id/rating_bar"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="25 / 02 / 2021" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_reviewer_name"
@@ -57,16 +71,17 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@{review.reviewer}"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/_12ssp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/tv_item_desc"
+                app:layout_constraintEnd_toEndOf="@+id/tv_review"
+                app:layout_constraintBottom_toTopOf="@+id/tv_review"
                 app:layout_constraintStart_toEndOf="@+id/iv_reviewer_picture"
                 app:layout_constraintTop_toBottomOf="@+id/rating_bar"
-                app:layout_constraintVertical_chainStyle="spread_inside"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Samson Achiaga" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_item_desc"
+                android:id="@+id/tv_review"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_8sdp"

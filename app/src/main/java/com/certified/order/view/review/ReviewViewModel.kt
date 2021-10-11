@@ -18,10 +18,10 @@ class ReviewViewModel(private val reviewList: List<Review>) : ViewModel() {
         get() = _showProgressBar
 
     init {
-        getBurgers()
+        getReviews()
     }
 
-    private fun getBurgers() {
+    private fun getReviews() {
         Handler(Looper.myLooper()!!).postDelayed({
             _reviews.value = reviewList
             _showProgressBar.value = false

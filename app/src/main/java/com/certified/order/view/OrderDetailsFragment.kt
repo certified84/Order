@@ -71,7 +71,7 @@ class OrderDetailsFragment(private val order: Order) : DialogFragment() {
 
         adapter.setOnItemClickedListener(object : ItemAdapter.OnItemClickedListener {
             override fun onItemClick(item: Item) {
-//                TODO: Do nothing
+
             }
 
         })
@@ -91,7 +91,7 @@ class OrderDetailsFragment(private val order: Order) : DialogFragment() {
 
                             chipItemStatus.isClickable = false
 
-//                            TODO: Update the order details in firestore and add It to the dispatchers completed orders
+//                            Update the order details in firestore and add it to the dispatchers completed orders
                             val orderRef =
                                 Firebase.firestore.collection("dispatcher_orders")
                                     .document(Firebase.auth.currentUser!!.uid)
@@ -117,8 +117,8 @@ class OrderDetailsFragment(private val order: Order) : DialogFragment() {
             val phoneNo = order.receiver_phone_no
             val latitude = order.latitude?.toDouble()
             val longitude = order.latitude?.toDouble()
-            val isDelivered = order.isDelivered
-            val deliveryTime = order.deliveryTime
+            val isDelivered = order.is_delivered
+            val deliveryTime = order.delivery_time
             val subTotal = order.subtotal
 
             if (profileImage != null)
@@ -141,7 +141,6 @@ class OrderDetailsFragment(private val order: Order) : DialogFragment() {
                 chipItemStatus.text = resources.getString(R.string.pending)
 
             btnCallReceiver.setOnClickListener {
-//                TODO: open the dialer with the receiver's phone
                 startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel: $phoneNo")))
             }
 
@@ -176,16 +175,12 @@ class OrderDetailsFragment(private val order: Order) : DialogFragment() {
     }
 
     private fun loadDirections(latLng: LatLng) {
-//            TODO: Load the delivery direction into the fragment
-
         val fragmentManager = requireActivity().supportFragmentManager
         val mapsFragment = MapsFragment(null, latLng)
-//        mapsFragment.show(fragmentManager, "loginFragment")
         val transaction = fragmentManager.beginTransaction()
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction
-//            .replace(R.id.fragment_location, mapsFragment)
-            .add(R.id.fragment_location, mapsFragment)
+            .replace(R.id.fragment_location, mapsFragment)
             .addToBackStack(null)
             .commit()
     }

@@ -43,39 +43,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getCurrentLocation(): Address? {
-        val locationManager =
-            applicationContext.getSystemService(LOCATION_SERVICE) as LocationManager
-        var address: Address? = null
-        val locationProvider = LocationServices.getFusedLocationProviderClient(this@MainActivity)
-        if (ActivityCompat.checkSelfPermission(
-                this@MainActivity,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5F) {
-//                TODO("Not yet implemented")
-            }
-
-            locationProvider.lastLocation.addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val location = it.result
-                    val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
-                    val addresses =
-                        geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                    address = addresses[0]
-                }
-            }
-        } else
-            ActivityCompat.requestPermissions(
-                this@MainActivity,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                101
-            )
-        return address
-    }
-
-//    fun load(): List<List<Item>>? {
+    //    fun load(): List<List<Item>>? {
 //        var burgerApiResponse: List<List<Item>>? = null
 //
 //        CoroutineScope(Dispatchers.IO).launch {

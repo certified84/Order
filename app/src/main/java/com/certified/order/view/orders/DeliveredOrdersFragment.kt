@@ -14,11 +14,11 @@ import com.certified.order.R
 import com.certified.order.adapter.OrdersRecyclerAdapter
 import com.certified.order.databinding.FragmentDeliveredOrdersBinding
 import com.certified.order.model.Order
+import com.certified.order.view.OrderDetailsFragment
 import com.certified.order.view.review.NewReviewFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
 
 class DeliveredOrdersFragment : Fragment() {
@@ -47,20 +47,8 @@ class DeliveredOrdersFragment : Fragment() {
                 .whereEqualTo("status", "Delivered")
         query.get().addOnSuccessListener {
             for (querySnapShot in it) {
-                val order = Order(
-                    querySnapShot.getString("receiver_phone_no")!!
-                )
-                order.id = querySnapShot.getString("id")!!
-                order.receiver_id = querySnapShot.getString("receiver_id")!!
-                order.deliveryTime = querySnapShot.getString("deliveryTime")!!
-                order.isDelivered = querySnapShot.getBoolean("delivered")!!
-                order.latitude = querySnapShot.getString("latitude")
-                order.longitude = querySnapShot.getString("longitude")
-                order.isRated = querySnapShot.getBoolean("rated")!!
-                order.dispatcher_name = querySnapShot.getString("dispatcher_name")!!
-                order.dispatcher_phone_no = querySnapShot.getString("dispatcher_phone_no")!!
-                order.status = querySnapShot.getString("status")!!
-
+                val order = querySnapShot.toObject(Order::class.java)
+                order.id = querySnapShot.id
                 orders.add(order)
             }
         }
@@ -107,10 +95,18 @@ class DeliveredOrdersFragment : Fragment() {
             adapter.setOnOrderClickedListener(object :
                 OrdersRecyclerAdapter.OnOrderClickedListener {
                 override fun onOrderClick(order: Order) {
-                    if (!order.isRated) {
+                    if (!order.rated) {
                         showOrderDeliveredDialog(order)
                     } else {
 //                        TODO: Load the order details
+                        val fragmentManager = requireActivity().supportFragmentManager
+                        val orderDetailsFragment = OrderDetailsFragment(order)
+                        val transaction = fragmentManager.beginTransaction()
+                        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        transaction
+                            .add(android.R.id.content, orderDetailsFragment)
+                            .addToBackStack(null)
+                            .commit()
                     }
                 }
             })

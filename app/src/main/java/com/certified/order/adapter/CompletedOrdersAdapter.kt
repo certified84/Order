@@ -20,7 +20,6 @@ class CompletedOrdersAdapter(options: FirestoreRecyclerOptions<Order>) :
 
         fun bind(order: Order) {
             binding.order = order
-            println("OrderID: ${order.id}")
         }
 
         init {

@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -13,10 +15,11 @@ import com.certified.order.R
 import com.certified.order.adapter.OrdersRecyclerAdapter
 import com.certified.order.databinding.FragmentPendingOrdersBinding
 import com.certified.order.model.Order
+import com.certified.order.view.OrderTrackingFragment
+import com.certified.order.view.SignupFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
 
 class PendingOrdersFragment : Fragment() {
@@ -48,20 +51,8 @@ class PendingOrdersFragment : Fragment() {
         query.get().addOnSuccessListener {
             for (querySnapShot in it) {
 
-                val order = Order(
-                    querySnapShot.getString("receiver_phone_no")!!
-                )
-                order.id = querySnapShot.getString("id")!!
-                order.receiver_id = querySnapShot.getString("receiver_id")!!
-                order.deliveryTime = querySnapShot.getString("deliveryTime")!!
-                order.isDelivered = querySnapShot.getBoolean("delivered")!!
-                order.latitude = querySnapShot.getString("latitude")
-                order.longitude = querySnapShot.getString("longitude")
-                order.isRated = querySnapShot.getBoolean("rated")!!
-                order.dispatcher_name = querySnapShot.getString("dispatcher_name")!!
-                order.dispatcher_phone_no = querySnapShot.getString("dispatcher_phone_no")!!
-                order.status = querySnapShot.getString("status")!!
-
+                val order = querySnapShot.toObject(Order::class.java)
+                order.id = querySnapShot.id
                 orders.add(order)
             }
         }
@@ -108,7 +99,20 @@ class PendingOrdersFragment : Fragment() {
             adapter.setOnOrderClickedListener(object :
                 OrdersRecyclerAdapter.OnOrderClickedListener {
                 override fun onOrderClick(order: Order) {
-//                    TODO: Show order status
+//                    TODO: Show order tracking
+                    if (order.dispatcher_name.isNotEmpty()) {
+                        val fragmentManager = requireActivity().supportFragmentManager
+                        val orderTrackingFragment = OrderTrackingFragment(order)
+                        val transaction = fragmentManager.beginTransaction()
+                        transaction
+                            .add(android.R.id.content, orderTrackingFragment)
+//                            .addToBackStack(null)
+                            .commit()
+                    } else Toast.makeText(
+                        requireContext(),
+                        "Order hasn't been picked up by a dispatcher. When they do, you'll be able to track it",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             })
         }

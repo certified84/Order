@@ -64,6 +64,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.apply {
+
             viewPagerItems.adapter = adapter
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -86,6 +87,9 @@ class HomeFragment : Fragment() {
                     tabLayout.selectTab(tabLayout.getTabAt(position))
                 }
             })
+
+            if (accountType == "Dispatcher")
+                tabLayout.getTabAt(0)?.text = "New Orders"
 
             chipBurger.setOnClickListener { tabLayout.getTabAt(0)?.text = "Burgers" }
             chipChickenAndChips.setOnClickListener {

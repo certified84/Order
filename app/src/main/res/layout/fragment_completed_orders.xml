@@ -23,6 +23,7 @@
             android:id="@+id/appCompatImageView8"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:srcCompat="@drawable/empty_cart"
             app:layout_constraintBottom_toTopOf="@+id/materialTextView36"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/guideline10"

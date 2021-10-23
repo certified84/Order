@@ -11,10 +11,11 @@ import com.certified.order.R
 import com.certified.order.databinding.LayoutItemBinding
 import com.certified.order.model.Item
 
-class ItemAdapter(val items: List<Item>, val from: String? = null) :
+class ItemAdapter(val items: List<Item>, val which: String? = null) :
     ListAdapter<Item, ItemAdapter.ViewHolder>(diffCallback) {
 
     private lateinit var listener: OnItemClickedListener
+    private var itemToShow = if(which == null) items else items.filter { it.type == which }
 
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Item>() {
@@ -35,7 +36,7 @@ class ItemAdapter(val items: List<Item>, val from: String? = null) :
             binding.item = item
             binding.executePendingBindings()
             binding.apply {
-                if (from != null)
+                if (which != null)
                     groupQuantity.visibility = View.GONE
                 when (item.type) {
                     "burger" -> Glide.with(itemView)
@@ -71,7 +72,7 @@ class ItemAdapter(val items: List<Item>, val from: String? = null) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = items[position]
+        val currentItem = itemToShow[position]
         holder.bind(currentItem)
     }
 

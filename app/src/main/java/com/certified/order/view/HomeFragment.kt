@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.certified.order.R
 import com.certified.order.adapter.HomeViewPagerAdapter
+import com.certified.order.adapter.ItemAdapter
 import com.certified.order.databinding.FragmentHomeBinding
 import com.certified.order.util.PreferenceKeys
 import com.google.android.material.tabs.TabLayout
@@ -91,13 +92,23 @@ class HomeFragment : Fragment() {
             if (accountType == "Dispatcher")
                 tabLayout.getTabAt(0)?.text = "New Orders"
 
-            chipBurger.setOnClickListener { tabLayout.getTabAt(0)?.text = "Burgers" }
+            chipBurger.setOnClickListener {
+                tabLayout.getTabAt(0)?.text = "Burgers"
+                ItemFragment.adapter = ItemAdapter(ItemFragment.items, "burger")
+            }
             chipChickenAndChips.setOnClickListener {
                 tabLayout.getTabAt(0)?.text = "Chicken and Chips"
+                ItemFragment.adapter = ItemAdapter(ItemFragment.items, "chicken and chips")
             }
 
-            chipPizza.setOnClickListener { tabLayout.getTabAt(0)?.text = "Pizzas" }
-            chipShawarma.setOnClickListener { tabLayout.getTabAt(0)?.text = "Shawarmas" }
+            chipPizza.setOnClickListener {
+                tabLayout.getTabAt(0)?.text = "Pizzas"
+                ItemFragment.adapter = ItemAdapter(ItemFragment.items, "pizza")
+            }
+            chipShawarma.setOnClickListener {
+                tabLayout.getTabAt(0)?.text = "Shawarmas"
+                ItemFragment.adapter = ItemAdapter(ItemFragment.items, "shawarma")
+            }
 
             tvHiName.text = name
             if (profilePicture == null)

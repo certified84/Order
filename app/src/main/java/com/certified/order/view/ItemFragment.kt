@@ -19,6 +19,11 @@ import com.google.firebase.ktx.Firebase
 
 class ItemFragment : Fragment() {
 
+    companion object {
+        lateinit var adapter: ItemAdapter
+        lateinit var items: List<Item>
+    }
+
     private lateinit var binding: FragmentItemsBinding
     private lateinit var auth: FirebaseAuth
 
@@ -36,7 +41,7 @@ class ItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 //        TODO: Convert to Json
-        val burgers = listOf(
+        items = listOf(
             Item(
                 "Krabby Patty",
                 "Those who don't like Krabby patties haven't tasted it",
@@ -125,7 +130,7 @@ class ItemFragment : Fragment() {
                 "pizza"
             )
         )
-        val viewModelFactory = ItemViewModelFactory(burgers)
+        val viewModelFactory = ItemViewModelFactory(items)
         val viewModel: ItemViewModel by lazy {
             ViewModelProvider(this, viewModelFactory).get(ItemViewModel::class.java)
         }
@@ -141,7 +146,7 @@ class ItemFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.recyclerViewItems.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = ItemAdapter(burgers, "Burger")
+        adapter = ItemAdapter(items)
         binding.recyclerViewItems.adapter = adapter
 
         adapter.setOnItemClickedListener(object : ItemAdapter.OnItemClickedListener {

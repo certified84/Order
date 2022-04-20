@@ -4,8 +4,10 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +21,7 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.paystack.android.Paystack
 import co.paystack.android.PaystackSdk
+import co.paystack.android.PaystackSdk.applicationContext
 import co.paystack.android.Transaction
 import co.paystack.android.model.Card
 import co.paystack.android.model.Charge
@@ -35,8 +38,12 @@ import com.certified.order.model.Order
 import com.certified.order.util.Config
 import com.certified.order.util.Mailer
 import com.certified.order.util.PreferenceKeys
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -57,6 +64,10 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
     private lateinit var binding: FragmentConfirmOrderBinding
     private lateinit var auth: FirebaseAuth
     private var currentLatLng: LatLng? = null
+    private val fusedLocationClient: FusedLocationProviderClient by lazy {
+        LocationServices.getFusedLocationProviderClient(applicationContext)
+    }
+    private var cancellationTokenSource = CancellationTokenSource()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -119,7 +130,10 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
                     .load(profileImage)
                     .into(receiverProfileImage)
 
-            tvAddress.setOnClickListener { getCurrentLocation() }
+            tvAddress.setOnClickListener {
+                binding.progressBar.visibility = View.VISIBLE
+                requestCurrentLocation()
+            }
             tvDeliveryTime.setOnClickListener { openTimePicker() }
 
             btnCloseDialog.setOnClickListener { dismiss() }
@@ -295,32 +309,42 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
                 .subscribe()
         }
 
-    private fun getCurrentLocation(): Address? {
-        binding.progressBar.visibility = View.VISIBLE
-        var address: Address? = null
-        val locationProvider =
-            LocationServices.getFusedLocationProviderClient(requireActivity())
+    private fun requestCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(
                 requireActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
+            // Main code
+            val currentLocationTask: Task<Location> = fusedLocationClient.getCurrentLocation(
+                PRIORITY_HIGH_ACCURACY,
+                cancellationTokenSource.token
+            )
+
             CoroutineScope(Dispatchers.IO).launch {
-                locationProvider.lastLocation.addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        binding.progressBar.visibility = View.GONE
-                        val result = it.result
+                currentLocationTask.addOnCompleteListener { task: Task<Location> ->
+                    val result = if (task.isSuccessful) {
+                        val result: Location = task.result
+                        currentLatLng = LatLng(result.latitude, result.longitude)
                         val geocoder = Geocoder(requireContext(), Locale.getDefault())
                         val addresses: List<Address>? = try {
                             geocoder.getFromLocation(result.latitude, result.longitude, 1)
                         } catch (e: Exception) {
                             null
                         }
-                        address = addresses?.get(0)
-                        binding.tvAddress.text = address?.getAddressLine(0)
-                        currentLatLng = LatLng(result.latitude, result.longitude)
-//                        openMap(LatLng(result.latitude, result.longitude))
+                        binding.tvAddress.text = addresses?.get(0)?.getAddressLine(0)
+                        "Location (success): ${result.latitude}, ${result.longitude}"
+                    } else {
+                        val exception = task.exception
+                        Toast.makeText(
+                            requireContext(),
+                            "Unable to get location: $exception",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        "Location (failure): $exception"
                     }
+                    Log.d("TAG", "getCurrentLocation() result: $result")
+                    binding.progressBar.visibility = View.GONE
                 }
             }
         } else
@@ -329,7 +353,6 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 101
             )
-        return address
     }
 
     private fun openMap(defaultAddress: LatLng) {

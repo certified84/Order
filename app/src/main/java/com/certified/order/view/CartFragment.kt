@@ -18,12 +18,10 @@ import com.certified.order.R
 import com.certified.order.adapter.CartAdapter
 import com.certified.order.databinding.FragmentCartBinding
 import com.certified.order.model.Item
-import com.certified.order.model.Order
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
 
 class CartFragment : Fragment() {
@@ -94,6 +92,9 @@ class CartFragment : Fragment() {
             recyclerViewItems.layoutManager = LinearLayoutManager(requireContext())
             val navOptions = NavOptions.Builder().setPopUpTo(R.id.homeFragment, true).build()
             btnAddToCart.setOnClickListener {
+                findNavController().navigate(R.id.homeFragment, null, navOptions)
+            }
+            btnBack.setOnClickListener {
                 findNavController().navigate(R.id.homeFragment, null, navOptions)
             }
             btnCheckout.setOnClickListener {

@@ -15,6 +15,19 @@
         android:layout_height="match_parent"
         tools:context=".view.CartFragment">
 
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:background="@null"
+            android:contentDescription="@string/back_button"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="@+id/materialTextView27"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/materialTextView27" />
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/materialTextView27"
             android:layout_width="wrap_content"
@@ -228,12 +241,12 @@
             android:layout_marginEnd="@dimen/_8sdp"
             android:text="Add Items"
             android:textAllCaps="false"
+            android:textColor="@color/midWhite"
             android:textSize="@dimen/_14ssp"
             app:cornerRadius="@dimen/_4sdp"
-            android:textColor="@color/midWhite"
-            app:iconTint="@color/midWhite"
             app:icon="@drawable/ic_baseline_add_24"
             app:iconGravity="textStart"
+            app:iconTint="@color/midWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline10"
             app:layout_constraintStart_toStartOf="@+id/guideline9"

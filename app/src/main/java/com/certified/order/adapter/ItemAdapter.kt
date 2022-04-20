@@ -1,5 +1,6 @@
 package com.certified.order.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,17 +16,13 @@ class ItemAdapter(val items: List<Item>, val which: String? = null) :
     ListAdapter<Item, ItemAdapter.ViewHolder>(diffCallback) {
 
     private lateinit var listener: OnItemClickedListener
-    private var itemToShow = if(which == null) items else items.filter { it.type == which }
 
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Item>() {
             override fun areItemsTheSame(oldItem: Item, newItem: Item) =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(
-                oldItem: Item,
-                newItem: Item
-            ): Boolean = oldItem == newItem
+            override fun areContentsTheSame(oldItem: Item, newItem: Item) = oldItem == newItem
         }
     }
 
@@ -56,6 +53,7 @@ class ItemAdapter(val items: List<Item>, val which: String? = null) :
         }
 
         init {
+            Log.d("TAG", "ViewHolder: created")
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
@@ -65,15 +63,31 @@ class ItemAdapter(val items: List<Item>, val which: String? = null) :
         }
     }
 
+    fun filterItems(which: String) {
+        val filteredItems = items.filter {
+            it.type == which
+        }
+        submitList(filteredItems)
+        notifyDataSetChanged()
+    }
+
+    fun allItems() {
+        submitList(items)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             LayoutItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        Log.d("TAG", "onCreateViewHolder: Created")
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = itemToShow[position]
+//        val itemToShow = if (which == null) items else items.filter { it.type == which }
+        val currentItem = getItem(position)
         holder.bind(currentItem)
+        Log.d("TAG", "onBindViewHolder: bind")
     }
 
     interface OnItemClickedListener {

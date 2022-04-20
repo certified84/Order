@@ -1,5 +1,6 @@
 package com.certified.order.view.details
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -129,5 +130,9 @@ class ItemDetailsFragment(val type: String, val item: Item, val uid: String) : D
                 binding.btnDecreaseQuantity.isClickable = true
             }
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
     }
 }

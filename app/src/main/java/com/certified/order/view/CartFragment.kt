@@ -74,7 +74,7 @@ class CartFragment : Fragment() {
 
         viewModel.showEmptyCartDesign.observe(viewLifecycleOwner) {
             binding.apply {
-                if (it) {
+                if (it != null && it) {
                     groupEmptyCart.visibility = View.VISIBLE
                     groupCartItems.visibility = View.GONE
                 } else {

@@ -203,10 +203,9 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
 
 //                                                    If the user places the order from the cart, Delete all the items in the users cart
                                                     if (from == "Cart") {
-                                                        val cartRef =
-                                                            db.collection("cart")
-                                                                .document(auth.currentUser!!.uid)
-                                                        cartRef.delete()
+                                                        db.collection("cart")
+                                                            .document(auth.currentUser!!.uid)
+                                                            .delete()
                                                     }
                                                     mailAdmin()
                                                     mailUser()

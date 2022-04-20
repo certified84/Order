@@ -4,9 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.1859375" />
+        <entry key="..\:/Users/SAMSON/StudioProjects/Order/app/src/main/res/layout/fragment_home.xml" value="0.33" />
+        <entry key="..\:/Users/SAMSON/StudioProjects/Order/app/src/main/res/layout/fragment_login.xml" value="0.16" />
+        <entry key="..\:/Users/SAMSON/StudioProjects/Order/app/src/main/res/layout/fragment_new_orders.xml" value="0.1" />
+        <entry key="..\:/Users/SAMSON/StudioProjects/Order/app/src/main/res/layout/fragment_onboarding.xml" value="0.1343954248366013" />
+        <entry key="..\:/Users/SAMSON/StudioProjects/Order/app/src/main/res/layout/fragment_profile.xml" value="0.14215686274509803" />
+        <entry key="..\:/Users/SAMSON/StudioProjects/Order/app/src/main/res/layout/fragment_settings.xml" value="0.14215686274509803" />
+        <entry key="..\:/Users/SAMSON/StudioProjects/Order/app/src/main/res/layout/fragment_splash.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_baseline_access_time_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.15341880341880343" />
         <entry key="app/src/main/res/drawable/ic_baseline_assignment_24.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/drawable/ic_baseline_close_26.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_close_27.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_contact_support_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_dark_mode_24.xml" value="0.18697916666666667" />
@@ -26,7 +34,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_vpn_key_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_wb_sunny_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/dialog_card_details.xml" value="0.11887254901960784" />
+        <entry key="app/src/main/res/layout/dialog_card_details.xml" value="0.18" />
         <entry key="app/src/main/res/layout/dialog_edit_profile.xml" value="0.5" />
         <entry key="app/src/main/res/layout/dialog_leave_a_review.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_burger.xml" value="0.1" />
@@ -34,7 +42,7 @@
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_complete_order.xml" value="0.2656449553001277" />
         <entry key="app/src/main/res/layout/fragment_completed_orders.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_confirm_order.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_confirm_order.xml" value="0.25386996904024767" />
         <entry key="app/src/main/res/layout/fragment_delivered_order_details.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_delivered_orders.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.17" />

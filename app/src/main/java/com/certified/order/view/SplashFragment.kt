@@ -11,6 +11,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
@@ -21,6 +22,8 @@ import com.certified.order.util.PreferenceKeys
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SplashFragment : Fragment() {
 
@@ -57,10 +60,10 @@ class SplashFragment : Fragment() {
         )
         w.statusBarColor = Color.TRANSPARENT
 
-        val handler = Handler(Looper.myLooper()!!)
-        handler.postDelayed({
+        lifecycleScope.launch {
+            delay(3000L)
             isFirstLogin()
-        }, 3000)
+        }
     }
 
     private fun isFirstLogin() {

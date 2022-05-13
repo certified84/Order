@@ -10,6 +10,24 @@ A simple online ordering android application built based on Lytical Technology m
 
 ***Don't want to download yet? You can try it out on [Appetize]()***
 
+## Screenshots
+Onboarding 1 | Onboarding 2 | Onboarding 3 | Onboarding 4 | 
+--- | --- | --- | --- | 
+![](https://github.com/certified84/Order/blob/simulation_branch/Screenshots/onboarding_1.png) | ![](https://github.com/certified84/Order/blob/simulation_branch/Screenshots/onboarding_2.png) | ![](https://github.com/certified84/Order/blob/simulation_branch/Screenshots/onboarding_3.png) | ![](https://github.com/certified84/Order/blob/simulation_branch/Screenshots/onboarding_4.png)
+
+User Home | User Settings | Profile | Review | 
+--- | --- | --- | --- | 
+![](https://github.com/certified84/Order/blob/simulation_branch/Screenshots/user_home_light.png) | ![](https://github.com/certified84/Order/blob/simulation_branch/Screenshots/user_settings_light.png) | ![](https://github.com/certified84/Order/blob/simulation_branch/Screenshots/profile_screen.png) | ![](https://github.com/certified84/Order/blob/simulation_branch/Screenshots/user_home_review_light.png)
+
+## Sure there's Dark Mode too
+Dispatcher Direction | Cart | Order Details | Item Details | 
+--- | --- | --- | --- | 
+![](https://github.com/certified84/Order/blob/simulation_branch/Screenshots/dispatcher_direction_dark.png) | ![](https://github.com/certified84/Order/blob/simulation_branch/Screenshots/cart_dark.png) | ![](https://github.com/certified84/Order/blob/simulation_branch/Screenshots/user_place_order_dark.png) | ![](https://github.com/certified84/Order/blob/simulation_branch/Screenshots/item_detail_dark.png)
+
+### Note 
+The application is dependent on GPS and as such, GPS has to be turned on especially while placing or delivery orders.<br/>
+Checkout more screenshots [here](https://github.com/certified84/Order/tree/simulation_branch/Screenshots)
+
 
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
@@ -34,10 +52,6 @@ A simple online ordering android application built based on Lytical Technology m
 - Google Cloud Storage: To save images to the backend securely
 - Directions: Dispatchers have directions to easily delivery items.
 - Notification: Immediately an order is placed successfully, the admin gets notified immediately and also appears on the home screen of dispatchers
-
-### Note 
-The application is dependent on GPS and as such, GPS has to be turned on especially while placing or delivery orders.<br/>
-You can find some of the applications screenshots [here](https://github.com/certified84/Order/tree/simulation_branch/Screenshots)
 
 ## License 🔖
 ```

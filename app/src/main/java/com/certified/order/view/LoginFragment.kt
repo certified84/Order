@@ -103,6 +103,13 @@ class LoginFragment : DialogFragment() {
                     showSignupDialog()
                 }
             }
+
+            btnForgotButton.setOnClickListener {
+                super.dismiss()
+                CoroutineScope(Dispatchers.IO).launch {
+                    showForgotPasswordDialog()
+                }
+            }
         }
     }
 
@@ -117,6 +124,22 @@ class LoginFragment : DialogFragment() {
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction
             .add(android.R.id.content, signupFragment)
+            .addToBackStack(null)
+            .commit()
+//        }
+    }
+
+    private fun showForgotPasswordDialog() {
+        val isLargeLayout = resources.getBoolean(R.bool.large_layout)
+        val fragmentManager = requireActivity().supportFragmentManager
+        val forgotPasswordFragment = ForgotPasswordFragment()
+//        if (isLargeLayout) {
+//            signupFragment.show(fragmentManager, "signupFragment")
+//        } else {
+        val transaction = fragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        transaction
+            .add(android.R.id.content, forgotPasswordFragment)
             .addToBackStack(null)
             .commit()
 //        }

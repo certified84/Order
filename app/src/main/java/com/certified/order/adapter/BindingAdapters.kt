@@ -51,3 +51,24 @@ fun bindProfileImage(imgView: ImageView, imgUrl: String?) {
                 .into(imgView)
     }
 }
+
+@BindingAdapter("itemImage")
+fun bindItemImage(imgView: ImageView, itemType: String) {
+    itemType.let {
+        when (it) {
+            "burger" -> Glide.with(imgView.context)
+                .load(R.drawable.burger_image)
+                .into(imgView)
+            "shawarma" -> Glide.with(imgView.context)
+                .load(R.drawable.shawarma_image)
+                .into(imgView)
+            "pizza" -> Glide.with(imgView.context)
+                .load(R.drawable.pizza_image)
+                .into(imgView)
+            "chicken and chips" -> Glide.with(imgView.context)
+                .load(R.drawable.chicken_and_chips_image)
+                .into(imgView)
+            else -> null
+        }
+    }
+}

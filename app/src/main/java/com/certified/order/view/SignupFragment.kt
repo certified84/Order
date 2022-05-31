@@ -15,6 +15,7 @@ import com.certified.order.model.AccountType
 import com.certified.order.model.Dispatcher
 import com.certified.order.util.Config
 import com.certified.order.util.Mailer
+import com.certified.order.util.Validator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -66,7 +67,7 @@ class SignupFragment : DialogFragment() {
                 val password = etPassword.text.toString().trim()
                 val accountType = spinnerAccountType.selectedItem.toString()
 
-                if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && phone.isNotEmpty()) {
+                if (Validator.isFieldNotEmpty(email) && password.isNotEmpty() && name.isNotEmpty() && phone.isNotEmpty()) {
                     if (accountType != "Select account type") {
 
                         progressBar.visibility = View.VISIBLE

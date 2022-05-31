@@ -10,6 +10,7 @@
     <color name="midWhite">#F8F8F8</color>
     <color name="red">#FF0000</color>
     <color name="tab_color">@color/midWhite</color>
+    <color name="white_day_black_night">@color/white</color>
 
     <color name="colorPrimary">#232D37</color>
     <color name="colorPrimaryDark">#101D24</color>

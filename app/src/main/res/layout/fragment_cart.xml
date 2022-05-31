@@ -15,19 +15,32 @@
         android:layout_height="match_parent"
         tools:context=".view.CartFragment">
 
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:background="@null"
+            android:contentDescription="@string/back_button"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/materialTextView27"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_16sdp"
             android:text="My cart"
             android:textColor="@color/black"
             android:textSize="@dimen/_20ssp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/btn_back" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_items"
@@ -174,8 +187,9 @@
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_cart_items"
             android:layout_width="wrap_content"
+            android:visibility="visible"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="materialTextView31,materialTextView27,materialTextView32,btn_checkout,materialTextView30,tv_delivery_fee,materialTextView33,tv_subtotal,materialTextView28,recycler_view_items,tv_item_total,materialTextView29" />
+            app:constraint_referenced_ids="materialTextView31,materialTextView32,btn_checkout,materialTextView30,tv_delivery_fee,materialTextView33,tv_subtotal,materialTextView28,recycler_view_items,tv_item_total,materialTextView29" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView8"
@@ -228,12 +242,12 @@
             android:layout_marginEnd="@dimen/_8sdp"
             android:text="Add Items"
             android:textAllCaps="false"
+            android:textColor="@color/midWhite"
             android:textSize="@dimen/_14ssp"
             app:cornerRadius="@dimen/_4sdp"
-            android:textColor="@color/midWhite"
-            app:iconTint="@color/midWhite"
             app:icon="@drawable/ic_baseline_add_24"
             app:iconGravity="textStart"
+            app:iconTint="@color/midWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline10"
             app:layout_constraintStart_toStartOf="@+id/guideline9"

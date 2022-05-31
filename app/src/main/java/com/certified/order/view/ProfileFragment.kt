@@ -12,8 +12,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCaller
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.certified.order.R
@@ -34,6 +37,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -54,6 +59,13 @@ class ProfileFragment : Fragment() {
     private var defaultDeliveryAddress: String? = null
     private var profileImageUri: Uri? = null
     private var accountType: String? = null
+    private lateinit var observer: ProfileFragmentObserver
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        observer = ProfileFragmentObserver(requireActivity().activityResultRegistry)
+        lifecycle.addObserver(observer)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -137,7 +149,6 @@ class ProfileFragment : Fragment() {
     private fun launchCamera() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         try {
-
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(context, "An error occurred: ${e.message}", Toast.LENGTH_LONG).show()
@@ -147,8 +158,8 @@ class ProfileFragment : Fragment() {
     private fun chooseFromGallery() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
-        //        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         try {
+//            observer.selectImage()
             startActivityForResult(Intent.createChooser(intent, "Select image"), PICK_IMAGE_CODE)
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(context, "An error occurred: ${e.message}", Toast.LENGTH_LONG).show()
@@ -353,15 +364,15 @@ class ProfileFragment : Fragment() {
                     Glide.with(requireContext())
                         .load(uri)
                         .into(binding.profileImage)
-                    userRef.update("profile_image", uri.toString())
-                    storageRef.putFile(uri).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            val profileChangeRequest =
-                                UserProfileChangeRequest.Builder()
-                                    .setPhotoUri(uri)
-                                    .build()
-                            currentUser.updateProfile(profileChangeRequest)
-                        }
+                    lifecycleScope.launch {
+                        storageRef.putFile(uri).await()
+                        val downloadUrl = storageRef.downloadUrl.await()
+                        val profileChangeRequest =
+                            UserProfileChangeRequest.Builder()
+                                .setPhotoUri(downloadUrl)
+                                .build()
+                        currentUser.updateProfile(profileChangeRequest)
+                        userRef.update("profile_image", downloadUrl.toString())
                     }
                 }
             } catch (e: IOException) {

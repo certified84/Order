@@ -12,6 +12,7 @@
     <string name="place_orders_from_the_comfort_of_your_device">Place orders from the comfort of your device</string>
     <string name="confirm_password">Confirm password</string>
     <string name="phone">Phone no</string>
+    <string name="password_recovery_summary">Hi there, Kindly enter your email to reset your password</string>
     <string name="name">Name</string>
     <string name="create_an_account_to_place_orders_with_ease">Create an account to place orders with ease</string>
     <string name="get_started">Get Started</string>
@@ -51,4 +52,12 @@
     <string name="update">Update</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="chicken_and_chips">chicken and chips</string>
+    <string name="pizza">pizza</string>
+    <string name="shawarma">shawarma</string>
+    <string name="burger">burger</string>
+    <string name="back_button">Back button</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="password_recovery">Password Recovery</string>
 </resources>

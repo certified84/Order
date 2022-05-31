@@ -91,13 +91,28 @@ class HomeFragment : Fragment() {
             if (accountType == "Dispatcher")
                 tabLayout.getTabAt(0)?.text = "New Orders"
 
-            chipBurger.setOnClickListener { tabLayout.getTabAt(0)?.text = "Burgers" }
-            chipChickenAndChips.setOnClickListener {
-                tabLayout.getTabAt(0)?.text = "Chicken and Chips"
+            chipAllItems.setOnClickListener {
+                tabLayout.getTabAt(0)?.text = "All Items"
+                ItemFragment.adapter.allItems()
             }
 
-            chipPizza.setOnClickListener { tabLayout.getTabAt(0)?.text = "Pizzas" }
-            chipShawarma.setOnClickListener { tabLayout.getTabAt(0)?.text = "Shawarmas" }
+            chipBurger.setOnClickListener {
+                tabLayout.getTabAt(0)?.text = "Burgers"
+                ItemFragment.adapter.filterItems(getString(R.string.burger))
+            }
+            chipChickenAndChips.setOnClickListener {
+                tabLayout.getTabAt(0)?.text = "Chicken and Chips"
+                ItemFragment.adapter.filterItems(getString(R.string.chicken_and_chips))
+            }
+
+            chipPizza.setOnClickListener {
+                tabLayout.getTabAt(0)?.text = "Pizzas"
+                ItemFragment.adapter.filterItems(getString(R.string.pizza))
+            }
+            chipShawarma.setOnClickListener {
+                tabLayout.getTabAt(0)?.text = "Shawarmas"
+                ItemFragment.adapter.filterItems(getString(R.string.shawarma))
+            }
 
             tvHiName.text = name
             if (profilePicture == null)

@@ -29,7 +29,7 @@ class ItemViewModel(private val itemList: List<Item>) : ViewModel() {
     val showProgressBar: LiveData<Boolean>
         get() = _showProgressBar
 
-    private var _showEmptyCartDesign = MutableLiveData<Boolean>()
+    private var _showEmptyCartDesign = MutableLiveData<Boolean>(true)
     val showEmptyCartDesign: LiveData<Boolean>
         get() = _showEmptyCartDesign
 
@@ -51,10 +51,10 @@ class ItemViewModel(private val itemList: List<Item>) : ViewModel() {
 
             _showProgressBar.value = false
 
-            if (itemList.isNotEmpty())
-                _showEmptyCartDesign.value = false
-            else
-                _showProgressBar.value = false
+//            if (itemList.isNotEmpty())
+                _showEmptyCartDesign.value = itemList.isEmpty()
+//            else
+//                _showProgressBar.value = false
 
         }, 3000)
     }

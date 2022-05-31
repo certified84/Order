@@ -61,6 +61,10 @@ import java.util.*
 class ConfirmOrderFragment(private val items: List<Item>, private val from: String) :
     DialogFragment() {
 
+    init {
+        Log.d("TAG", "ConfirmOrderFragment: $from")
+    }
+
     private lateinit var binding: FragmentConfirmOrderBinding
     private lateinit var auth: FirebaseAuth
     private var currentLatLng: LatLng? = null
@@ -218,19 +222,28 @@ class ConfirmOrderFragment(private val items: List<Item>, private val from: Stri
 //                                                    If the user places the order from the cart, Delete all the items in the users cart
                                                     if (from == "Cart") {
                                                         db.collection("cart")
-                                                            .document(auth.currentUser!!.uid)
-                                                            .delete()
+                                                            .document(Firebase.auth.currentUser!!.uid)
+                                                            .delete().addOnCompleteListener {
+                                                                if (it.isSuccessful) {
+                                                                    Toast.makeText(
+                                                                        requireContext(),
+                                                                        "Order placed successfully",
+                                                                        Toast.LENGTH_LONG
+                                                                    ).show()
+                                                                    bottomSheetDialog.dismiss()
+                                                                    dismiss()
+                                                                } else {
+                                                                    Toast.makeText(
+                                                                        requireContext(),
+                                                                        "An error occurred: ${it.exception?.message}",
+                                                                        Toast.LENGTH_LONG
+                                                                    ).show()
+                                                                }
+                                                            }
                                                     }
-                                                    mailAdmin()
-                                                    mailUser()
                                                     progressBar.visibility = View.GONE
-                                                    Toast.makeText(
-                                                        requireContext(),
-                                                        "Order placed successfully",
-                                                        Toast.LENGTH_LONG
-                                                    ).show()
-                                                    bottomSheetDialog.dismiss()
-                                                    dismiss()
+//                                                    mailAdmin()
+//                                                    mailUser()
                                                 }
 
                                                 override fun beforeValidate(transaction: Transaction?) {

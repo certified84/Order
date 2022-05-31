@@ -189,7 +189,7 @@
             android:layout_width="wrap_content"
             android:visibility="visible"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="materialTextView31,materialTextView27,materialTextView32,btn_checkout,materialTextView30,tv_delivery_fee,materialTextView33,tv_subtotal,materialTextView28,recycler_view_items,tv_item_total,materialTextView29" />
+            app:constraint_referenced_ids="materialTextView31,materialTextView32,btn_checkout,materialTextView30,tv_delivery_fee,materialTextView33,tv_subtotal,materialTextView28,recycler_view_items,tv_item_total,materialTextView29" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView8"
